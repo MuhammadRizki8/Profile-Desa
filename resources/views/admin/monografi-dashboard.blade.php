@@ -95,7 +95,7 @@
                         <td>{{ $data->female }}</td>
                         <td>{{ $data->total }}</td>
                         <td>
-                            <button class="btn btn-light" onclick="openEditModal({{ json_encode($data) }})">Edit</button>
+                            <button class="btn btn-light" onclick="openEditModal({{ $data }})">Edit</button>
                             <button 
                                 class="btn btn-danger" 
                                 data-id="{{ $data->id }}" 
