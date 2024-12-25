@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\MonografiController;
+use App\Http\Controllers\DataPersebaranPendudukController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -86,4 +87,9 @@ Route::view('/admin/pemerintahan', 'admin.pemerintahan')->name('pemerintahan');
 Route::view('/admin/agenda', 'admin.agenda')->name('agenda');
 Route::view('/admin/produk-hukum', 'admin.produk-hukum')->name('produk-hukum');
 Route::view('/admin/transparansi', 'admin.transparansi')->name('transparansi');
-Route::view('/admin/monografi', 'admin.monografi-dashboard')->name('monografi');
+
+Route::get('/admin/monografi', [MonografiController::class, 'index'])->name('admin.monografi');
+Route::post('/data-persebaran', [DataPersebaranPendudukController::class, 'store'])->name('data-persebaran.store');
+Route::get('/data-persebaran/{id}/edit', [DataPersebaranPendudukController::class, 'edit'])->name('data-persebaran.edit');
+Route::put('/data-persebaran/{id}', [DataPersebaranPendudukController::class, 'update'])->name('data-persebaran.update');
+Route::delete('/data-persebaran/{id}', [DataPersebaranPendudukController::class, 'destroy'])->name('data-persebaran.destroy');
