@@ -1,3 +1,4 @@
+isEditMode = false;
 function openAddModal() {
     isEditMode = false; // Set mode tambah
     document.getElementById("dataModalLabel").textContent = "Tambah Data";
@@ -19,7 +20,7 @@ function saveData() {
     };
 
     const url = id ? `/data-persebaran/${id}` : `/data-persebaran`;
-    const method = id ? "PUT" : "POST";
+    const method = isEditMode ? "PUT" : "POST";
 
     fetch(url, {
         method: method,
@@ -48,14 +49,13 @@ function saveData() {
 
 function openEditModal(data) {
     isEditMode = true;
-    editingId = data;
+    editingId = data.id;
 
     document.getElementById("dataModalLabel").textContent = "Edit Data";
-    document.getElementById("dataNo").value = data.id; // Bisa ambil data berdasarkan ID jika ada
+    document.getElementById("dataId").value = data.id; // Reset file input
     document.getElementById("dataRw").value = data.group; // Reset file input
     document.getElementById("dataLaki").value = data.male; // Reset file input
     document.getElementById("dataPerempuan").value = data.female; // Reset file input
-    document.getElementById("dataTotal").value = data.total; // Reset file input
     const dataModal = new bootstrap.Modal(document.getElementById("dataModal"));
     dataModal.show();
 }
