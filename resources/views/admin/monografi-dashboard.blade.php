@@ -259,8 +259,8 @@
         {{-- ===================== --}}
         <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
-            <span>Data Kependudukan Menurut Kelompok Umur</span>
-            <button class="btn btn-tambah" onclick="openAddModal()">
+            <span>Data Kependudukan Menurut Pekerjaan</span>
+            <button class="btn btn-tambah" onclick="openAddModal('pekerjaan')">
               <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
             </button>
           </div>
@@ -278,51 +278,23 @@
                 </tr>
               </thead>
               <tbody class="table-body">
+                @forelse ($dataPekerjaan as $index => $data)
                 <tr>
-                  <td>1</td>
-                  <td>Balita (0-5 tahun)</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $data->jenis_kelompok }}</td>
+                    <td>{{ $data->laki_laki }}</td>
+                    <td>{{ $data->perempuan }}</td>
+                    <td>{{ $data->jumlah }}</td>
+                    <td>
+                        <button class="btn btn-light" onclick="openEditModal('pekerjaan', {{ $data }})">Edit</button>
+                        <button class="btn btn-danger" data-id="{{ $data->id }}" data-group="{{ $data->jenis_kelompok }}" onclick="openDeleteModal('pekerjaan', {{ $data }})">Hapus</button>
+                    </td>
                 </tr>
+                @empty
                 <tr>
-                  <td>2</td>
-                  <td>Anak-Anak (6-17 tahun)</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
+                    <td colspan="4" class="text-center">Tidak ada data tersedia</td>
                 </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Dewasa (18-50 tahun)</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Tua (50-120 tahun)</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-
+                @endforelse
               </tbody>
             </table>
           </div>

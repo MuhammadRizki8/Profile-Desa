@@ -6,6 +6,7 @@ use App\Http\Controllers\DataPersebaranPendudukController;
 use App\Http\Controllers\PopulationDataController;
 use App\Http\Controllers\DataKependudukanAgamaController;
 use App\Http\Controllers\PendidikanTerakhirController;
+use App\Http\Controllers\DataPekerjaanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,3 +118,9 @@ Route::post('/data-pendidikan', [PendidikanTerakhirController::class, 'store'])-
 Route::get('/data-pendidikan/{id}/edit', [PendidikanTerakhirController::class, 'edit'])->name('pendidikan_terakhir.edit');
 Route::put('/data-pendidikan/{id}', [PendidikanTerakhirController::class, 'update'])->name('pendidikan_terakhir.update');
 Route::delete('/data-pendidikan/{id}', [PendidikanTerakhirController::class, 'destroy'])->name('pendidikan_terakhir.destroy');
+
+Route::get('/data-pekerjaan', [DataPekerjaanController::class, 'index'])->name('data_pekerjaan.index');
+Route::post('/data-pekerjaan', [DataPekerjaanController::class, 'store'])->name('data_pekerjaan.store');
+Route::get('/data-pekerjaan/{id}/edit', [DataPekerjaanController::class, 'edit'])->name('data_pekerjaan.edit');
+Route::put('/data-pekerjaan/{id}', [DataPekerjaanController::class, 'update'])->name('data_pekerjaan.update');
+Route::delete('/data-pekerjaan/{id}', [DataPekerjaanController::class, 'destroy'])->name('data_pekerjaan.destroy');

@@ -35,7 +35,11 @@ function openEditModal(type, data) {
     } else if (type === "populasi") {
         document.getElementById("dataGender").value = data.jenis_kelompok;
         document.getElementById("dataJumlah").value = data.jumlah;
-    } else if (type === "agama" || type === "pendidikan") {
+    } else if (
+        type === "agama" ||
+        type === "pendidikan" ||
+        type === "pekerjaan"
+    ) {
         document.getElementById("dataJenisKelompok").value =
             data.jenis_kelompok;
         document.getElementById("dataLakiAgama").value = data.laki_laki; // Update ID
@@ -60,7 +64,11 @@ function switchForm(type) {
         formPersebaran.classList.add("d-none");
         formPopulasi.classList.remove("d-none");
         formAgama.classList.add("d-none");
-    } else if (type === "agama" || type === "pendidikan") {
+    } else if (
+        type === "agama" ||
+        type === "pendidikan" ||
+        type === "pekerjaan"
+    ) {
         formPersebaran.classList.add("d-none");
         formPopulasi.classList.add("d-none");
         formAgama.classList.remove("d-none");
@@ -86,7 +94,11 @@ function saveData() {
             jenis_kelompok: document.getElementById("dataGender").value,
             jumlah: parseInt(document.getElementById("dataJumlah").value),
         };
-    } else if (type === "agama" || type === "pendidikan") {
+    } else if (
+        type === "agama" ||
+        type === "pendidikan" ||
+        type === "pekerjaan"
+    ) {
         data = {
             jenis_kelompok: document.getElementById("dataJenisKelompok").value,
             laki_laki: parseInt(document.getElementById("dataLakiAgama").value), // Update ID

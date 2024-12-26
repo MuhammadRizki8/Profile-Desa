@@ -6,6 +6,7 @@ use App\Models\DataPersebaranPenduduk;
 use App\Models\PopulationData;
 use App\Models\DataKependudukanAgama;
 use App\Models\PendidikanTerakhir;
+use App\Models\DataPekerjaan;
 use Illuminate\Http\Request;
 
 class MonografiController extends Controller
@@ -16,8 +17,9 @@ class MonografiController extends Controller
         $datapopulasi = PopulationData::all(); // Ambil semua data populasi
         $dataAgama = DataKependudukanAgama::all(); // Ambil semua data agama
         $dataPendidikan = PendidikanTerakhir::all(); // Ambil semua data pendidikan
+        $dataPekerjaan = DataPekerjaan::all();
 
         // Kirim semua data ke view
-        return view('admin.monografi-dashboard', compact('dataPenduduk', 'datapopulasi', 'dataAgama', 'dataPendidikan'));
+        return view('admin.monografi-dashboard', compact('dataPenduduk', 'datapopulasi', 'dataAgama', 'dataPendidikan', 'dataPekerjaan'));
     }
 }
