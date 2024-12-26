@@ -5,6 +5,9 @@ use App\Http\Controllers\MonografiController;
 use App\Http\Controllers\DataPersebaranPendudukController;
 use App\Http\Controllers\PopulationDataController;
 use App\Http\Controllers\DataKependudukanAgamaController;
+use App\Http\Controllers\PendidikanTerakhirController;
+use App\Http\Controllers\DataPekerjaanController;
+use App\Http\Controllers\DataKelompokUmurController;
 
 /*
 |--------------------------------------------------------------------------
@@ -110,3 +113,21 @@ Route::post('/data-agama', [DataKependudukanAgamaController::class, 'store'])->n
 Route::get('/data-agama/{id}/edit', [DataKependudukanAgamaController::class, 'edit'])->name('agama.edit'); 
 Route::put('/data-agama/{id}', [DataKependudukanAgamaController::class, 'update'])->name('agama.update'); 
 Route::delete('/data-agama/{id}', [DataKependudukanAgamaController::class, 'destroy'])->name('agama.destroy'); 
+
+Route::get('/data-pendidikan', [PendidikanTerakhirController::class, 'index'])->name('pendidikan_terakhir.index');
+Route::post('/data-pendidikan', [PendidikanTerakhirController::class, 'store'])->name('pendidikan_terakhir.store');
+Route::get('/data-pendidikan/{id}/edit', [PendidikanTerakhirController::class, 'edit'])->name('pendidikan_terakhir.edit');
+Route::put('/data-pendidikan/{id}', [PendidikanTerakhirController::class, 'update'])->name('pendidikan_terakhir.update');
+Route::delete('/data-pendidikan/{id}', [PendidikanTerakhirController::class, 'destroy'])->name('pendidikan_terakhir.destroy');
+
+Route::get('/data-pekerjaan', [DataPekerjaanController::class, 'index'])->name('data_pekerjaan.index');
+Route::post('/data-pekerjaan', [DataPekerjaanController::class, 'store'])->name('data_pekerjaan.store');
+Route::get('/data-pekerjaan/{id}/edit', [DataPekerjaanController::class, 'edit'])->name('data_pekerjaan.edit');
+Route::put('/data-pekerjaan/{id}', [DataPekerjaanController::class, 'update'])->name('data_pekerjaan.update');
+Route::delete('/data-pekerjaan/{id}', [DataPekerjaanController::class, 'destroy'])->name('data_pekerjaan.destroy');
+
+Route::get('/data-kelompok-umur', [DataKelompokUmurController::class, 'index'])->name('data_kelompok_umur.index');
+Route::post('/data-kelompok-umur', [DataKelompokUmurController::class, 'store'])->name('data_kelompok_umur.store');
+Route::get('/data-kelompok-umur/{id}/edit', [DataKelompokUmurController::class, 'edit'])->name('data_kelompok_umur.edit');
+Route::put('/data-kelompok-umur/{id}', [DataKelompokUmurController::class, 'update'])->name('data_kelompok_umur.update');
+Route::delete('/data-kelompok-umur/{id}', [DataKelompokUmurController::class, 'destroy'])->name('data_kelompok_umur.destroy');
