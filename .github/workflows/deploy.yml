@@ -17,11 +17,13 @@ jobs:
       # Step 2: Setup PHP and Composer
       - name: Install PHP 8.1
         run: |
-          sudo apt-get update
-          sudo apt-get install -y software-properties-common
-          sudo add-apt-repository ppa:ondrej/php -y
-          sudo apt-get update
-          sudo apt-get install -y php8.1 php8.1-cli php8.1-mbstring php8.1-xml php8.1-curl
+          # Mengunduh dan menginstal PHP 8.1
+          Invoke-WebRequest -Uri https://windows.php.net/downloads/releases/php-8.1.0-nts-Win32-vs16-x64.zip -OutFile php.zip
+          Expand-Archive -Path php.zip -DestinationPath C:\php
+          $env:Path += ";C:\php"
+          # Verifikasi PHP terinstal
+          php -v
+
 
 
       # Step 3: Install dependencies with Composer
