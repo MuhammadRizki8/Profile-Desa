@@ -29,7 +29,7 @@ jobs:
 
       # Step 4: Setup Google Cloud CLI
       - name: Set up Google Cloud CLI
-        uses: google-github-actions/setup-gcloud@v0.7.1
+        uses: google-github-actions/setup-gcloud@v2.1.2
         with:
           project_id: YOUR_PROJECT_ID # Ganti dengan Project ID Anda
           credentials_json: ${{ secrets.GCLOUD_CREDENTIALS }} # Gunakan GitHub Secret untuk kredensial
