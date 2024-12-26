@@ -1,45 +1,38 @@
-name: Deploy tangsimekar to Google App Engine
+name: Deploy to Google App Engine
 
 on:
   push:
     branches:
-      - deploy # Bisa disesuaikan dengan branch yang ingin Anda gunakan
+      - deploy  # Ganti dengan branch yang sesuai
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest  # Menggunakan GitHub-hosted runner
 
     steps:
       # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Setup PHP and Composer
+      # Step 2: Set up PHP and Composer
       - name: Install PHP 8.1
         run: |
-          # Mengunduh dan menginstal PHP 8.1
-          Invoke-WebRequest -Uri https://windows.php.net/downloads/releases/php-8.1.0-nts-Win32-vs16-x64.zip -OutFile php.zip
-          Expand-Archive -Path php.zip -DestinationPath C:\php
-          $env:Path += ";C:\php"
-          # Verifikasi PHP terinstal
-          php -v
+          sudo apt-get update
+          sudo apt-get install -y php8.1 php8.1-cli php8.1-mbstring php8.1-xml php8.1-curl
 
-
-
-      # Step 3: Install dependencies with Composer
-      - name: Install dependencies
+      - name: Install Composer dependencies
         run: |
           curl -sS https://getcomposer.org/installer | php
           sudo mv composer.phar /usr/local/bin/composer
           composer install --no-dev --optimize-autoloader
 
-      # Step 4: Setup Google Cloud CLI
+      # Step 3: Set up Google Cloud CLI
       - name: Set up Google Cloud CLI
-        uses: google-github-actions/setup-gcloud@v2.1.2
+        uses: google-github-actions/setup-gcloud@v1
         with:
-          project_id: YOUR_PROJECT_ID # Ganti dengan Project ID Anda
-          credentials_json: ${{ secrets.GCLOUD_CREDENTIALS }} # Gunakan GitHub Secret untuk kredensial
+          project_id: YOUR_PROJECT_ID
+          credentials_json: ${{ secrets.GCLOUD_CREDENTIALS }}
 
-      # Step 5: Deploy ke Google App Engine
+      # Step 4: Deploy to Google App Engine
       - name: Deploy to Google App Engine
         run: gcloud app deploy --quiet
