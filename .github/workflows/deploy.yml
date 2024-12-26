@@ -29,13 +29,18 @@ jobs:
           sudo mv composer.phar /usr/local/bin/composer
           composer install --no-dev --optimize-autoloader
 
-      # Step 3: Set up Google Cloud CLI
+      # Step 3: Authenticate with Google Cloud
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCLOUD_CREDENTIALS }}
+
+      # Step 4: Set up Google Cloud CLI
       - name: Set up Google Cloud CLI
         uses: google-github-actions/setup-gcloud@v1
         with:
-          project_id: YOUR_PROJECT_ID
-          credentials_json: ${{ secrets.GCLOUD_CREDENTIALS }}
+          project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
 
-      # Step 4: Deploy to Google App Engine
+      # Step 5: Deploy to Google App Engine
       - name: Deploy to Google App Engine
         run: gcloud app deploy --quiet
