@@ -1,0 +1,39 @@
+name: Deploy tangsimekar to Google App Engine
+
+on:
+  push:
+    branches:
+      - main # Bisa disesuaikan dengan branch yang ingin Anda gunakan
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Setup PHP and Composer
+      - name: Set up PHP 8.1
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+
+      # Step 3: Install dependencies with Composer
+      - name: Install dependencies
+        run: |
+          curl -sS https://getcomposer.org/installer | php
+          sudo mv composer.phar /usr/local/bin/composer
+          composer install --no-dev --optimize-autoloader
+
+      # Step 4: Setup Google Cloud CLI
+      - name: Set up Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@v0.7.1
+        with:
+          project_id: YOUR_PROJECT_ID # Ganti dengan Project ID Anda
+          credentials_json: ${{ secrets.GCLOUD_CREDENTIALS }} # Gunakan GitHub Secret untuk kredensial
+
+      # Step 5: Deploy ke Google App Engine
+      - name: Deploy to Google App Engine
+        run: gcloud app deploy --quiet
