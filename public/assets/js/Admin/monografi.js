@@ -38,7 +38,8 @@ function openEditModal(type, data) {
     } else if (
         type === "agama" ||
         type === "pendidikan" ||
-        type === "pekerjaan"
+        type === "pekerjaan" ||
+        type === "kelompok-umur"
     ) {
         document.getElementById("dataJenisKelompok").value =
             data.jenis_kelompok;
@@ -67,7 +68,8 @@ function switchForm(type) {
     } else if (
         type === "agama" ||
         type === "pendidikan" ||
-        type === "pekerjaan"
+        type === "pekerjaan" ||
+        type === "kelompok-umur"
     ) {
         formPersebaran.classList.add("d-none");
         formPopulasi.classList.add("d-none");
@@ -97,7 +99,8 @@ function saveData() {
     } else if (
         type === "agama" ||
         type === "pendidikan" ||
-        type === "pekerjaan"
+        type === "pekerjaan" ||
+        type === "kelompok-umur"
     ) {
         data = {
             jenis_kelompok: document.getElementById("dataJenisKelompok").value,

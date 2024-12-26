@@ -309,6 +309,53 @@
           </ul>
 
         </div>
+        {{-- ===================== --}}
+        {{-- ===================== --}}
+        <div class="card">
+          <div class="table-header d-flex justify-content-between align-items-center">
+            <span>Data Kependudukan Menurut Kelompok Umur</span>
+            <button class="btn btn-tambah" onclick="openAddModal('kelompok-umur')">
+              <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table id="table-umur" class="table align-middle">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Jenis Kelompok</th>
+                  <th>Laki-laki</th>
+                  <th>Perempuan</th>
+                  <th>Jumlah</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody class="table-body">
+                @forelse ($dataKelompokUmur as $index => $data)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $data->jenis_kelompok }}</td>
+                    <td>{{ $data->laki_laki }}</td>
+                    <td>{{ $data->perempuan }}</td>
+                    <td>{{ $data->jumlah }}</td>
+                    <td>
+                        <button class="btn btn-light" onclick="openEditModal('kelompok-umur', {{ $data }})">Edit</button>
+                        <button class="btn btn-danger" data-id="{{ $data->id }}" data-group="{{ $data->jenis_kelompok }}" onclick="openDeleteModal('kelompok-umur', {{ $data }})">Hapus</button>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="4" class="text-center">Tidak ada data tersedia</td>
+                </tr>
+                @endforelse
+              </tbody>
+            </table>
+          </div>
+
+      
+        </div>
+        {{-- ===================== --}}
       </div>
     </div>
   </div>
