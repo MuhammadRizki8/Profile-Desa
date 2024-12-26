@@ -3,7 +3,7 @@ name: Deploy tangsimekar to Google App Engine
 on:
   push:
     branches:
-      - main # Bisa disesuaikan dengan branch yang ingin Anda gunakan
+      - deploy # Bisa disesuaikan dengan branch yang ingin Anda gunakan
 
 jobs:
   deploy:
