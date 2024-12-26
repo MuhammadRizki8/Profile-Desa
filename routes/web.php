@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MonografiController;
 use App\Http\Controllers\DataPersebaranPendudukController;
 use App\Http\Controllers\PopulationDataController;
-
+use App\Http\Controllers\DataKependudukanAgamaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,3 +105,8 @@ Route::put('/data-populasi/{id}', [PopulationDataController::class, 'update'])->
 Route::delete('/data-populasi/{id}', [PopulationDataController::class, 'destroy'])->name('population.destroy');
 
 
+Route::get('/data-agama', [DataKependudukanAgamaController::class, 'index'])->name('agama.index');
+Route::post('/data-agama', [DataKependudukanAgamaController::class, 'store'])->name('agama.store'); 
+Route::get('/data-agama/{id}/edit', [DataKependudukanAgamaController::class, 'edit'])->name('agama.edit'); 
+Route::put('/data-agama/{id}', [DataKependudukanAgamaController::class, 'update'])->name('agama.update'); 
+Route::delete('/data-agama/{id}', [DataKependudukanAgamaController::class, 'destroy'])->name('agama.destroy'); 

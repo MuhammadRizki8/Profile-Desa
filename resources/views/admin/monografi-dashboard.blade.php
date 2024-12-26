@@ -111,8 +111,6 @@
               </table>
           </div>
         </div>
-        
-
         {{-- ================= --}}
         <!-- Data Populasi Menurut Jenis Kelamin -->
         <div class="card">
@@ -151,14 +149,14 @@
                   </tbody>
               </table>
           </div>
-        </div>
+        </div>  
 
-        
-        
+        {{-- ====================== --}}
+        {{-- Data Kependudukan Menurut Agama --}}
         <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
             <span>Data Kependudukan Menurut Agama</span>
-            <button class="btn btn-tambah" onclick="openAddModal()">
+            <button class="btn btn-tambah" onclick="openAddModal('agama')">
               <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
             </button>
           </div>
@@ -175,72 +173,23 @@
                 </tr>
               </thead>
               <tbody class="table-body">
-                <tr>
-                  <td>1</td>
-                  <td>Islam</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Kristen Katholik</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Kristen Protestan</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Hindu</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>Budha</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>6</td>
-                  <td>Konghucu</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
+                @forelse ($dataAgama as $index => $data)
+                      <tr>
+                          <td>{{ $index + 1 }}</td>
+                          <td>{{ $data->jenis_kelompok }}</td>
+                          <td>{{ $data->laki_laki }}</td>
+                          <td>{{ $data->perempuan }}</td>
+                          <td>{{ $data->jumlah }}</td>
+                          <td>
+                              <button class="btn btn-light" onclick="openEditModal('agama', {{ $data }})">Edit</button>
+                              <button class="btn btn-danger" data-id="{{ $data->id }}" data-group="{{ $data->jenis_kelompok }}" onclick="openDeleteModal('agama', {{ $data }})">Hapus</button>
+                          </td>
+                      </tr>
+                      @empty
+                      <tr>
+                          <td colspan="4" class="text-center">Tidak ada data tersedia</td>
+                      </tr>
+                      @endforelse
               </tbody>
             </table>
           </div>
@@ -255,6 +204,9 @@
           </ul>
 
         </div>
+        {{-- ====================== --}}
+
+
         <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
             <span>Data Kependudukan Menurut Pendidikan Terakhir</span>
@@ -488,6 +440,20 @@
                               <input type="number" class="form-control" id="dataPerempuan" required>
                           </div>
                       </div>
+                      <div id="formAgama" class="form-type d-none">
+                        <div class="mb-3">
+                            <label for="dataJenisKelompok" class="form-label">Jenis Kelompok</label>
+                            <input type="text" class="form-control" id="dataJenisKelompok" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dataLakiAgama" class="form-label">Laki-laki</label>
+                            <input type="number" class="form-control" id="dataLakiAgama" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dataPerempuanAgama" class="form-label">Perempuan</label>
+                            <input type="number" class="form-control" id="dataPerempuanAgama" required>
+                        </div>
+                    </div>                                      
                       <div id="formPopulasi" class="form-type d-none">
                           <div class="mb-3">
                               <label for="dataGender" class="form-label">Jenis Kelamin</label>

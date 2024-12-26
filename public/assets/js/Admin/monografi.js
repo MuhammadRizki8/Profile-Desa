@@ -35,6 +35,11 @@ function openEditModal(type, data) {
     } else if (type === "populasi") {
         document.getElementById("dataGender").value = data.jenis_kelompok;
         document.getElementById("dataJumlah").value = data.jumlah;
+    } else if (type === "agama") {
+        document.getElementById("dataJenisKelompok").value =
+            data.jenis_kelompok;
+        document.getElementById("dataLakiAgama").value = data.laki_laki; // Update ID
+        document.getElementById("dataPerempuanAgama").value = data.perempuan; // Update ID
     }
 
     const dataModal = new bootstrap.Modal(document.getElementById("dataModal"));
@@ -45,13 +50,20 @@ function switchForm(type) {
     // Toggle visibility form sesuai tipe
     const formPersebaran = document.getElementById("formPersebaran");
     const formPopulasi = document.getElementById("formPopulasi");
+    const formAgama = document.getElementById("formAgama");
 
     if (type === "persebaran") {
         formPersebaran.classList.remove("d-none");
         formPopulasi.classList.add("d-none");
+        formAgama.classList.add("d-none");
     } else if (type === "populasi") {
         formPersebaran.classList.add("d-none");
         formPopulasi.classList.remove("d-none");
+        formAgama.classList.add("d-none");
+    } else if (type === "agama") {
+        formPersebaran.classList.add("d-none");
+        formPopulasi.classList.add("d-none");
+        formAgama.classList.remove("d-none");
     }
 }
 
@@ -73,6 +85,17 @@ function saveData() {
         data = {
             jenis_kelompok: document.getElementById("dataGender").value,
             jumlah: parseInt(document.getElementById("dataJumlah").value),
+        };
+    } else if (type === "agama") {
+        data = {
+            jenis_kelompok: document.getElementById("dataJenisKelompok").value,
+            laki_laki: parseInt(document.getElementById("dataLakiAgama").value), // Update ID
+            perempuan: parseInt(
+                document.getElementById("dataPerempuanAgama").value
+            ), // Update ID
+            jumlah:
+                parseInt(document.getElementById("dataLakiAgama").value) +
+                parseInt(document.getElementById("dataPerempuanAgama").value),
         };
     }
 
@@ -120,7 +143,7 @@ function openDeleteModal(type, data) {
     deleteIdInput.value = data.id;
 
     // Set pesan konfirmasi di modal
-    deleteMessage.textContent = `Apakah Anda yakin ingin menghapus data ${data.group}?`;
+    deleteMessage.textContent = `Apakah Anda yakin ingin menghapus data ini?`;
 
     // Tambahkan atribut tipe data ke tombol delete
     deleteButton.setAttribute("data-type", type);
