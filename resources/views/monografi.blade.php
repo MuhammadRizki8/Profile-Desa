@@ -386,6 +386,11 @@
       <div class="chart-container">
         <canvas id="chartPendidikan"></canvas>
       </div>
+      <!-- Grafik 3: Data Kependudukan Menurut  Pekerjaan -->
+      <h2>Data Kependudukan Menurut Pekerjaan</h2>
+      <div class="chart-container">
+        <canvas id="chartPekerjaan"></canvas>
+      </div>
 
       <!-- Grafik 3: Data Kependudukan Menurut  Kelompok Umur -->
       <h2>Data Kependudukan Menurut Kelompok Umur</h2>
@@ -499,116 +504,14 @@
     </footer>
     <script>
       // Data untuk Persebaran Penduduk (RW)
-      const dataRw = [
-        { rw: "RW 001", laki: 281, perempuan: 215, total: 496 },
-        { rw: "RW 002", laki: 315, perempuan: 262, total: 577 },
-        { rw: "RW 003", laki: 258, perempuan: 253, total: 511 },
-        { rw: "RW 004", laki: 291, perempuan: 296, total: 587 },
-        { rw: "RW 005", laki: 582, perempuan: 574, total: 1156 },
-        { rw: "RW 006", laki: 282, perempuan: 283, total: 565 },
-        { rw: "RW 007", laki: 335, perempuan: 308, total: 643 },
-        { rw: "RW 008", laki: 319, perempuan: 326, total: 645 },
-        { rw: "RW 009", laki: 198, perempuan: 196, total: 394 },
-        { rw: "RW 010", laki: 370, perempuan: 383, total: 753 },
-        { rw: "RW 011", laki: 415, perempuan: 405, total: 820 },
-        { rw: "RW 012", laki: 215, perempuan: 195, total: 410 },
-        { rw: "RW 013", laki: 356, perempuan: 347, total: 703 },
-        { rw: "RW 014", laki: 263, perempuan: 249, total: 512 },
-        { rw: "RW 015", laki: 305, perempuan: 312, total: 617 },
-      ];
+      const dataRw = @json($dataPenduduk);
 
       const labelsRw = dataRw.map((item) => item.rw);
       const lakiRw = dataRw.map((item) => item.laki);
       const perempuanRw = dataRw.map((item) => item.perempuan);
       const totalRw = dataRw.map((item) => item.total);
 
-      // Data untuk Jenis Kelamin
-      const dataGender = [
-        { jenis: "Laki-Laki", jumlah: 4785 },
-        { jenis: "Perempuan", jumlah: 4604 },
-      ];
-      const labelsGender = dataGender.map((item) => item.jenis);
-      const jumlahGender = dataGender.map((item) => item.jumlah);
-
-      // Data untuk Agama
-      const dataReligion = [
-        { agama: "Islam", laki: 4614, perempuan: 4484, total: 9089 },
-        { agama: "Kristen Katholik", laki: 78, perempuan: 51, total: 129 },
-        { agama: "Kristen Protestan", laki: 93, perempuan: 69, total: 162 },
-        { agama: "Hindu", laki: 0, perempuan: 0, total: 0 },
-        { agama: "Konghucu", laki: 0, perempuan: 0, total: 0 },
-        { agama: "Budha", laki: 0, perempuan: 0, total: 0 },
-      ];
-      const labelsReligion = dataReligion.map((item) => item.agama);
-      const lakiReligion = dataReligion.map((item) => item.laki);
-      const perempuanReligion = dataReligion.map((item) => item.perempuan);
-      const totalReligion = dataReligion.map((item) => item.total);
-
-      const dataPendidikan = [
-        {
-          pendidikan: "Tidak/Belum Sekolah",
-          laki: 481,
-          perempuan: 489,
-          total: 970,
-        },
-        {
-          pendidikan: "Belum Tamat SD/Sederajat",
-          laki: 619,
-          perempuan: 687,
-          total: 1306,
-        },
-        {
-          pendidikan: "Tamat SD/Sederajat",
-          laki: 793,
-          perempuan: 865,
-          total: 1658,
-        },
-        {
-          pendidikan: "SLTP/Sederajat",
-          laki: 881,
-          perempuan: 807,
-          total: 1688,
-        },
-        {
-          pendidikan: "SLTA/Sederajat",
-          laki: 1765,
-          perempuan: 1536,
-          total: 3301,
-        },
-        { pendidikan: "Diploma I/II", laki: 0, perempuan: 0, total: 0 },
-        {
-          pendidikan: "Akademi/Diploma III/Sarjana Muda",
-          laki: 101,
-          perempuan: 113,
-          total: 214,
-        },
-        {
-          pendidikan: "Diploma IV/Strata I",
-          laki: 128,
-          perempuan: 98,
-          total: 226,
-        },
-        { pendidikan: "Strata II", laki: 17, perempuan: 9, total: 26 },
-        { pendidikan: "Strata III", laki: 0, perempuan: 0, total: 0 },
-      ];
-
-      const labelsPendidikan = dataPendidikan.map((item) => item.pendidikan);
-      const lakiPendidikan = dataPendidikan.map((item) => item.laki);
-      const perempuanPendidikan = dataPendidikan.map((item) => item.perempuan);
-      const totalPendidikan = dataPendidikan.map((item) => item.total);
-
-      const dataUmur = [
-        { umur: "Balita (0-5 tahun)", laki: 300, perempuan: 320, total: 620 },
-        { umur: "Anak-Anak (6-17 tahun)", laki: 80, perempuan: 90, total: 170 },
-        { umur: "Dewasa (18-50 tahun)", laki: 80, perempuan: 90, total: 170 },
-        { umur: "Tua (50-120 tahun)", laki: 30, perempuan: 40, total: 70 },
-      ];
-      const labelsUmur = dataUmur.map((item) => item.umur);
-      const lakiUmur = dataUmur.map((item) => item.laki);
-      const perempuanUmur = dataUmur.map((item) => item.perempuan);
-      const totalUmur = dataUmur.map((item) => item.total);
-
-      // Grafik 1: Persebaran Penduduk (RW)
+       // Grafik 1: Persebaran Penduduk (RW)
       new Chart(document.getElementById("chartRw"), {
         type: "bar",
         data: {
@@ -640,6 +543,32 @@
           },
         },
       });
+
+      // Data untuk Jenis Kelamin
+      const dataGender = @json($datapopulasi);
+      const labelsGender = dataGender.map((item) => item.jenis);
+      const jumlahGender = dataGender.map((item) => item.jumlah);
+
+      // Data untuk Agama
+      const dataReligion = @json($dataAgama);
+      const labelsReligion = dataReligion.map((item) => item.agama);
+      const lakiReligion = dataReligion.map((item) => item.laki);
+      const perempuanReligion = dataReligion.map((item) => item.perempuan);
+      const totalReligion = dataReligion.map((item) => item.total);
+
+      const dataPendidikan =  @json($dataPendidikan);
+
+      const labelsPendidikan = dataPendidikan.map((item) => item.pendidikan);
+      const lakiPendidikan = dataPendidikan.map((item) => item.laki);
+      const perempuanPendidikan = dataPendidikan.map((item) => item.perempuan);
+      const totalPendidikan = dataPendidikan.map((item) => item.total);
+
+      const dataUmur = @json($dataKelompokUmur);
+      const labelsUmur = dataUmur.map((item) => item.umur);
+      const lakiUmur = dataUmur.map((item) => item.laki);
+      const perempuanUmur = dataUmur.map((item) => item.perempuan);
+      const totalUmur = dataUmur.map((item) => item.total);
+
 
       // Grafik 2: Jenis Kelamin
       new Chart(document.getElementById("chartGender"), {
@@ -701,6 +630,59 @@
           },
         },
       });
+      
+      // Data untuk Pekerjaan
+      const dataPekerjaan = @json($dataPekerjaan);
+
+      const labelsPekerjaan = dataPekerjaan.map((item) => item.pekerjaan);
+      const lakiPekerjaan = dataPekerjaan.map((item) => item.laki);
+      const perempuanPekerjaan = dataPekerjaan.map((item) => item.perempuan);
+      const totalPekerjaan = dataPekerjaan.map((item) => item.total);
+
+      // Grafik 4: Data Kependudukan Berdasarkan Pekerjaan
+      new Chart(document.getElementById("chartPekerjaan"), {
+        type: "bar",
+        data: {
+          labels: labelsPekerjaan,
+          datasets: [
+            {
+              label: "Laki-Laki",
+              data: lakiPekerjaan,
+              backgroundColor: "#42a5f5",
+            },
+            {
+              label: "Perempuan",
+              data: perempuanPekerjaan,
+              backgroundColor: "#ef5350",
+            },
+            {
+              label: "Total",
+              data: totalPekerjaan,
+              backgroundColor: "#66bb6a",
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: "Data Kependudukan Berdasarkan Pekerjaan",
+            },
+          },
+          scales: {
+            x: { 
+              title: { display: true, text: "Jenis Pekerjaan" },
+              stacked: false, // Set to false to show grouped bars
+            },
+            y: {
+              title: { display: true, text: "Jumlah Penduduk" },
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+
 
       new Chart(document.getElementById("chartPendidikan"), {
         type: "bar",
