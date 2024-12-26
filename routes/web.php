@@ -60,9 +60,8 @@ Route::get('/monografi_dashboard', function () {
     return view('monografi_dashboard');
 });
 
-Route::get('/monografi', function () {
-    return view('monografi');
-});
+Route::get('/monografi', [MonografiController::class, 'show'])->name('monografi');
+
 
 Route::get('/pemerintahan', function () {
     return view('pemerintahan');
