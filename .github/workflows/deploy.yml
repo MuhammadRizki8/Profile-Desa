@@ -1,0 +1,46 @@
+name: Deploy to Google App Engine
+
+on:
+  push:
+    branches:
+      - deploy  # Ganti dengan branch yang sesuai
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Menggunakan GitHub-hosted runner
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up PHP and Composer
+      - name: Install PHP 8.2
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y software-properties-common
+          sudo add-apt-repository ppa:ondrej/php -y
+          sudo apt-get update
+          sudo apt-get install -y php8.2 php8.2-cli php8.2-mbstring php8.2-xml php8.2-curl
+
+      - name: Install Composer dependencies
+        run: |
+          curl -sS https://getcomposer.org/installer | php
+          sudo mv composer.phar /usr/local/bin/composer
+          composer install --no-dev --optimize-autoloader
+
+      # Step 3: Authenticate with Google Cloud
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCLOUD_CREDENTIALS }}
+
+      # Step 4: Set up Google Cloud CLI
+      - name: Set up Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
+
+      # Step 5: Deploy to Google App Engine
+      - name: Deploy to Google App Engine
+        run: gcloud app deploy --quiet
