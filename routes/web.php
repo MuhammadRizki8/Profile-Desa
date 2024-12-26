@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MonografiController;
 use App\Http\Controllers\DataPersebaranPendudukController;
+use App\Http\Controllers\PopulationDataController;
+use App\Http\Controllers\DataKependudukanAgamaController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -93,3 +96,17 @@ Route::post('/data-persebaran', [DataPersebaranPendudukController::class, 'store
 Route::get('/data-persebaran/{id}/edit', [DataPersebaranPendudukController::class, 'edit'])->name('data-persebaran.edit');
 Route::put('/data-persebaran/{id}', [DataPersebaranPendudukController::class, 'update'])->name('data-persebaran.update');
 Route::delete('/data-persebaran/{id}', [DataPersebaranPendudukController::class, 'destroy'])->name('data-persebaran.destroy');
+
+
+Route::get('/data-populasi', [PopulationDataController::class, 'index'])->name('population.index');
+Route::post('/data-populasi', [PopulationDataController::class, 'store'])->name('population.store');
+Route::get('/data-populasi/{id}/edit', [PopulationDataController::class, 'edit'])->name('population.edit');
+Route::put('/data-populasi/{id}', [PopulationDataController::class, 'update'])->name('population.update');
+Route::delete('/data-populasi/{id}', [PopulationDataController::class, 'destroy'])->name('population.destroy');
+
+
+Route::get('/data-agama', [DataKependudukanAgamaController::class, 'index'])->name('agama.index');
+Route::post('/data-agama', [DataKependudukanAgamaController::class, 'store'])->name('agama.store'); 
+Route::get('/data-agama/{id}/edit', [DataKependudukanAgamaController::class, 'edit'])->name('agama.edit'); 
+Route::put('/data-agama/{id}', [DataKependudukanAgamaController::class, 'update'])->name('agama.update'); 
+Route::delete('/data-agama/{id}', [DataKependudukanAgamaController::class, 'destroy'])->name('agama.destroy'); 
