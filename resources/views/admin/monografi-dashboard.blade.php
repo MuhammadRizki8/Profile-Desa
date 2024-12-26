@@ -205,12 +205,10 @@
 
         </div>
         {{-- ====================== --}}
-
-
         <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
             <span>Data Kependudukan Menurut Pendidikan Terakhir</span>
-            <button class="btn btn-tambah" onclick="openAddModal()">
+            <button class="btn btn-tambah" onclick="openAddModal('pendidikan')">
               <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
             </button>
           </div>
@@ -227,94 +225,23 @@
                 </tr>
               </thead>
               <tbody class="table-body">
+                @forelse ($dataPendidikan as $index => $data)
                 <tr>
-                  <td>1</td>
-                  <td>Tidak/Belum Sekolah</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $data->jenis_kelompok }}</td>
+                    <td>{{ $data->laki_laki }}</td>
+                    <td>{{ $data->perempuan }}</td>
+                    <td>{{ $data->jumlah }}</td>
+                    <td>
+                        <button class="btn btn-light" onclick="openEditModal('pendidikan', {{ $data }})">Edit</button>
+                        <button class="btn btn-danger" data-id="{{ $data->id }}" data-group="{{ $data->jenis_kelompok }}" onclick="openDeleteModal('pendidikan', {{ $data }})">Hapus</button>
+                    </td>
                 </tr>
+                @empty
                 <tr>
-                  <td>2</td>
-                  <td>SLTP/Sederajat</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
+                    <td colspan="4" class="text-center">Tidak ada data tersedia</td>
                 </tr>
-                <tr>
-                  <td>3</td>
-                  <td>SLTA/Sederajat</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Diploma I/II</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>kademi/Diploma III/Sarjana Muda</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>6</td>
-                  <td>Diploma IV/Strata I</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>7</td>
-                  <td>Strata II</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>8</td>
-                  <td>Strata III</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
+                @endforelse
               </tbody>
             </table>
           </div>
@@ -329,7 +256,7 @@
           </ul>
 
         </div>
-
+        {{-- ===================== --}}
         <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
             <span>Data Kependudukan Menurut Kelompok Umur</span>
@@ -452,6 +379,20 @@
                         <div class="mb-3">
                             <label for="dataPerempuanAgama" class="form-label">Perempuan</label>
                             <input type="number" class="form-control" id="dataPerempuanAgama" required>
+                        </div>
+                    </div>                                      
+                      <div id="formPendidikan" class="form-type d-none">
+                        <div class="mb-3">
+                            <label for="dataJenisKelompok" class="form-label">Jenis Kelompok</label>
+                            <input type="text" class="form-control" id="dataJenisKelompok" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dataLakiPendidikan" class="form-label">Laki-laki</label>
+                            <input type="number" class="form-control" id="dataLakiPendidikan" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dataPerempuanPendidikan" class="form-label">Perempuan</label>
+                            <input type="number" class="form-control" id="dataPerempuanPendidikan" required>
                         </div>
                     </div>                                      
                       <div id="formPopulasi" class="form-type d-none">

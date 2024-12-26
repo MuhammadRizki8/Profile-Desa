@@ -5,6 +5,7 @@ use App\Http\Controllers\MonografiController;
 use App\Http\Controllers\DataPersebaranPendudukController;
 use App\Http\Controllers\PopulationDataController;
 use App\Http\Controllers\DataKependudukanAgamaController;
+use App\Http\Controllers\PendidikanTerakhirController;
 
 /*
 |--------------------------------------------------------------------------
@@ -110,3 +111,9 @@ Route::post('/data-agama', [DataKependudukanAgamaController::class, 'store'])->n
 Route::get('/data-agama/{id}/edit', [DataKependudukanAgamaController::class, 'edit'])->name('agama.edit'); 
 Route::put('/data-agama/{id}', [DataKependudukanAgamaController::class, 'update'])->name('agama.update'); 
 Route::delete('/data-agama/{id}', [DataKependudukanAgamaController::class, 'destroy'])->name('agama.destroy'); 
+
+Route::get('/data-pendidikan', [PendidikanTerakhirController::class, 'index'])->name('pendidikan_terakhir.index');
+Route::post('/data-pendidikan', [PendidikanTerakhirController::class, 'store'])->name('pendidikan_terakhir.store');
+Route::get('/data-pendidikan/{id}/edit', [PendidikanTerakhirController::class, 'edit'])->name('pendidikan_terakhir.edit');
+Route::put('/data-pendidikan/{id}', [PendidikanTerakhirController::class, 'update'])->name('pendidikan_terakhir.update');
+Route::delete('/data-pendidikan/{id}', [PendidikanTerakhirController::class, 'destroy'])->name('pendidikan_terakhir.destroy');
