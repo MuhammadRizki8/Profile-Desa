@@ -1,25 +1,82 @@
+// State mode (tambah/edit)
 isEditMode = false;
-function openAddModal() {
+
+function openAddModal(type) {
     isEditMode = false; // Set mode tambah
-    document.getElementById("dataModalLabel").textContent = "Tambah Data";
+    document.getElementById(
+        "dataModalLabel"
+    ).textContent = `Tambah Data (${type})`;
     document.getElementById("dataId").value = ""; // Clear ID
     document.getElementById("dataForm").reset(); // Clear form
+    document.getElementById("dataForm").setAttribute("data-type", type); // Set tipe data
+
+    // Tampilkan form sesuai tipe
+    switchForm(type);
+
     const dataModal = new bootstrap.Modal(document.getElementById("dataModal"));
     dataModal.show();
 }
 
-function saveData() {
-    const id = document.getElementById("dataId").value;
-    const data = {
-        group: document.getElementById("dataRw").value,
-        male: parseInt(document.getElementById("dataLaki").value),
-        female: parseInt(document.getElementById("dataPerempuan").value),
-        total:
-            parseInt(document.getElementById("dataLaki").value) +
-            parseInt(document.getElementById("dataPerempuan").value),
-    };
+function openEditModal(type, data) {
+    isEditMode = true;
+    document.getElementById(
+        "dataModalLabel"
+    ).textContent = `Edit Data (${type})`;
+    document.getElementById("dataId").value = data.id;
+    document.getElementById("dataForm").setAttribute("data-type", type);
 
-    const url = id ? `/data-persebaran/${id}` : `/data-persebaran`;
+    // Tampilkan form sesuai tipe
+    switchForm(type);
+
+    if (type === "persebaran") {
+        document.getElementById("dataRw").value = data.group;
+        document.getElementById("dataLaki").value = data.male;
+        document.getElementById("dataPerempuan").value = data.female;
+    } else if (type === "populasi") {
+        document.getElementById("dataGender").value = data.jenis_kelompok;
+        document.getElementById("dataJumlah").value = data.jumlah;
+    }
+
+    const dataModal = new bootstrap.Modal(document.getElementById("dataModal"));
+    dataModal.show();
+}
+
+function switchForm(type) {
+    // Toggle visibility form sesuai tipe
+    const formPersebaran = document.getElementById("formPersebaran");
+    const formPopulasi = document.getElementById("formPopulasi");
+
+    if (type === "persebaran") {
+        formPersebaran.classList.remove("d-none");
+        formPopulasi.classList.add("d-none");
+    } else if (type === "populasi") {
+        formPersebaran.classList.add("d-none");
+        formPopulasi.classList.remove("d-none");
+    }
+}
+
+function saveData() {
+    const type = document.getElementById("dataForm").getAttribute("data-type");
+    const id = document.getElementById("dataId").value;
+
+    let data;
+    if (type === "persebaran") {
+        data = {
+            group: document.getElementById("dataRw").value,
+            male: parseInt(document.getElementById("dataLaki").value),
+            female: parseInt(document.getElementById("dataPerempuan").value),
+            total:
+                parseInt(document.getElementById("dataLaki").value) +
+                parseInt(document.getElementById("dataPerempuan").value),
+        };
+    } else if (type === "populasi") {
+        data = {
+            jenis_kelompok: document.getElementById("dataGender").value,
+            jumlah: parseInt(document.getElementById("dataJumlah").value),
+        };
+    }
+
+    const url = id ? `/data-${type}/${id}` : `/data-${type}`;
     const method = isEditMode ? "PUT" : "POST";
 
     fetch(url, {
@@ -33,7 +90,11 @@ function saveData() {
     })
         .then((response) => {
             if (!response.ok) {
-                throw new Error("Gagal menyimpan data");
+                return response.json().then((error) => {
+                    throw new Error(
+                        error.message || "Terjadi kesalahan pada server."
+                    );
+                });
             }
             return response.json();
         })
@@ -42,47 +103,46 @@ function saveData() {
             location.reload(); // Refresh halaman
         })
         .catch((error) => {
-            alert("Terjadi kesalahan saat menyimpan data!");
+            alert(error.message);
             console.error(error);
         });
 }
 
-function openEditModal(data) {
-    isEditMode = true;
-    editingId = data.id;
+// Fungsi untuk membuka modal konfirmasi delete
+function openDeleteModal(type, data) {
+    // Ambil elemen modal
+    const deleteModal = document.getElementById("deleteModal");
+    const deleteMessage = document.getElementById("deleteMessage");
+    const deleteIdInput = document.getElementById("deleteId");
+    const deleteButton = document.getElementById("deleteButton");
 
-    document.getElementById("dataModalLabel").textContent = "Edit Data";
-    document.getElementById("dataId").value = data.id; // Reset file input
-    document.getElementById("dataRw").value = data.group; // Reset file input
-    document.getElementById("dataLaki").value = data.male; // Reset file input
-    document.getElementById("dataPerempuan").value = data.female; // Reset file input
-    const dataModal = new bootstrap.Modal(document.getElementById("dataModal"));
-    dataModal.show();
+    // Set nilai ID data ke input hidden
+    deleteIdInput.value = data.id;
+
+    // Set pesan konfirmasi di modal
+    deleteMessage.textContent = `Apakah Anda yakin ingin menghapus data ${data.group}?`;
+
+    // Tambahkan atribut tipe data ke tombol delete
+    deleteButton.setAttribute("data-type", type);
+
+    // Tampilkan modal menggunakan Bootstrap
+    const modalInstance = new bootstrap.Modal(deleteModal);
+    modalInstance.show();
 }
 
-function openDeleteModal(button) {
-    const id = button.getAttribute("data-id");
-    const group = button.getAttribute("data-group");
-
-    // Atur ID ke elemen tersembunyi
-    document.getElementById("deleteId").value = id;
-
-    // Atur pesan konfirmasi
-    document.getElementById(
-        "deleteMessage"
-    ).textContent = `Apakah Anda yakin ingin menghapus data kelompok ${group}?`;
-
-    // Tampilkan modal
-    const deleteModal = new bootstrap.Modal(
-        document.getElementById("deleteModal")
-    );
-    deleteModal.show();
-}
-
+// Fungsi untuk menghapus data
 function deleteData() {
+    const type = document
+        .getElementById("deleteButton")
+        .getAttribute("data-type");
     const id = document.getElementById("deleteId").value;
 
-    fetch(`/data-persebaran/${id}`, {
+    if (!id || !type) {
+        alert("Data tidak valid.");
+        return;
+    }
+
+    fetch(`/data-${type}/${id}`, {
         method: "DELETE",
         headers: {
             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
@@ -91,16 +151,18 @@ function deleteData() {
     })
         .then((response) => {
             if (!response.ok) {
-                throw new Error("Gagal menghapus data");
+                return response.json().then((error) => {
+                    throw new Error(error.message || "Gagal menghapus data.");
+                });
             }
             return response.json();
         })
         .then((result) => {
             alert(result.message || "Data berhasil dihapus!");
-            window.location.href = "http://127.0.0.1:8000/admin/monografi"; // Redirect ke halaman utama
+            location.reload();
         })
         .catch((error) => {
-            alert("Terjadi kesalahan saat menghapus data!");
+            alert(error.message);
             console.error(error);
         });
 }

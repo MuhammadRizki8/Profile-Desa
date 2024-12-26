@@ -66,97 +66,95 @@
         </div>
         <h5 class="mb-4">Monografi</h5>
 
-       {{-- ==================== --}}
-       <div class="card">
-        <div class="table-header d-flex justify-content-between align-items-center">
-            <span>Data kependudukan menurut persebaran penduduk</span>
-            <button class="btn btn-tambah" onclick="openAddModal()">
-                <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
-            </button>
-        </div>
-        <div class="table-responsive">
-            <table id="table-penduduk" class="table align-middle">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Rw</th>
-                        <th>Laki-laki</th>
-                        <th>Perempuan</th>
-                        <th>Total</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="table-body">
-                    @forelse ($dataPenduduk as $index => $data)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $data->group }}</td>
-                        <td>{{ $data->male }}</td>
-                        <td>{{ $data->female }}</td>
-                        <td>{{ $data->total }}</td>
-                        <td>
-                            <button class="btn btn-light" onclick="openEditModal({{ $data }})">Edit</button>
-                            <button 
-                                class="btn btn-danger" 
-                                data-id="{{ $data->id }}" 
-                                onclick="openDeleteModal(this)">Hapus</button>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="6" class="text-center">Tidak ada data tersedia</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-        {{-- ================= --}}
+        {{-- ==================== --}}
         <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
-            <span>Data Kependudukan Menurut Jenis Kelamin</span>
-            <button class="btn btn-tambah" onclick="openAddModal()">
-              <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
-            </button>
+              <span>Data Kependudukan Menurut Persebaran Penduduk</span>
+              <button class="btn btn-tambah" onclick="openAddModal('persebaran')">
+                  <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
+              </button>
           </div>
           <div class="table-responsive">
-            <table id="table-gender" class="table align-middle">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Laki-laki</th>
-                  <th>Perempuan</th>
-                  <th>Total</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <tr>
-                  <td>1</td>
-                  <td>281</td>
-                  <td>215</td>
-                  <td>496</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-
-              </tbody>
-            </table>
+              <table id="table-penduduk" class="table align-middle">
+                  <thead>
+                      <tr>
+                          <th>No</th>
+                          <th>Rw</th>
+                          <th>Laki-laki</th>
+                          <th>Perempuan</th>
+                          <th>Total</th>
+                          <th>Aksi</th>
+                      </tr>
+                  </thead>
+                  <tbody class="table-body">
+                      @forelse ($dataPenduduk as $index => $data)
+                      <tr>
+                          <td>{{ $index + 1 }}</td>
+                          <td>{{ $data->group }}</td>
+                          <td>{{ $data->male }}</td>
+                          <td>{{ $data->female }}</td>
+                          <td>{{ $data->total }}</td>
+                          <td>
+                              <button class="btn btn-light" onclick="openEditModal('persebaran', {{ $data }})">Edit</button>
+                              <button 
+                                  class="btn btn-danger" 
+                                  data-id="{{ $data->id }}" 
+                                  onclick="openDeleteModal('persebaran', {{ $data }})">Hapus</button>
+                          </td>
+                      </tr>
+                      @empty
+                      <tr>
+                          <td colspan="6" class="text-center">Tidak ada data tersedia</td>
+                      </tr>
+                      @endforelse
+                  </tbody>
+              </table>
           </div>
-
-          <!-- Pagination -->
-          <ul id="pagination-table-gender" class="pagination">
-            <li><a href="#">&laquo; Previous</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">Next &raquo;</a></li>
-          </ul>
-
         </div>
+        
+
+        {{-- ================= --}}
+        <!-- Data Populasi Menurut Jenis Kelamin -->
+        <div class="card">
+          <div class="table-header d-flex justify-content-between align-items-center">
+              <span>Data Kependudukan Menurut Jenis Kelamin</span>
+              {{-- <button class="btn btn-tambah" onclick="openAddModal('populasi')">
+                  <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
+              </button> --}}
+          </div>
+          <div class="table-responsive">
+              <table id="table-gender" class="table align-middle">
+                  <thead>
+                      <tr>
+                          <th>No</th>
+                          <th>Jenis Kelamin</th>
+                          <th>Jumlah</th>
+                          <th>Aksi</th>
+                      </tr>
+                  </thead>
+                  <tbody class="table-body">
+                      @forelse ($datapopulasi as $index => $data)
+                      <tr>
+                          <td>{{ $index + 1 }}</td>
+                          <td>{{ $data->jenis_kelompok }}</td>
+                          <td>{{ $data->jumlah }}</td>
+                          <td>
+                              <button class="btn btn-light" onclick="openEditModal('populasi', {{ $data }})">Edit</button>
+                              <button class="btn btn-danger" data-id="{{ $data->id }}" data-group="{{ $data->jenis_kelompok }}" onclick="openDeleteModal('populasi', {{ $data }})">Hapus</button>
+                          </td>
+                      </tr>
+                      @empty
+                      <tr>
+                          <td colspan="4" class="text-center">Tidak ada data tersedia</td>
+                      </tr>
+                      @endforelse
+                  </tbody>
+              </table>
+          </div>
+        </div>
+
+        
+        
         <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
             <span>Data Kependudukan Menurut Agama</span>
@@ -467,35 +465,47 @@
   
   <!-- Modal Tambah/Edit -->
   <div class="modal fade" id="dataModal" tabindex="-1" aria-labelledby="dataModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="dataModalLabel">Tambah Data</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="dataForm">
-                    <input type="hidden" id="dataId"> <!-- Untuk menyimpan ID (hidden) -->
-                    <div class="mb-3">
-                        <label for="dataRw" class="form-label">RW</label>
-                        <input type="text" class="form-control" id="dataRw" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="dataLaki" class="form-label">Laki-laki</label>
-                        <input type="number" class="form-control" id="dataLaki" min="0" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="dataPerempuan" class="form-label">Perempuan</label>
-                        <input type="number" class="form-control" id="dataPerempuan" min="0" required />
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary" id="saveButton" onclick="saveData()">Simpan</button>
-            </div>
-        </div>
-    </div>
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="dataModalLabel">Tambah Data</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <form id="dataForm">
+                      <input type="hidden" id="dataId">
+                      <div id="formPersebaran" class="form-type">
+                          <div class="mb-3">
+                              <label for="dataRw" class="form-label">Rw</label>
+                              <input type="text" class="form-control" id="dataRw" required>
+                          </div>
+                          <div class="mb-3">
+                              <label for="dataLaki" class="form-label">Laki-laki</label>
+                              <input type="number" class="form-control" id="dataLaki" required>
+                          </div>
+                          <div class="mb-3">
+                              <label for="dataPerempuan" class="form-label">Perempuan</label>
+                              <input type="number" class="form-control" id="dataPerempuan" required>
+                          </div>
+                      </div>
+                      <div id="formPopulasi" class="form-type d-none">
+                          <div class="mb-3">
+                              <label for="dataGender" class="form-label">Jenis Kelamin</label>
+                              <input type="text" class="form-control" id="dataGender" readonly>
+                          </div>
+                          <div class="mb-3">
+                              <label for="dataJumlah" class="form-label">Jumlah</label>
+                              <input type="number" class="form-control" id="dataJumlah" required>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button type="button" class="btn btn-primary" onclick="saveData()">Simpan</button>
+              </div>
+          </div>
+      </div>
   </div>
 
 
