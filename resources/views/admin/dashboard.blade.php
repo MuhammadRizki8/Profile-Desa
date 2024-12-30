@@ -63,6 +63,7 @@
           <input type="text" class="form-control w-25" placeholder="Search..." id="searchInput">
         </div>
         <h5 class="mb-4">Home</h5>
+        {{-- Berita --}}
         <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
             <span>Tabel Berita</span>
@@ -83,103 +84,27 @@
                 </tr>
               </thead>
               <tbody class="table-body">
+                @foreach ($dataBerita as $berita)
                 <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Berita A</span></td>
-                  <td class="truncate">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry...
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
+                    <td>{{ $berita->id }}</td>
+                    <td>
+                      <img src="{{ asset('../assets/images/' . $berita->image) }}"  
+                             class="card-img-top" 
+                             alt="{{ $berita->title }}" 
+                             width="100">
+                             
+                    </td>
+                    <td><span class="judul">{{ $berita->title }}</span></td>
+                    <td class="truncate">{{ Str::limit($berita->description, 50, '...') }}</td>
+                    <td>{{ $berita->date }}</td>
+                    <td>
+                        <button class="btn btn-light" onclick="openEditModal({{ $berita->id }})">Edit</button>
+                        <button class="btn btn-danger" onclick="openDeleteModal({{ $berita->id }})">Hapus</button>
+                    </td>
                 </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Berita A</span></td>
-                  <td class="truncate">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry...
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Berita Adddaa</span></td>
-                  <td class="truncate">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry...
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Berita Akuu</span></td>
-                  <td class="truncate">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry...
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Berita A</span></td>
-                  <td class="truncate">
-                    Lorem Ipsum is
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Berita A</span></td>
-                  <td class="truncate">
-                    tesssddasdas
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Berita A</span></td>
-                  <td class="truncate">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry...
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                  <!-- Tambahkan data lainnya di sini -->
-              </tbody>
+                @endforeach
+            </tbody>
+            
             </table>
           </div>
 

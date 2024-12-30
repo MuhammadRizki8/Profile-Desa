@@ -8,6 +8,7 @@ use App\Http\Controllers\DataKependudukanAgamaController;
 use App\Http\Controllers\PendidikanTerakhirController;
 use App\Http\Controllers\DataPekerjaanController;
 use App\Http\Controllers\DataKelompokUmurController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
@@ -83,10 +84,10 @@ Route::get('/transparansi', function () {
 });
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->name('dashboard')->middleware('auth');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])
+    ->name('dashboard')
+    ->middleware('auth');
 
 Route::view('/admin/kades', 'admin.kades')->name('kades');
 Route::view('/admin/perangkat-desa', 'admin.perangkat-desa')->name('perangkat-desa');
