@@ -8,7 +8,7 @@ use App\Http\Controllers\DataKependudukanAgamaController;
 use App\Http\Controllers\PendidikanTerakhirController;
 use App\Http\Controllers\DataPekerjaanController;
 use App\Http\Controllers\DataKelompokUmurController;
-
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,9 +52,6 @@ Route::get('/lembaga', function () {
     return view('lembaga');
 });
 
-Route::get('/login', function () {
-    return view('login');
-});
 
 Route::get('/monografi_dashboard', function () {
     return view('monografi_dashboard');
@@ -84,7 +81,13 @@ Route::get('/berita', function () {
 Route::get('/transparansi', function () {
     return view('transparansi');
 });
-Route::view('/admin/dashboard', 'admin.dashboard')->name('dashboard');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})->name('dashboard')->middleware('auth');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 Route::view('/admin/kades', 'admin.kades')->name('kades');
 Route::view('/admin/perangkat-desa', 'admin.perangkat-desa')->name('perangkat-desa');
 Route::view('/admin/struktur', 'admin.struktur')->name('struktur');
@@ -92,6 +95,7 @@ Route::view('/admin/pemerintahan', 'admin.pemerintahan')->name('pemerintahan');
 Route::view('/admin/agenda', 'admin.agenda')->name('agenda');
 Route::view('/admin/produk-hukum', 'admin.produk-hukum')->name('produk-hukum');
 Route::view('/admin/transparansi', 'admin.transparansi')->name('transparansi');
+
 
 Route::get('/admin/monografi', [MonografiController::class, 'index'])->name('admin.monografi');
 Route::post('/data-persebaran', [DataPersebaranPendudukController::class, 'store'])->name('data-persebaran.store');

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>Login Admin</title>
@@ -19,30 +20,51 @@
           width="100"
         />
         <h2>Login Admin</h2>
-        <form>
+        <!-- Alert for login error -->
+        @if ($errors->has('login'))
+        <div class="alert alert-danger" role="alert">
+          {{ $errors->first('login') }}
+        </div>
+        @endif
+
+        <form method="POST" action="{{ route('login') }}">
+          @csrf
           <div class="mb-3">
-            <label class="form-label text-white fw-bold" for="username">
+            <label class="form-label text-white fw-bold" for="name">
               Username
             </label>
             <input
-              class="form-control"
-              id="username"
+              class="form-control @error('name') is-invalid @enderror"
+              id="name"
+              name="name"
               placeholder="Masukkan username..."
               type="text"
+              value="{{ old('name') }}"
             />
+            @error('name')
+            <div class="invalid-feedback">
+              {{ $message }}
+            </div>
+            @enderror
           </div>
           <div class="mb-3">
             <label class="form-label text-white fw-bold" for="password">
               Password
             </label>
             <input
-              class="form-control"
+              class="form-control @error('password') is-invalid @enderror"
               id="password"
+              name="password"
               placeholder="Masukkan Password....."
               type="password"
             />
+            @error('password')
+            <div class="invalid-feedback">
+              {{ $message }}
+            </div>
+            @enderror
           </div>
-          <button class="btn btn-login" type="submit">Login</button>
+          <button class="btn btn-login btn-primary w-100" type="submit">Login</button>
         </form>
       </div>
     </div>

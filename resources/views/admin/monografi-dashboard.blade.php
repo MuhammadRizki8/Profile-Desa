@@ -55,7 +55,12 @@
           <a href="/admin/monografi" class="nav-link active"><i class="fa fa-line-chart"></i> Monografi</a>
           <hr>
           <h6>Account Pages</h6>
-          <a href="#" class="nav-link"><i class="fas fa-sign-in-alt"></i> Log Out</a>
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+              @csrf
+          </form>
+          <a href="#" class="nav-link" onclick="document.getElementById('logout-form').submit();">
+              <i class="fas fa-sign-in-alt"></i> Log Out
+          </a>
         </nav>
       </div>
 
@@ -66,7 +71,7 @@
         </div>
         <h5 class="mb-4">Monografi</h5>
 
-        {{-- ==================== --}}
+        {{-- Data Kependudukan Menurut Persebaran Penduduk --}}
         <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
               <span>Data Kependudukan Menurut Persebaran Penduduk</span>
@@ -88,7 +93,7 @@
                   </thead>
                   <tbody class="table-body">
                       @forelse ($dataPenduduk as $index => $data)
-                      <tr>
+                      <tr class="data-row-penduduk" style="{{ $index >= 10 ? 'display: none;' : '' }}">
                           <td>{{ $index + 1 }}</td>
                           <td>{{ $data->group }}</td>
                           <td>{{ $data->male }}</td>
@@ -96,10 +101,7 @@
                           <td>{{ $data->total }}</td>
                           <td>
                               <button class="btn btn-light" onclick="openEditModal('persebaran', {{ $data }})">Edit</button>
-                              <button 
-                                  class="btn btn-danger" 
-                                  data-id="{{ $data->id }}" 
-                                  onclick="openDeleteModal('persebaran', {{ $data }})">Hapus</button>
+                              <button class="btn btn-danger" data-id="{{ $data->id }}" onclick="openDeleteModal('persebaran', {{ $data }})">Hapus</button>
                           </td>
                       </tr>
                       @empty
@@ -109,16 +111,18 @@
                       @endforelse
                   </tbody>
               </table>
+              @if (count($dataPenduduk) > 10)
+              <div class="text-center my-3">
+                  <button class="btn btn-primary load-more" data-target="penduduk">Tampilkan Lebih Banyak</button>
+              </div>
+              @endif
           </div>
         </div>
-        {{-- ================= --}}
-        <!-- Data Populasi Menurut Jenis Kelamin -->
+
+        {{-- Data Kependudukan Menurut Jenis Kelamin --}}
         <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
               <span>Data Kependudukan Menurut Jenis Kelamin</span>
-              {{-- <button class="btn btn-tambah" onclick="openAddModal('populasi')">
-                  <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
-              </button> --}}
           </div>
           <div class="table-responsive">
               <table id="table-gender" class="table align-middle">
@@ -132,13 +136,13 @@
                   </thead>
                   <tbody class="table-body">
                       @forelse ($datapopulasi as $index => $data)
-                      <tr>
+                      <tr class="data-row-gender" style="{{ $index >= 10 ? 'display: none;' : '' }}">
                           <td>{{ $index + 1 }}</td>
                           <td>{{ $data->jenis_kelompok }}</td>
                           <td>{{ $data->jumlah }}</td>
                           <td>
                               <button class="btn btn-light" onclick="openEditModal('populasi', {{ $data }})">Edit</button>
-                              <button class="btn btn-danger" data-id="{{ $data->id }}" data-group="{{ $data->jenis_kelompok }}" onclick="openDeleteModal('populasi', {{ $data }})">Hapus</button>
+                              <button class="btn btn-danger" data-id="{{ $data->id }}" onclick="openDeleteModal('populasi', {{ $data }})">Hapus</button>
                           </td>
                       </tr>
                       @empty
@@ -148,33 +152,37 @@
                       @endforelse
                   </tbody>
               </table>
+              @if (count($datapopulasi) > 10)
+              <div class="text-center mt-3">
+                  <button class="btn btn-primary load-more" data-target="gender">Tampilkan Lebih Banyak</button>
+              </div>
+              @endif
           </div>
-        </div>  
+        </div>
 
-        {{-- ====================== --}}
         {{-- Data Kependudukan Menurut Agama --}}
         <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
-            <span>Data Kependudukan Menurut Agama</span>
-            <button class="btn btn-tambah" onclick="openAddModal('agama')">
-              <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
-            </button>
+              <span>Data Kependudukan Menurut Agama</span>
+              <button class="btn btn-tambah" onclick="openAddModal('agama')">
+                  <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
+              </button>
           </div>
           <div class="table-responsive">
-            <table id="table-agama" class="table align-middle">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Jenis Kelompok</th>
-                  <th>Laki-laki</th>
-                  <th>Perempuan</th>
-                  <th>Jumlah</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                @forelse ($dataAgama as $index => $data)
+              <table id="table-agama" class="table align-middle">
+                  <thead>
                       <tr>
+                          <th>No</th>
+                          <th>Jenis Kelompok</th>
+                          <th>Laki-laki</th>
+                          <th>Perempuan</th>
+                          <th>Jumlah</th>
+                          <th>Aksi</th>
+                      </tr>
+                  </thead>
+                  <tbody class="table-body">
+                      @forelse ($dataAgama as $index => $data)
+                      <tr class="data-row-agama" style="{{ $index >= 10 ? 'display: none;' : '' }}">
                           <td>{{ $index + 1 }}</td>
                           <td>{{ $data->jenis_kelompok }}</td>
                           <td>{{ $data->laki_laki }}</td>
@@ -182,179 +190,156 @@
                           <td>{{ $data->jumlah }}</td>
                           <td>
                               <button class="btn btn-light" onclick="openEditModal('agama', {{ $data }})">Edit</button>
-                              <button class="btn btn-danger" data-id="{{ $data->id }}" data-group="{{ $data->jenis_kelompok }}" onclick="openDeleteModal('agama', {{ $data }})">Hapus</button>
+                              <button class="btn btn-danger" data-id="{{ $data->id }}" onclick="openDeleteModal('agama', {{ $data }})">Hapus</button>
                           </td>
                       </tr>
                       @empty
                       <tr>
-                          <td colspan="4" class="text-center">Tidak ada data tersedia</td>
+                          <td colspan="6" class="text-center">Tidak ada data tersedia</td>
                       </tr>
                       @endforelse
-              </tbody>
-            </table>
+                  </tbody>
+              </table>
+              @if (count($dataAgama) > 10)
+              <div class="text-center mt-3">
+                  <button class="btn btn-primary load-more" data-target="agama">Tampilkan Lebih Banyak</button>
+              </div>
+              @endif
           </div>
-
-          <!-- Pagination -->
-          <ul id="pagination-table-agama" class="pagination">
-            <li><a href="#">&laquo; Previous</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">Next &raquo;</a></li>
-          </ul>
-
         </div>
+
         {{-- ====================== --}}
         <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
-            <span>Data Kependudukan Menurut Pendidikan Terakhir</span>
-            <button class="btn btn-tambah" onclick="openAddModal('pendidikan')">
-              <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
-            </button>
+              <span>Data Kependudukan Menurut Pendidikan Terakhir</span>
+              <button class="btn btn-tambah" onclick="openAddModal('pendidikan')">
+                  <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
+              </button>
           </div>
           <div class="table-responsive">
-            <table id="table-pendidikan" class="table align-middle">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Jenis Kelompok</th>
-                  <th>Laki-laki</th>
-                  <th>Perempuan</th>
-                  <th>Total</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                @forelse ($dataPendidikan as $index => $data)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $data->jenis_kelompok }}</td>
-                    <td>{{ $data->laki_laki }}</td>
-                    <td>{{ $data->perempuan }}</td>
-                    <td>{{ $data->jumlah }}</td>
-                    <td>
-                        <button class="btn btn-light" onclick="openEditModal('pendidikan', {{ $data }})">Edit</button>
-                        <button class="btn btn-danger" data-id="{{ $data->id }}" data-group="{{ $data->jenis_kelompok }}" onclick="openDeleteModal('pendidikan', {{ $data }})">Hapus</button>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="4" class="text-center">Tidak ada data tersedia</td>
-                </tr>
-                @endforelse
-              </tbody>
-            </table>
+              <table id="table-pendidikan" class="table align-middle">
+                  <thead>
+                      <tr>
+                          <th>No</th>
+                          <th>Jenis Kelompok</th>
+                          <th>Laki-laki</th>
+                          <th>Perempuan</th>
+                          <th>Total</th>
+                          <th>Aksi</th>
+                      </tr>
+                  </thead>
+                  <tbody class="table-body">
+                      @forelse ($dataPendidikan as $index => $data)
+                          <tr>
+                              <td>{{ $index + 1 }}</td>
+                              <td>{{ $data->jenis_kelompok }}</td>
+                              <td>{{ $data->laki_laki }}</td>
+                              <td>{{ $data->perempuan }}</td>
+                              <td>{{ $data->jumlah }}</td>
+                              <td>
+                                  <button class="btn btn-light" onclick="openEditModal('pendidikan', {{ $data }})">Edit</button>
+                                  <button class="btn btn-danger" data-id="{{ $data->id }}" data-group="{{ $data->jenis_kelompok }}" onclick="openDeleteModal('pendidikan', {{ $data }})">Hapus</button>
+                              </td>
+                          </tr>
+                      @empty
+                          <tr>
+                              <td colspan="6" class="text-center">Tidak ada data tersedia</td>
+                          </tr>
+                      @endforelse
+                  </tbody>
+              </table>
           </div>
-
-          <!-- Pagination -->
-          <ul id="pagination-table-pendidikan" class="pagination">
-            <li><a href="#">&laquo; Previous</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">Next &raquo;</a></li>
-          </ul>
-
         </div>
+        {{-- ===================== --}}
+
         {{-- ===================== --}}
         <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
-            <span>Data Kependudukan Menurut Pekerjaan</span>
-            <button class="btn btn-tambah" onclick="openAddModal('pekerjaan')">
-              <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
-            </button>
+              <span>Data Kependudukan Menurut Pekerjaan</span>
+              <button class="btn btn-tambah" onclick="openAddModal('pekerjaan')">
+                  <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
+              </button>
           </div>
-
           <div class="table-responsive">
-            <table id="table-umur" class="table align-middle">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Jenis Kelompok</th>
-                  <th>Laki-laki</th>
-                  <th>Perempuan</th>
-                  <th>Jumlah</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                @forelse ($dataPekerjaan as $index => $data)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $data->jenis_kelompok }}</td>
-                    <td>{{ $data->laki_laki }}</td>
-                    <td>{{ $data->perempuan }}</td>
-                    <td>{{ $data->jumlah }}</td>
-                    <td>
-                        <button class="btn btn-light" onclick="openEditModal('pekerjaan', {{ $data }})">Edit</button>
-                        <button class="btn btn-danger" data-id="{{ $data->id }}" data-group="{{ $data->jenis_kelompok }}" onclick="openDeleteModal('pekerjaan', {{ $data }})">Hapus</button>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="4" class="text-center">Tidak ada data tersedia</td>
-                </tr>
-                @endforelse
-              </tbody>
-            </table>
+              <table id="table-umur" class="table align-middle">
+                  <thead>
+                      <tr>
+                          <th>No</th>
+                          <th>Jenis Kelompok</th>
+                          <th>Laki-laki</th>
+                          <th>Perempuan</th>
+                          <th>Jumlah</th>
+                          <th>Aksi</th>
+                      </tr>
+                  </thead>
+                  <tbody class="table-body">
+                      @forelse ($dataPekerjaan as $index => $data)
+                          <tr>
+                              <td>{{ $index + 1 }}</td>
+                              <td>{{ $data->jenis_kelompok }}</td>
+                              <td>{{ $data->laki_laki }}</td>
+                              <td>{{ $data->perempuan }}</td>
+                              <td>{{ $data->jumlah }}</td>
+                              <td>
+                                  <button class="btn btn-light" onclick="openEditModal('pekerjaan', {{ $data }})">Edit</button>
+                                  <button class="btn btn-danger" data-id="{{ $data->id }}" data-group="{{ $data->jenis_kelompok }}" onclick="openDeleteModal('pekerjaan', {{ $data }})">Hapus</button>
+                              </td>
+                          </tr>
+                      @empty
+                          <tr>
+                              <td colspan="6" class="text-center">Tidak ada data tersedia</td>
+                          </tr>
+                      @endforelse
+                  </tbody>
+              </table>
           </div>
-
-          <!-- Pagination -->
-          <ul id="pagination-table-umur" class="pagination">
-            <li><a href="#">&laquo; Previous</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">Next &raquo;</a></li>
-          </ul>
-
         </div>
         {{-- ===================== --}}
+
         {{-- ===================== --}}
         <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
-            <span>Data Kependudukan Menurut Kelompok Umur</span>
-            <button class="btn btn-tambah" onclick="openAddModal('kelompok-umur')">
-              <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
-            </button>
+              <span>Data Kependudukan Menurut Kelompok Umur</span>
+              <button class="btn btn-tambah" onclick="openAddModal('kelompok-umur')">
+                  <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
+              </button>
           </div>
-
           <div class="table-responsive">
-            <table id="table-umur" class="table align-middle">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Jenis Kelompok</th>
-                  <th>Laki-laki</th>
-                  <th>Perempuan</th>
-                  <th>Jumlah</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                @forelse ($dataKelompokUmur as $index => $data)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $data->jenis_kelompok }}</td>
-                    <td>{{ $data->laki_laki }}</td>
-                    <td>{{ $data->perempuan }}</td>
-                    <td>{{ $data->jumlah }}</td>
-                    <td>
-                        <button class="btn btn-light" onclick="openEditModal('kelompok-umur', {{ $data }})">Edit</button>
-                        <button class="btn btn-danger" data-id="{{ $data->id }}" data-group="{{ $data->jenis_kelompok }}" onclick="openDeleteModal('kelompok-umur', {{ $data }})">Hapus</button>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="4" class="text-center">Tidak ada data tersedia</td>
-                </tr>
-                @endforelse
-              </tbody>
-            </table>
+              <table id="table-umur" class="table align-middle">
+                  <thead>
+                      <tr>
+                          <th>No</th>
+                          <th>Jenis Kelompok</th>
+                          <th>Laki-laki</th>
+                          <th>Perempuan</th>
+                          <th>Jumlah</th>
+                          <th>Aksi</th>
+                      </tr>
+                  </thead>
+                  <tbody class="table-body">
+                      @forelse ($dataKelompokUmur as $index => $data)
+                          <tr>
+                              <td>{{ $index + 1 }}</td>
+                              <td>{{ $data->jenis_kelompok }}</td>
+                              <td>{{ $data->laki_laki }}</td>
+                              <td>{{ $data->perempuan }}</td>
+                              <td>{{ $data->jumlah }}</td>
+                              <td>
+                                  <button class="btn btn-light" onclick="openEditModal('kelompok-umur', {{ $data }})">Edit</button>
+                                  <button class="btn btn-danger" data-id="{{ $data->id }}" data-group="{{ $data->jenis_kelompok }}" onclick="openDeleteModal('kelompok-umur', {{ $data }})">Hapus</button>
+                              </td>
+                          </tr>
+                      @empty
+                          <tr>
+                              <td colspan="6" class="text-center">Tidak ada data tersedia</td>
+                          </tr>
+                      @endforelse
+                  </tbody>
+              </table>
           </div>
-
-      
         </div>
+        {{-- ===================== --}}
+
         {{-- ===================== --}}
       </div>
     </div>

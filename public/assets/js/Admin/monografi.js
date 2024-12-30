@@ -204,3 +204,30 @@ function deleteData() {
             console.error(error);
         });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const loadMoreButtons = document.querySelectorAll(".load-more");
+
+    loadMoreButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+            const target = button.getAttribute("data-target");
+            const rows = document.querySelectorAll(`.data-row-${target}`);
+            let visibleCount = 0;
+
+            rows.forEach((row) => {
+                if (row.style.display === "none" && visibleCount < 10) {
+                    row.style.display = "";
+                    visibleCount++;
+                }
+            });
+
+            // Sembunyikan tombol jika semua data sudah ditampilkan
+            const hiddenRows = Array.from(rows).filter(
+                (row) => row.style.display === "none"
+            );
+            if (hiddenRows.length === 0) {
+                button.style.display = "none";
+            }
+        });
+    });
+});
