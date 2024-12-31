@@ -11,53 +11,51 @@ function openAddModal() {
   }
   
 
-  function saveData() {
-    const id = document.getElementById('dataId').value;
-    const judul = document.getElementById('dataJudul').value;
-    const deskripsi = document.getElementById('dataDeskripsi').value;
-    const tanggal = document.getElementById('dataTanggal').value;
-    const foto = document.getElementById('dataGambar').files[0];
-  
-    if (!judul || !deskripsi) {
-      alert('judul dan deskripsi harus diisi.');
-      return;
-    }
-  
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const fotoUrl = foto ? e.target.result : '';
-  
-      if (isEditMode) {
-        // Update baris tabel yang ada
-        const row = document.querySelector(`#table-perangkat-desa tbody tr:nth-child(${editingId})`);
-        row.children[1].innerHTML = fotoUrl ? `<img src="${fotoUrl}" class="card-img-top" alt="Foto">` : row.children[1].innerHTML;
-        row.children[2].textContent = judul;
-        row.children[3].textContent = deskripsi;
-        row.children[4].textContent = tanggal;
-      } else {
-        // Tambahkan data baru ke tabel
-        const tableBody = document.querySelector('#table-perangkat-desa tbody');
-        const newRow = `
-          <tr>
-            <td>${id || tableBody.children.length + 1}</td>
-            <td>${fotoUrl ? `<img src="${fotoUrl}" class="card-img-top" alt="Foto">` : ''}</td>
-            <td>${judul}</td>
-            <td>${deskripsi}</td>
-            <td>${tanggal}</td>
-            <td>
-              <button class="btn btn-light" onclick="openEditModal(${tableBody.children.length + 1})">Edit</button>
-              <button class="btn btn-danger" onclick="openDeleteModal(${tableBody.children.length + 1})">Hapus</button>
-            </td>
-          </tr>
-        `;
-        tableBody.insertAdjacentHTML('beforeend', newRow);
-      }
-  
-      // Tutup modal
-      const dataModal = bootstrap.Modal.getInstance(document.getElementById('dataModal'));
-      dataModal.hide();
+  function saveDataBerita() {
+    console.log('save data start')
+    const id = document.getElementById("dataId").value;
+    const data = {
+        titile: document.getElementById("dataJudul").value,
+        description: document.getElementById("dataDeskripsi").value,
+        date: document.getElementById("dataTanggal").value,
+        image: document.getElementById('dataGambar').files[0],
     };
-  }
+    
+
+    const url =  id ? `/news/${id}` : '/news';
+    const method = isEditMode ? 'PUT' : 'POST';
+
+    console.log(JSON.stringify(data))
+    fetch(url, {
+        method: method,
+        headers: {
+            "Content-Type": "application/json",
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+        },
+        body: JSON.stringify(data),
+    })
+        .then((response) => {
+            console.log('response')
+            console.log(response)
+            if (!response.ok) {
+                throw new Error('Gagal menyimpan data 2');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log('data')
+            console.log(data)
+            alert(data.message || 'Data berhasil disimpan!');
+            location.reload(); // Reload to refresh table data
+        })
+        .catch((error) => {
+            console.log('error')
+            console.log(error)
+            console.error(error);
+            alert('Terjadi kesalahan saat menyimpan data 2');
+        });
+}
+
 
 function openEditModal(id) {
     isEditMode = true;

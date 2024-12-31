@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Dashboard Desa Tangsimekar</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -83,103 +84,26 @@
                 </tr>
               </thead>
               <tbody class="table-body">
+                @foreach ($news as $item)
                 <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Berita A</span></td>
-                  <td class="truncate">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry...
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
+                    <td>{{ $item->id }}</td>
+                    <td>
+                        @if($item->image)
+                            <img src="{{ asset('storage/' . $item->image) }}" class="card-img-top" alt="{{ $item->title }}">
+                        @else
+                            <span>No Image</span>
+                        @endif
+                    </td>
+                    <td><span class="judul">{{ $item->title }}</span></td>
+                    <td class="truncate">{{ \Illuminate\Support\Str::limit($item->description, 50, '...') }}</td>
+                    <td>{{ $item->date }}</td>
+                    <td>
+                        <button class="btn btn-light" onclick="openEditModal({{ $item->id }})">Edit</button>
+                        <button class="btn btn-danger" onclick="openDeleteModal({{ $item->id }})">Hapus</button>
+                    </td>
                 </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Berita A</span></td>
-                  <td class="truncate">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry...
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Berita Adddaa</span></td>
-                  <td class="truncate">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry...
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Berita Akuu</span></td>
-                  <td class="truncate">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry...
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Berita A</span></td>
-                  <td class="truncate">
-                    Lorem Ipsum is
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Berita A</span></td>
-                  <td class="truncate">
-                    tesssddasdas
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Berita A</span></td>
-                  <td class="truncate">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry...
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                  <!-- Tambahkan data lainnya di sini -->
-              </tbody>
+                @endforeach
+            </tbody>
             </table>
           </div>
 
@@ -285,7 +209,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="dataForm">
+          <form id="dataForm"  enctype="multipart/form-data">
             <div class="mb-3">
               <label for="dataId" class="form-label">Id</label>
               <input type="text" class="form-control" id="dataId" readonly>
@@ -310,7 +234,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-light" id="saveButton" onclick="saveData()">Simpan</button>
+          <button type="button" class="btn btn-light" id="saveButton" onclick="saveDataBerita()">Simpan 2</button>
         </div>
       </div>
     </div>

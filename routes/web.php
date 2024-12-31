@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MonografiController;
+use App\Http\Controllers\AdminHomeController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\DataPersebaranPendudukController;
 /*
 |--------------------------------------------------------------------------
@@ -79,7 +81,13 @@ Route::get('/berita', function () {
 Route::get('/transparansi', function () {
     return view('transparansi');
 });
-Route::view('/admin/dashboard', 'admin.dashboard')->name('dashboard');
+Route::resource('/admin/dashboard', AdminHomeController::class);
+Route::resource('/news', NewsController::class);
+// Route::post('/news', [NewsController::class, 'store'])->name('news.store');
+// Route::post('/news', function () {
+//     dd('hello world');
+// });
+// Route::view('/admin/dashboard', 'admin.dashboard')->name('dashboard');
 Route::view('/admin/kades', 'admin.kades')->name('kades');
 Route::view('/admin/perangkat-desa', 'admin.perangkat-desa')->name('perangkat-desa');
 Route::view('/admin/struktur', 'admin.struktur')->name('struktur');
