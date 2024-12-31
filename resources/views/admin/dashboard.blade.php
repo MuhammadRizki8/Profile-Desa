@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Desa Tangsimekar</title>
@@ -98,8 +99,20 @@
                     <td class="truncate">{{ Str::limit($berita->description, 50, '...') }}</td>
                     <td>{{ $berita->date }}</td>
                     <td>
-                        <button class="btn btn-light" onclick="openEditModal({{ $berita->id }})">Edit</button>
-                        <button class="btn btn-danger" onclick="openDeleteModal({{ $berita->id }})">Hapus</button>
+                      <button 
+    class="btn btn-light" 
+    onclick="openEditModal(this)" 
+    data-id="{{ $berita->id }}" 
+    data-title="{{ $berita->title }}" 
+    data-description="{{ $berita->description }}" 
+    data-news="{{ $berita->news }}" 
+    data-date="{{ $berita->date }}" 
+    data-image="{{ $berita->image }}"
+>
+    Edit
+</button>
+
+                        <button class="btn btn-danger" onclick="deleteNews({{ $berita->id }})">Hapus</button>
                     </td>
                 </tr>
                 @endforeach
@@ -107,16 +120,6 @@
             
             </table>
           </div>
-
-          <!-- Pagination -->
-          <ul id="pagination-table-berita" class="pagination">
-            <li><a href="#">&laquo; Previous</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">Next &raquo;</a></li>
-          </ul>
-
         </div>
 
         <div class="card">
@@ -201,97 +204,91 @@
     </div>
   </div>
 
-  <!-- Modal Edit -->
-  <div class="modal fade" id="dataModal" tabindex="-1" aria-labelledby="dataModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="dataModalLabel">Edit Data</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="dataForm">
-            <div class="mb-3">
-              <label for="dataId" class="form-label">Id</label>
-              <input type="text" class="form-control" id="dataId" readonly>
-            </div>
-            <div class="mb-3">
-              <label for="dataGambar" class="form-label">Gambar</label>
-              <input type="file" class="form-control" id="dataGambar" accept="image/*">
-            </div>
-            <div class="mb-3">
-              <label for="dataJudul" class="form-label">Judul</label>
-              <input type="text" class="form-control" id="dataJudul">
-            </div>
-            <div class="mb-3">
-              <label for="dataDeskripsi" class="form-label">Deskripsi</label>
-              <textarea class="form-control" id="dataDeskripsi" rows="3"></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="dataTanggal" class="form-label">Tanggal</label>
-              <input type="date" class="form-control" id="dataTanggal">
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-light" id="saveButton" onclick="saveData()">Simpan</button>
-        </div>
+  <!-- Modal Tambah Data -->
+<div class="modal fade" id="addNewsModal" tabindex="-1" aria-labelledby="addNewsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addNewsModalLabel">Tambah Berita</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="dataModalGaleri" tabindex="-1" aria-labelledby="dataModalLabelGaleri" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="dataModalLabelGaleri">Edit Data</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
+      <form id="addNewsForm">
         <div class="modal-body">
-          <form id="dataForm">
-            <div class="mb-3">
-              <label for="dataId" class="form-label">Id</label>
-              <input type="text" class="form-control" id="dataId" readonly>
-            </div>
-            <div class="mb-3">
-              <label for="dataGambar" class="form-label">Gambar</label>
-              <input type="file" class="form-control" id="dataGambar" accept="image/*">
-            </div>
-            <div class="mb-3">
-              <label for="dataTanggal" class="form-label">Tanggal</label>
-              <input type="date" class="form-control" id="dataTanggal">
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-light" id="saveButton" onclick="saveData()">Simpan</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Delete -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body confirmation">
-          <i class="fas fa-exclamation-triangle icon-warning"></i>
-          <p>Apakah Anda yakin ingin menghapus data ini?</p>
+          <div class="mb-3">
+            <label for="newsImage" class="form-label">Gambar</label>
+            <input type="file" class="form-control" id="newsImage" name="image" required>
+          </div>
+          <div class="mb-3">
+            <label for="newsTitle" class="form-label">Judul</label>
+            <input type="text" class="form-control" id="newsTitle" name="title" required>
+          </div>
+          <div class="mb-3">
+            <label for="newsDescription" class="form-label">Deskripsi</label>
+            <textarea class="form-control" id="newsDescription" name="description" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="newsContent" class="form-label">Berita</label>
+            <textarea class="form-control" id="newsContent" name="news" rows="5" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="newsDate" class="form-label">Tanggal</label>
+            <input type="date" class="form-control" id="newsDate" name="date" required>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-          <button type="button" class="btn btn-danger">Hapus</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
+</div>
+<!-- Modal Edit Data -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="editModalLabel">Edit Berita</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form id="editForm">
+              <div class="modal-body">
+                  <input type="hidden" id="newsId">
+                  <div class="mb-3">
+                      <label for="title" class="form-label">Judul</label>
+                      <input type="text" class="form-control" id="title" name="title" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="description" class="form-label">Deskripsi</label>
+                      <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                  </div>
+                  <div class="mb-3">
+                      <label for="news" class="form-label">Isi Berita</label>
+                      <textarea class="form-control" id="news" name="news" rows="5" required></textarea>
+                  </div>
+                  <div class="mb-3">
+                      <label for="date" class="form-label">Tanggal</label>
+                      <input type="date" class="form-control" id="date" name="date" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="image" class="form-label">Gambar (Opsional)</label>
+                      <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                      <div id="imagePreview" class="mb-3"></div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                  <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
 
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/Admin/script.js"></script>
   <script src="../assets/js/Admin/berita.js"></script>

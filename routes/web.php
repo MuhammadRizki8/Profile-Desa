@@ -10,6 +10,7 @@ use App\Http\Controllers\DataPekerjaanController;
 use App\Http\Controllers\DataKelompokUmurController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NewsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -135,3 +136,16 @@ Route::post('/data-kelompok-umur', [DataKelompokUmurController::class, 'store'])
 Route::get('/data-kelompok-umur/{id}/edit', [DataKelompokUmurController::class, 'edit'])->name('data_kelompok_umur.edit');
 Route::put('/data-kelompok-umur/{id}', [DataKelompokUmurController::class, 'update'])->name('data_kelompok_umur.update');
 Route::delete('/data-kelompok-umur/{id}', [DataKelompokUmurController::class, 'destroy'])->name('data_kelompok_umur.destroy');
+
+
+
+Route::prefix('berita')->group(function () {
+    Route::get('/', [NewsController::class, 'index'])->name('news.index'); // Menampilkan daftar berita
+    Route::get('/create', [NewsController::class, 'create'])->name('news.create'); // Form tambah berita
+    Route::post('/', [NewsController::class, 'store'])->name('news.store'); // Simpan berita baru
+    Route::get('/{news}', [NewsController::class, 'show'])->name('news.show'); // Menampilkan detail berita
+    Route::get('/{news}/edit', [NewsController::class, 'edit'])->name('news.edit'); // Form edit berita
+    Route::put('/{news}', [NewsController::class, 'update'])->name('news.update'); // Update berita
+    Route::delete('/{news}', [NewsController::class, 'destroy'])->name('news.destroy'); // Hapus berita
+
+});
