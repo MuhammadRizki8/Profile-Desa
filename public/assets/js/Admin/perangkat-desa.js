@@ -71,7 +71,23 @@ function openEditModal(button) {
 
     // Isi data ke dalam form
     document.getElementById("editInstrumentId").value = id;
-    document.getElementById("editInstrumentCategory").value = category;
+
+    // Mengisi nilai kategori
+    const categorySelect = document.getElementById("instrumentCategory");
+
+    // Set nilai kategori yang diterima
+    categorySelect.value = category;
+
+    // Cek apakah nilai kategori valid
+    if (!categorySelect.value) {
+        const option = Array.from(categorySelect.options).find(
+            (opt) => opt.value === category
+        );
+        if (option) {
+            categorySelect.value = option.value; // Pilih kategori yang sesuai
+        }
+    }
+
     document.getElementById("editInstrumentName").value = name;
     document.getElementById("editInstrumentPosition").value = position;
     document.getElementById("editInstrumentDescription").value = description;

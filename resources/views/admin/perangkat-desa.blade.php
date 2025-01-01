@@ -27,9 +27,11 @@
         <hr>
         <nav class="nav flex-column">
             <a href="/admin/dashboard" class="nav-link"><i class="fas fa-home"></i> Home</a>
-            <!-- Billing Menu with Arrow Icon -->
+        
+            <!-- Profile Menu -->
             <div class="nav-item">
-                <a href="#" class="nav-link {{ in_array($type, ['kades', 'perangkat-desa']) ? 'active' : '' }}" 
+                <a href="#" 
+                   class="nav-link {{ in_array($type, ['kades', 'perangkat-desa', 'struktur-desa']) ? 'active' : '' }}" 
                    onclick="toggleSubMenu(event, 'profileSubMenu')">
                     <i class="fas fa-user-circle"></i> Profile
                     <span class="arrow"><i class="fas fa-chevron-down"></i></span>
@@ -46,12 +48,14 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/struktur" class="nav-link {{ $type === 'struktur' ? 'active' : '' }}">
+                        <a href="/admin/struktur" class="nav-link {{ $type === 'struktur-desa' ? 'active' : '' }}">
                             <i class="fas fa-sitemap"></i> Struktur Desa
                         </a>
                     </li>
                 </ul>
             </div>
+        
+            <!-- Other Menu -->
             <a href="/admin/pemerintahan" class="nav-link"><i class="fas fa-building"></i> Pemerintahan</a>
             <div class="nav-item">
                 <a href="#" class="nav-link" onclick="toggleSubMenu(event, 'informasiPublikSubMenu')">
@@ -59,28 +63,42 @@
                     <span class="arrow"><i class="fas fa-chevron-down"></i></span>
                 </a>
                 <ul class="sub-menu" id="informasiPublikSubMenu">
-                    <li><a href="/admin/agenda" class="nav-link"><i class="fas fa-calendar"></i>Agenda</a></li>
-                    <li><a href="/admin/produk-hukum" class="nav-link"><i class="fas fa-book"></i>Produk Hukum</a></li>
-                    <li><a href="/admin/transparansi" class="nav-link"><i class="fas fa-file-invoice-dollar"></i>Transparansi Anggaran</a></li>
+                    <li><a href="/admin/agenda" class="nav-link"><i class="fas fa-calendar"></i> Agenda</a></li>
+                    <li><a href="/admin/produk-hukum" class="nav-link"><i class="fas fa-book"></i> Produk Hukum</a></li>
+                    <li><a href="/admin/transparansi" class="nav-link"><i class="fas fa-file-invoice-dollar"></i> Transparansi Anggaran</a></li>
                 </ul>
             </div>
             <a href="/admin/monografi" class="nav-link"><i class="fa fa-line-chart"></i> Monografi</a>
             <hr>
             <h6>Account Pages</h6>
             <a href="#" class="nav-link"><i class="fas fa-sign-in-alt"></i> Log Out</a>
-        </nav>        
+        </nav>            
       </div>
 
 
       <div class="col-md-9 col-lg-9 main-content">
         <div class="d-flex justify-content-between align-items-center">
-            <div class="breadcrumb">Pages / Perangkat Desa</div>
+            <div class="breadcrumb">Pages / 
+                {{ 
+                    $type === 'perangkat-desa' ? 'Perangkat Desa' : 
+                    ($type === 'kades' ? 'Kepala Desa' : 
+                    ($type === 'struktur-desa' ? 'Struktur Desa' : 'Unknown'))
+                }}
+            </div>
             <input type="text" class="form-control w-25" placeholder="Search..." id="searchInput">
         </div>
-        <h5 class="mb-4">Perangkat Desa</h5>
+        <h5 class="mb-4">{{ 
+            $type === 'perangkat-desa' ? 'Perangkat Desa' : 
+            ($type === 'kades' ? 'Kepala Desa' : 
+            ($type === 'struktur-desa' ? 'Struktur Desa' : 'Unknown'))
+        }}</h5>
         <div class="card">
             <div class="table-header d-flex justify-content-between align-items-center">
-                <span>Tabel Perangkat Desa</span>
+                <span> {{ 
+                    $type === 'perangkat-desa' ? 'Tabel Perangkat Desa' : 
+                    ($type === 'kades' ? 'Tabel Kepala Desa' : 
+                    ($type === 'struktur-desa' ? 'Tabel Struktur Desa' : 'Unknown'))
+                }}</span>
                 <button class="btn btn-tambah" onclick="openAddVillageInstrumentModal()">
                     <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
                 </button>
@@ -147,7 +165,10 @@
                                   >
                                       Edit
                                   </button>
-                                  <button class="btn btn-danger" onclick="deleteInstrument({{ $instrument->id }})">Hapus</button>
+                                   <!-- Tombol hanya muncul jika bukan Kepala Desa -->
+                                @if ($type !== 'kades')
+                                    <button class="btn btn-danger" onclick="deleteInstrument({{ $instrument->id }})">Hapus</button>
+                                @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -177,9 +198,14 @@
                       <input type="file" class="form-control" id="instrumentImage" name="image" accept="image/*" required>
                   </div>
                   <div class="mb-3">
-                      <label for="instrumentCategory" class="form-label">Kategori</label>
-                      <input type="text" class="form-control" id="instrumentCategory" name="category" required>
-                  </div>
+                    <label for="instrumentCategory" class="form-label">Kategori</label>
+                    <select class="form-select" id="instrumentCategory" name="category" required>
+                        <option value="" disabled selected>Pilih Kategori</option>
+                        <option value="Kepala Desa">Kepala Desa</option>
+                        <option value="Struktur Desa">Struktur Desa</option>
+                        <option value="Perangkat Desa">Perangkat Desa</option>
+                    </select>
+                </div>
                   <div class="mb-3">
                       <label for="instrumentName" class="form-label">Nama</label>
                       <input type="text" class="form-control" id="instrumentName" name="name" required>
@@ -226,9 +252,14 @@
               <div class="modal-body">
                   <input type="hidden" id="editInstrumentId" name="id">
                   <div class="mb-3">
-                      <label for="editInstrumentCategory" class="form-label">Kategori</label>
-                      <input type="text" class="form-control" id="editInstrumentCategory" name="category" required>
-                  </div>
+                    <label for="instrumentCategory" class="form-label">Kategori</label>
+                    <select class="form-select" id="instrumentCategory" name="category" required>
+                        <option value="" disabled selected>Pilih Kategori</option>
+                        <option value="Kepala Desa">Kepala Desa</option>
+                        <option value="Struktur Desa">Struktur Desa</option>
+                        <option value="Perangkat Desa">Perangkat Desa</option>
+                    </select>                    
+                </div>
                   <div class="mb-3">
                       <label for="editInstrumentName" class="form-label">Nama</label>
                       <input type="text" class="form-control" id="editInstrumentName" name="name" required>

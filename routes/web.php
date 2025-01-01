@@ -41,9 +41,7 @@ Route::get('/demografi', function () {
     return view('demografi');
 });
 
-Route::get('/kades', function () {
-    return view('kades');
-});
+Route::get('/kades', [VillageInstrumentController::class, 'showKades']);
 
 Route::get('/layanan', function () {
     return view('layanan');
@@ -93,8 +91,6 @@ Route::get('/admin/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard')
     ->middleware('auth');
 
-
-Route::view('/admin/struktur', 'admin.struktur')->name('struktur');
 Route::view('/admin/pemerintahan', 'admin.pemerintahan')->name('pemerintahan');
 Route::view('/admin/agenda', 'admin.agenda')->name('agenda');
 Route::view('/admin/produk-hukum', 'admin.produk-hukum')->name('produk-hukum');
@@ -172,3 +168,4 @@ Route::prefix('village-instruments')->group(function () {
 });
 Route::get('/admin/kades', [VillageInstrumentController::class, 'getKades'])->name('getkades');
 Route::get('/admin/perangkat-desa', [VillageInstrumentController::class, 'index'])->name('perangkat-desa');
+Route::get('/admin/struktur', [VillageInstrumentController::class, 'getStrukturDesa'])->name('getStrukturDesa');

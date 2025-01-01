@@ -27,6 +27,13 @@ class VillageInstrumentController extends Controller
 
         return view('admin.perangkat-desa', compact('villageInstruments', 'type'));
     }
+    public function getStrukturDesa()
+    {
+        $villageInstruments = VillageInstrument::where('category', 'Struktur Desa')->get();
+        $type = 'struktur-desa';
+
+        return view('admin.perangkat-desa', compact('villageInstruments', 'type'));
+    }
     // Menampilkan form untuk membuat Village Instrument baru
     public function create()
     {
@@ -129,4 +136,18 @@ class VillageInstrumentController extends Controller
             return response()->json(['message' => 'Terjadi kesalahan saat menghapus data.', 'error' => $e->getMessage()], 500);
         }
     }
+    public function showKades()
+    {
+        try {
+            // Ambil data Kepala Desa
+            $kades = VillageInstrument::where('position', 'Kepala Desa')->first();
+
+            // Kirimkan data ke view
+            return view('kades', compact('kades'));
+        } catch (\Exception $e) {
+            Log::error('Error retrieving Kepala Desa data:', ['message' => $e->getMessage()]);
+            return response()->json(['message' => 'Terjadi kesalahan saat mengambil data Kepala Desa.', 'error' => $e->getMessage()], 500);
+        }
+    }
+
 }

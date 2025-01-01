@@ -434,46 +434,42 @@
       <div class="header section-title">Kepala Desa</div>
       <div class="content">
         <img
-          alt="Logo of Badan Permusyawaratan Desa"
-          height="150"
-          src="https://storage.googleapis.com/a1aa/image/r7Z2x1HMBsqjN50SFfoGVMFMYkZW45RL4fW1SdOaeIeWkHIPB.jpg"
-          width="150"
-        />
-        <div class="details section-title">
-          <table>
-            <tr>
-              <td>Nama</td>
-              <td>:</td>
-              <td>Didi Supendi</td>
-            </tr>
-            <tr>
-              <td>Jabatan</td>
-              <td>:</td>
-              <td>Kepala Desa</td>
-            </tr>
-            <tr>
-              <td>NIP</td>
-              <td>:</td>
-              <td>-</td>
-            </tr>
-          </table>
-        </div>
-      </div>
+        alt="Foto Kepala Desa"
+        class="img-fluid rounded-circle"
+        height="150"
+        src="{{ asset('assets/images/VillageInstrument_images/' . $kades->image) }}"
+        width="150"
+      />
+        <!-- Informasi Kepala Desa -->
+    <div class="details ms-4">
+      <table class="table table-bordered">
+        <tr>
+          <td><strong>Nama</strong></td>
+          <td>{{ $kades->name }}</td>
+        </tr>
+        <tr>
+          <td><strong>Jabatan</strong></td>
+          <td>{{ $kades->position }}</td>
+        </tr>
+        <tr>
+          <td><strong>NIP</strong></td>
+          <td>{{ $kades->nip ?? '123413' }}</td> <!-- NIP atau - jika NIP kosong -->
+        </tr>
+        <tr>
+          <td><strong>Email</strong></td>
+          <td>{{ $kades->email ?? 'Email tidak tersedia' }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
 
-      <div class="section">
-        Deskripsi/Riwayat Hidup
-        <div class="content-box mb-5">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-          scelerisque hendrerit nisl a pellentesque. In aliquam metus a nulla
-          tempus, eget aliquam tortor egestas. Ut tempor massa eu iaculis
-          tincidunt. Ut non iaculis neque. Phasellus eu pellentesque neque.
-          Fusce dictum et odio et varius. Curabitur tempus et sapien vitae
-          iaculis. Curabitur ac tempor metus. Donec scelerisque in massa sit
-          amet porttitor. Aliquam rutrum ligula nec volutpat congue. Cras at
-          auctor leo. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Nulla a scelerisque nibh.
-        </div>
-      </div>
+  <!-- Deskripsi/Riwayat Hidup Kepala Desa -->
+  <div class="section mt-4">
+    <h5>Deskripsi / Riwayat Hidup</h5>
+    <div class="content-box mb-5 p-3">
+      <p>{{ $kades->description ?? 'Deskripsi tidak tersedia' }}</p>
+    </div>
+  </div>
     </section>
 
     <!-- Footer -->
