@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call(class: DataPekerjaanSeeder::class);    
         $this->call(class: DataKependudukanAgamaSeeder::class);    
         $this->call(class: DataKelompokUmurSeeder::class);   
-        $this->call(class: NewsSeeder::class);   
+        // $this->call(class: NewsSeeder::class);   
+        // $this->call(class: GallerySeeder::class);   
     }
 
 }

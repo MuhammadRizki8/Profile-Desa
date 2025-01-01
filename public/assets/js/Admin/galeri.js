@@ -1,70 +1,133 @@
-
+// Fungsi untuk membuka modal tambah gallery
 function openAddModalGaleri() {
-    isEditMode = false;
-    editingId = null;
-  
-    document.getElementById('dataModalLabelGaleri').textContent = 'Tambah Data';
-    document.getElementById('dataForm').reset(); // Reset semua input
-  
-    const dataModal = new bootstrap.Modal(document.getElementById('dataModalGaleri'));
-    dataModal.show();
-  }
-  
+    const addGalleryModal = new bootstrap.Modal(
+        document.getElementById("addGalleryModal")
+    );
+    addGalleryModal.show();
+}
 
+// Fungsi untuk menambah gallery
+async function addGalleries(formData) {
+    try {
+        const response = await fetch("/gallery", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+                Accept: "application/json",
+            },
+            body: formData,
+        });
 
-  function saveData() {
-    const id = document.getElementById('dataId').value;
-    const tanggal = document.getElementById('dataTanggal').value;
-    const foto = document.getElementById('dataGambar').files[0];
-  
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const fotoUrl = foto ? e.target.result : '';
-  
-      if (isEditMode) {
-        // Update baris tabel yang ada
-        const row = document.querySelector(`#table-perangkat-desa tbody tr:nth-child(${editingId})`);
-        row.children[1].innerHTML = fotoUrl ? `<img src="${fotoUrl}" class="card-img-top" alt="Foto">` : row.children[1].innerHTML;
-        row.children[4].textContent = tanggal;
-      } else {
-        // Tambahkan data baru ke tabel
-        const tableBody = document.querySelector('#table-perangkat-desa tbody');
-        const newRow = `
-          <tr>
-            <td>${id || tableBody.children.length + 1}</td>
-            <td>${fotoUrl ? `<img src="${fotoUrl}" class="card-img-top" alt="Foto">` : ''}</td>
-            <td>${judul}</td>
-            <td>${deskripsi}</td>
-            <td>${tanggal}</td>
-            <td>
-              <button class="btn btn-light" onclick="openEditModal(${tableBody.children.length + 1})">Edit</button>
-              <button class="btn btn-danger" onclick="openDeleteModal(${tableBody.children.length + 1})">Hapus</button>
-            </td>
-          </tr>
-        `;
-        tableBody.insertAdjacentHTML('beforeend', newRow);
-      }
-  
-      // Tutup modal
-      const dataModal = bootstrap.Modal.getInstance(document.getElementById('dataModal'));
-      dataModal.hide();
-    };
-  }
+        if (!response.ok) {
+            // Tangani jika response status bukan 2xx
+            const error = await response.json();
+            console.error("Error:", error);
+            return {
+                success: false,
+                message: error.message || "Unknown error",
+            };
+        }
 
-function openEditModalGaleri(id) {
-    isEditMode = true;
-    editingId = id;
-  
-    document.getElementById('dataModalLabel').textContent = 'Edit Data';
-    document.getElementById('dataId').value = id; // Bisa ambil data berdasarkan ID jika ada
-    document.getElementById('dataTanggal').value = "2023-11-30";
-    document.getElementById('dataGambar').value = ''; // Reset file input
-
-    const dataModal = new bootstrap.Modal(document.getElementById('dataModalGaleri'));
-    dataModal.show();
-  }
-
-    function openDeleteModal(id) {
-      const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-      deleteModal.show();
+        const result = await response.json();
+        console.log("gallery berhasil ditambahkan:", result);
+        return { success: true, data: result };
+    } catch (error) {
+        console.error("Error:", error);
+        return {
+            success: false,
+            message: "Terjadi kesalahan saat menambahkan gallery!",
+        };
     }
+}
+
+// Event listener untuk form submit
+document
+    .getElementById("addGalleriesForm")
+    .addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const result = await addGalleries(formData);
+
+        if (result.success) {
+            alert("gallery berhasil ditambahkan!");
+            location.reload(); // Reload halaman untuk memperbarui tabel gallery
+        } else {
+            alert("Gagal menambahkan gallery: " + result.message);
+        }
+    });
+// DELETE-------------------------------------------
+function deleteGallery(id) {
+    if (confirm("Apakah Anda yakin ingin menghapus galeri ini?")) {
+        fetch(`/gallery/${id}`, {
+            method: "DELETE",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.message) {
+                    alert(data.message);
+                    location.reload(); // Muat ulang halaman setelah penghapusan berhasil
+                }
+            })
+            .catch((error) => console.error("Error:", error));
+    }
+}
+// EDIT------------------------------------------
+function openEditModalGallery(button) {
+    // Ambil data dari tombol
+    const id = button.getAttribute("dataGalery-id");
+    const image = button.getAttribute("dataGalery-image");
+
+    // Isi form dengan data
+    document.getElementById("galleriesId").value = id;
+
+    // Tampilkan pratinjau gambar jika ada
+    const imagePreview = document.getElementById("imagePreviewGallery");
+    if (image) {
+        imagePreview.innerHTML = `<img src="/assets/images/${image}" class="img-thumbnail" width="100" alt="Current Image">`;
+    } else {
+        imagePreview.innerHTML = ""; // Hapus pratinjau jika tidak ada gambar
+    }
+
+    // Tampilkan modal
+    const editModal = new bootstrap.Modal(
+        document.getElementById("editModalGalery")
+    );
+    editModal.show();
+}
+document
+    .getElementById("editFormGallery")
+    .addEventListener("submit", function (e) {
+        e.preventDefault(); // Cegah reload halaman
+
+        const id = document.getElementById("galleriesId").value;
+        const formData = new FormData(this);
+
+        fetch(`/gallery/${id}`, {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+                "X-HTTP-Method-Override": "PUT", // Laravel mengenali ini sebagai PUT
+            },
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.message) {
+                    alert(data.message);
+                    location.reload(); // Muat ulang halaman setelah edit berhasil
+                }
+            })
+            .catch((error) =>
+                console.error("Error updating galleries:", error)
+            );
+    });

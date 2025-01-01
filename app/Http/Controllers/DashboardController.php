@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\News;
+use App\Models\Gallery;
 
 use Illuminate\Http\Request;
 
@@ -13,9 +14,11 @@ class DashboardController extends Controller
     public function index()
     {
         $dataBerita = News::all();
+        $dataGaleri = Gallery::all();
 
-        return view('admin.dashboard', compact('dataBerita'));
+        return view('admin.dashboard', compact('dataBerita', 'dataGaleri'));
     }
+
 
 
     /**

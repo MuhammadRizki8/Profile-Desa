@@ -11,6 +11,7 @@ use App\Http\Controllers\DataKelompokUmurController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\GalleryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -148,4 +149,13 @@ Route::prefix('berita')->group(function () {
     Route::put('/{news}', [NewsController::class, 'update'])->name('news.update'); // Update berita
     Route::delete('/{news}', [NewsController::class, 'destroy'])->name('news.destroy'); // Hapus berita
 
+});
+
+Route::prefix('gallery')->group(function () {
+    Route::get('/', [GalleryController::class, 'index'])->name('gallery.index');
+    Route::get('/create', [GalleryController::class, 'create'])->name('gallery.create');
+    Route::post('/', [GalleryController::class, 'store'])->name('gallery.store');
+    Route::get('/{gallery}/edit', [GalleryController::class, 'edit'])->name('gallery.edit');
+    Route::put('/{gallery}', [GalleryController::class, 'update'])->name('gallery.update');
+    Route::delete('/{gallery}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
 });

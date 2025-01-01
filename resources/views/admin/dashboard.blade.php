@@ -100,17 +100,17 @@
                     <td>{{ $berita->date }}</td>
                     <td>
                       <button 
-    class="btn btn-light" 
-    onclick="openEditModal(this)" 
-    data-id="{{ $berita->id }}" 
-    data-title="{{ $berita->title }}" 
-    data-description="{{ $berita->description }}" 
-    data-news="{{ $berita->news }}" 
-    data-date="{{ $berita->date }}" 
-    data-image="{{ $berita->image }}"
->
-    Edit
-</button>
+                          class="btn btn-light" 
+                          onclick="openEditModal(this)" 
+                          data-id="{{ $berita->id }}" 
+                          data-title="{{ $berita->title }}" 
+                          data-description="{{ $berita->description }}" 
+                          data-news="{{ $berita->news }}" 
+                          data-date="{{ $berita->date }}" 
+                          data-image="{{ $berita->image }}"
+                      >
+                          Edit
+                      </button>
 
                         <button class="btn btn-danger" onclick="deleteNews({{ $berita->id }})">Hapus</button>
                     </td>
@@ -121,86 +121,56 @@
             </table>
           </div>
         </div>
-
-        <div class="card">
-          <div class="table-header d-flex justify-content-between align-items-center">
+        
+      <div id="error-message" class="alert alert-danger d-none"></div>  
+      {{-- Galeri --}}
+      <div class="card">
+        <div class="table-header d-flex justify-content-between align-items-center">
             <span>Tabel Galeri</span>
             <button class="btn btn-tambah" onclick="openAddModalGaleri()">
-              <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
+                <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
             </button>
-          </div>
-          <div class="table-responsive">
-            <table id="table-galeri" class="table align-middle">
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Gambar</th>
-                  <th>Tanggal</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModalGaleri(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModalGaleri(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModalGaleri(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModalGaleri(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModalGaleri(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                  <!-- Tambahkan data lainnya di sini -->
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Pagination -->
-          <ul id="pagination-table-galeri" class="pagination">
-            <li><a href="#">&laquo; Previous</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">Next &raquo;</a></li>
-          </ul>
         </div>
-
-
+        <div class="table-responsive">
+            <table id="table-galeri" class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Gambar</th>
+                        <th>Tanggal</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="table-body">
+                    @foreach ($dataGaleri as $galeri)
+                    <tr>
+                        <td>{{ $galeri->id }}</td>
+                        <td>
+                            <img src="{{ asset('assets/images/' . $galeri->image) }}" 
+                                class="card-img-top" 
+                                alt="Galeri {{ $galeri->id }}" 
+                                style="max-height: 100px; max-width: 100px; object-fit: cover;">
+                        </td>
+                        <td>{{ $galeri->created_at ? $galeri->created_at->format('Y-m-d') : '-' }}
+                        </td>
+                        <td>
+                          <button 
+                          class="btn btn-light" 
+                          onclick="openEditModalGallery(this)" 
+                          dataGalery-id="{{ $galeri->id }}" 
+                          dataGalery-image="{{ $galeri->image }}"
+                      >
+                          Edit
+                      </button>
+                            <button class="btn btn-danger" onclick="deleteGallery({{ $galeri->id }})">Hapus</button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
       </div>
+
     </div>
   </div>
 
@@ -285,6 +255,54 @@
   </div>
 </div>
 
+<!-- Modal Tambah Data Galeri -->
+<div class="modal fade" id="addGalleryModal" tabindex="-1" aria-labelledby="addGalleryModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addGalleryModalLabel">Tambah Gambar Galeri</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="addGalleriesForm" enctype="multipart/form-data">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="galleryImage" class="form-label">Gambar</label>
+            <input type="file" class="form-control" id="galleryImage" name="image" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal Edit Data Galeri -->
+<div class="modal fade" id="editModalGalery" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="editModalLabel">Edit Foto Galeri</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form id="editFormGallery">
+              <div class="modal-body">
+                  <input type="hidden" id="galleriesId">
+                  <div class="mb-3">
+                      <label for="image" class="form-label">Gambar</label>
+                      <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                      <div id="imagePreviewGallery" class="mb-3"></div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                  <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
 
 
 
