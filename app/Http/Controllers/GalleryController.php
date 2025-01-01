@@ -22,40 +22,32 @@ class GalleryController extends Controller
         try {
             $validated = $request->validate([
                 'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            ]);            
-        
-            // Debug apakah file diterima
-            if (!$request->hasFile('image')) {
-                throw new \Exception("File gambar tidak ditemukan");
-            }
-        
+                'title' => 'required|string|max:255', // Validasi untuk kolom title
+            ]);
+
             // Tentukan path direktori tujuan
             $imageDirectory = public_path('assets/images/gallery_images');
             $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
-        
-            // Debug apakah file berhasil dipindahkan
+
+            // Pindahkan file ke direktori
             $request->file('image')->move($imageDirectory, $imageName);
-        
+
             $validated['image'] = "gallery_images/$imageName";
-        
+
             // Simpan data ke database
             Gallery::create($validated);
-        
+
             return response()->json(['message' => 'Gambar berhasil ditambahkan!'], 201);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            // Tangani error validasi
-            return response()->json([
-                'errors' => $e->errors(),
-            ], 422);
+            return response()->json(['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Terjadi kesalahan pada server.',
                 'error' => $e->getMessage(),
             ], 500);
         }
-        
-        
     }
+
 
     public function edit(Gallery $gallery)
     {
@@ -67,6 +59,7 @@ class GalleryController extends Controller
         try {
             $validated = $request->validate([
                 'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+                'title' => 'required|string|max:255', // Validasi untuk kolom title
             ]);
 
             if ($request->hasFile('image')) {
@@ -74,6 +67,7 @@ class GalleryController extends Controller
                 $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
                 $request->file('image')->move($imageDirectory, $imageName);
 
+                // Hapus gambar lama jika ada
                 if ($gallery->image && file_exists(public_path('assets/images/' . $gallery->image))) {
                     unlink(public_path('assets/images/' . $gallery->image));
                 }
@@ -87,9 +81,13 @@ class GalleryController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Terjadi kesalahan pada server.', 'error' => $e->getMessage()], 500);
+            return response()->json([
+                'message' => 'Terjadi kesalahan pada server.',
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
+
 
     public function destroy(Gallery $gallery)
     {

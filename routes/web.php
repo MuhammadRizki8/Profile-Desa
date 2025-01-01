@@ -12,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,9 +24,9 @@ use App\Http\Controllers\GalleryController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+
+
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/agenda', function () {
     return view('agenda');

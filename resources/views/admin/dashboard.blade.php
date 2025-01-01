@@ -137,6 +137,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Gambar</th>
+                        <th>Judul</th>
                         <th>Tanggal</th>
                         <th>Aksi</th>
                     </tr>
@@ -151,6 +152,7 @@
                                 alt="Galeri {{ $galeri->id }}" 
                                 style="max-height: 100px; max-width: 100px; object-fit: cover;">
                         </td>
+                        <td>{{ $galeri->title }}
                         <td>{{ $galeri->created_at ? $galeri->created_at->format('Y-m-d') : '-' }}
                         </td>
                         <td>
@@ -158,6 +160,7 @@
                           class="btn btn-light" 
                           onclick="openEditModalGallery(this)" 
                           dataGalery-id="{{ $galeri->id }}" 
+                          dataGalery-title="{{ $galeri->title }}" 
                           dataGalery-image="{{ $galeri->image }}"
                       >
                           Edit
@@ -266,6 +269,10 @@
       <form id="addGalleriesForm" enctype="multipart/form-data">
         <div class="modal-body">
           <div class="mb-3">
+            <label for="galleryTitle" class="form-label">Judul</label>
+            <input type="text" class="form-control" id="galleryTitle" name="title" required>
+        </div>        
+          <div class="mb-3">
             <label for="galleryImage" class="form-label">Gambar</label>
             <input type="file" class="form-control" id="galleryImage" name="image" required>
           </div>
@@ -289,6 +296,10 @@
           <form id="editFormGallery">
               <div class="modal-body">
                   <input type="hidden" id="galleriesId">
+                  <div class="mb-3">
+                    <label for="galleryTitle" class="form-label">Judul</label>
+                    <input type="text" class="form-control" id="galleryTitleEdit" name="title" required>
+                </div>  
                   <div class="mb-3">
                       <label for="image" class="form-label">Gambar</label>
                       <input type="file" class="form-control" id="image" name="image" accept="image/*">

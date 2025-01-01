@@ -330,22 +330,34 @@
       <a href="#vision" class="btn btn-masuk btn-lg">Learn More</a>
     </div>
   </section>
-  <div class="news-container">
+  <div class="news-container" style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
     <!-- Gambar Berita -->
-    <div class="news-image">
-      <img src="assets/images/berita 1.png" alt="Gambar Berita">
+    <div class="news-image" style="width: 100%; max-width: 800px; margin-bottom: 20px;">
+        <img src="{{ asset('assets/images/' . $news->image) }}" alt="Gambar Berita" style="width: 100%; height: auto; border-radius: 8px;">
     </div>
+    
     <!-- Konten Berita -->
-    <div class="news-content">
-      <h1 class="news-title">Sosialisasi Pengadaan Tanah</h1>
-      <div class="news-meta">👤 Admin | 📅 17 Agustus 2024</div>
-      <div class="news-description">
-        <p>Pada hari rabu tanggal 27 Juli 2022 di Desa Tangsimekar Kecamatan Paseh Kabupaten Bandung pihak PUPR mengadakan rapat sosialisasi terkait pengadaan tanah. Acara ini bertujuan untuk memberikan informasi kepada masyarakat mengenai proses pengadaan tanah yang akan digunakan untuk proyek infrastruktur pemerintah.</p>
-        <p>Anda diperbolehkan untuk menggunakan template ini untuk keperluan sekolah, universitas, atau bisnis Anda. Silakan bebas memodifikasi layout ini.</p>
-      </div>
-      <a href="/#berita" class="btn-more">LIHAT BERITA LAINNYA</a>
+    <div class="news-content" style="max-width: 800px; width: 100%; text-align: left;">
+        <h1 class="news-title" style="font-size: 2rem; font-weight: bold; margin-bottom: 10px;">{{ $news->title }}</h1>
+        
+        <div class="news-meta" style="font-size: 0.9rem; color: gray; margin-bottom: 20px;">
+            👤 Admin | 📅 {{ \Carbon\Carbon::parse($news->date)->format('d M Y') }}
+        </div>
+
+        <div class="news-description" style="font-size: 1rem; line-height: 1.6; color: #333;">
+            <!-- Menampilkan teks berita (kolom 'news') -->
+            <p>{!! nl2br(e($news->news)) !!}</p>
+        </div>
+        
+        <a href="/#berita" class="btn-more" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+            LIHAT BERITA LAINNYA
+        </a>
     </div>
-  </div>
+</div>
+
+
+
+
 
   <!-- Footer -->
   <footer class="site-footer">

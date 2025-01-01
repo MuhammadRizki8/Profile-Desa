@@ -47,13 +47,22 @@
       padding: 15px 0;
       box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
     }
+    #beritaCarousel .card-img-top {
+      width: 100%;
+      height: 200px; /* Sesuaikan tinggi gambar */
+      object-fit: cover; /* Mengatur agar gambar tetap proporsional */
+  }
 
     .navbar-brand {
       display: flex;
       align-items: center;
       gap: 15px;
     }
-
+    .gallery-image {
+    width: 100%;
+    height: 200px; /* Atur tinggi gambar sesuai kebutuhan */
+    object-fit: cover; /* Agar gambar tetap terpotong dengan baik */
+  }
     .brand-text {
       line-height: 1.2;
     }
@@ -469,144 +478,73 @@
     </div>
   </section>
 
-  <!-- Contact Section -->
-  <section id="berita" class="produk-hukum section-padding text-left">
-    <div class="container">
+<!-- News Section -->
+<section id="berita" class="produk-hukum section-padding text-left">
+  <div class="container">
       <h2 class="fw-bold mb-4 text-center">Berita</h2>
       <div id="beritaCarousel" class="carousel slide" data-bs-ride="carousel">
-        <!-- Indicators -->
-
-        <!-- Carousel Items -->
-        <div class="carousel-inner">
-          <!-- Slide 1 -->
-          <div class="carousel-item active">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="card">
-                  <img src="assets/images/berita 1.png" class="card-img-top" alt="Berita 1">
-                  <div class="card-body">
-                    <div class="meta-info">👤 Admin | 📅 17 Agustus 2024</div>
-                    <h5 class="card-title">Sosialisasi Pengadaan Tanah</h5>
-                    <p class="card-text">Pada hari rabu tanggal 27 Juli 2022 di Desa Tangsimekar Kecamatan Paseh Kabupaten Bandung pihak PUPR mengadakan Rapat...</p>
-                    <a href="/berita" class="btn btn-primary">Selengkapnya</a>
+          <div class="carousel-inner">
+              @foreach ($news->chunk(3) as $index => $chunk)
+                  <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                      <div class="row">
+                          @foreach ($chunk as $item)
+                              <div class="col-md-4">
+                                  <div class="card">
+                                      <img src="{{ asset('assets/images/' . $item->image) }}" class="card-img-top" alt="{{ $item->title }}">
+                                      <div class="card-body">
+                                          <div class="meta-info">👤 Admin | 📅 {{ \Carbon\Carbon::parse($item->date)->format('d M Y') }}</div>
+                                          <h5 class="card-title">{{ $item->title }}</h5>
+                                          <p class="card-text">{{ Str::limit($item->description, 100) }}</p>
+                                          <a href="{{ route('news.show', $item->id) }}" class="btn btn-primary">Selengkapnya</a>
+                                      </div>
+                                  </div>
+                              </div>
+                          @endforeach
+                      </div>
                   </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card">
-                  <img src="assets/images/berita 1.png" class="card-img-top" alt="Berita 2">
-                  <div class="card-body">
-                    <div class="meta-info">👤 Admin | 📅 17 Agustus 2024</div>
-                    <h5 class="card-title">Sosialisasi Pengadaan Tanah</h5>
-                    <p class="card-text">Desa Tangsimekar melaksanakan sosialisasi terkait pengadaan tanah...</p>
-                    <a href="/berita" class="btn btn-primary">Selengkapnya</a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card">
-                  <img src="assets/images/berita 1.png" class="card-img-top" alt="Berita 3">
-                  <div class="card-body">
-                    <div class="meta-info">👤 Admin | 📅 17 Agustus 2024</div>
-                    <h5 class="card-title">Sosialisasi Pengadaan Tanah</h5>
-                    <p class="card-text">Pada hari rabu tanggal 27 Juli 2022 di Desa Tangsimekar Kecamatan Paseh Kabupaten Bandung pihak PUPR mengadakan Rapat...</p>
-                    <a href="/berita" class="btn btn-primary">Selengkapnya</a>
-                  </div>
-                </div>
-              </div>
-            </div>
+              @endforeach
           </div>
-          <!-- Slide 2 -->
-          <div class="carousel-item">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="card">
-                  <img src="assets/images/berita 1.png" class="card-img-top" alt="Berita 4">
-                  <div class="card-body">
-                    <div class="meta-info">👤 Admin | 📅 17 Agustus 2024</div>
-                    <h5 class="card-title">Sosialisasi Pengadaan Tanah</h5>
-                    <p class="card-text">Pada hari rabu tanggal 27 Juli 2022 di Desa Tangsimekar Kecamatan Paseh Kabupaten Bandung pihak PUPR mengadakan Rapat...</p>
-                    <a href="/berita" class="btn btn-primary">Selengkapnya</a>
-                  </div>
-                </div>
-              </div>
-              <!-- Tambahkan card lainnya sesuai kebutuhan -->
-            </div>
+          <div class="carousel-indicators">
+              @foreach ($news->chunk(3) as $index => $chunk)
+                  <button type="button" data-bs-target="#beritaCarousel" data-bs-slide-to="{{ $index }}" class="{{ $index == 0 ? 'active' : '' }}" aria-current="true"></button>
+              @endforeach
           </div>
-        </div>
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#beritaCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
-          <button type="button" data-bs-target="#beritaCarousel" data-bs-slide-to="1"></button>
-        </div>
-        <!-- Navigation Controls -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#beritaCarousel" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#beritaCarousel" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
+          <!-- Navigation Controls -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#beritaCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#beritaCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+          </button>
       </div>
-    </div>
-  </section>
+  </div>
+</section>
 
-  <section id="galeri" class="text-center">
-    <div class="container">
-      <h2 class="fw-bold mb-4 text-white">Galeri</h2>
-      <!-- Swiper Container -->
-      <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-          <!-- Card 1 -->
+<!-- Gallery Section -->
+<section id="galeri" class="text-center">
+  <div class="container">
+    <h2 class="fw-bold mb-4 text-white">Galeri</h2>
+    <!-- Swiper Container -->
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        @foreach ($gallery as $item)
           <div class="swiper-slide">
             <div class="card">
-              <img src="assets/images/galeri1.png" class="card-img-top" alt="Gambar Galeri 1">
+              <img src="{{ asset('assets/images/' . $item->image) }}" class="card-img-top gallery-image" alt="Gambar Galeri">
               <div class="card-body">
-                <p>Pembangunan jalan desa</p>
+                <p>{{ $item->title }}</p> <!-- Menampilkan title galeri -->
               </div>
             </div>
           </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <img src="assets/images/galeri1.png" class="card-img-top" alt="Gambar Galeri 1">
-              <div class="card-body">
-                <p>Pembangunan jalan desa</p>
-              </div>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="card">
-              <img src="assets/images/galeri1.png" class="card-img-top" alt="Gambar Galeri 1">
-              <div class="card-body">
-                <p>Pembangunan jalan desa</p>
-              </div>
-            </div>
-          </div>
-          <!-- Card 2 -->
-          <div class="swiper-slide">
-            <div class="card">
-              <img src="assets/images/galeri1.png" class="card-img-top" alt="Gambar Galeri 2">
-              <div class="card-body">
-                <p>Pembangunan jembatan desa</p>
-              </div>
-            </div>
-          </div>
-          <!-- Card 3 -->
-          <div class="swiper-slide">
-            <div class="card">
-              <img src="assets/images/galeri1.png" class="card-img-top" alt="Gambar Galeri 3">
-              <div class="card-body">
-                <p>Pembangunan balai desa</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Pagination -->
-        <div class="swiper-pagination"></div>
+        @endforeach
       </div>
-
+      <!-- Pagination -->
+      <div class="swiper-pagination"></div>
     </div>
-  </section>
+  </div>
+</section>
 
   <section id="faq" class="lembaga bg-secondary mb-3">
     <div class="container mb-5">

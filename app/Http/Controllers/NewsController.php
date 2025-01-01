@@ -63,9 +63,8 @@ class NewsController extends Controller
 
     public function show(News $news)
     {
-        return view('news.show', compact('news'));
+        return view('berita', compact('news'));
     }
-
     public function edit(News $news)
     {
         return view('news.edit', compact('news'));

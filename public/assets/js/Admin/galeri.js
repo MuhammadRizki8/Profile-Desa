@@ -83,10 +83,12 @@ function deleteGallery(id) {
 function openEditModalGallery(button) {
     // Ambil data dari tombol
     const id = button.getAttribute("dataGalery-id");
+    const title = button.getAttribute("dataGalery-title");
     const image = button.getAttribute("dataGalery-image");
 
     // Isi form dengan data
     document.getElementById("galleriesId").value = id;
+    document.getElementById("galleryTitleEdit").value = title;
 
     // Tampilkan pratinjau gambar jika ada
     const imagePreview = document.getElementById("imagePreviewGallery");
