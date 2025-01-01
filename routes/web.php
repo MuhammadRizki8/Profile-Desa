@@ -93,10 +93,7 @@ Route::get('/admin/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard')
     ->middleware('auth');
 
-Route::get('/admin/kades', [VillageInstrumentController::class, 'getKades'])->name('getkades');
 
-
-Route::get('/admin/perangkat-desa', [VillageInstrumentController::class, 'index'])->name('perangkat-desa');
 Route::view('/admin/struktur', 'admin.struktur')->name('struktur');
 Route::view('/admin/pemerintahan', 'admin.pemerintahan')->name('pemerintahan');
 Route::view('/admin/agenda', 'admin.agenda')->name('agenda');
@@ -164,8 +161,6 @@ Route::prefix('gallery')->group(function () {
     Route::delete('/{gallery}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
 });
 
-
-
 Route::prefix('village-instruments')->group(function () {
     Route::get('/', [VillageInstrumentController::class, 'index'])->name('village-instruments.index'); 
     Route::get('/create', [VillageInstrumentController::class, 'create'])->name('village-instruments.create'); 
@@ -175,4 +170,5 @@ Route::prefix('village-instruments')->group(function () {
     Route::put('/{villageInstrument}', [VillageInstrumentController::class, 'update'])->name('village-instruments.update'); 
     Route::delete('/{villageInstrument}', [VillageInstrumentController::class, 'destroy'])->name('village-instruments.destroy'); 
 });
-
+Route::get('/admin/kades', [VillageInstrumentController::class, 'getKades'])->name('getkades');
+Route::get('/admin/perangkat-desa', [VillageInstrumentController::class, 'index'])->name('perangkat-desa');

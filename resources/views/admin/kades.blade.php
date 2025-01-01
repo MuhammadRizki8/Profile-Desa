@@ -66,57 +66,85 @@
     </div>
     <h5 class="mb-4">Kepala Desa</h5>
     <div class="card">
-        <div class="table-header">Biodata Kepala Desa</div>
-        <div class="table-responsive">
-            <table id="table-kepala-desa" class="table align-middle">
-                <thead>
-                    <tr>
-                        <th>NIP</th>
-                        <th>Foto</th>
-                        <th>Nama</th>
-                        <th>Jabatan</th>
-                        <th>Deskripsi</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="table-body">
-                    @foreach ($kades as $data)
-                        <tr>
-                            <td>312314</td> <!-- NIP statis -->
-                            <td>
-                                <img 
-                                    src="{{ asset('assets/images/VillageInstrument_images/' . $data->image) }}" 
-                                    class="card-img-top" 
-                                    alt="{{ $data->name }}" 
-                                    width="100"
-                                >
-                            </td>
-                            <td>{{ $data->name }}</td>
-                            <td>{{ $data->position }}</td>
-                            <td class="deskripsi">{{ $data->description }}</td>
-                            <td>
-                              <button 
-                              class="btn btn-light" 
-                              onclick="openEditModal(this)" 
-                              data-id="{{ $data->id }}" 
-                              data-category="{{ $data->category }}" 
-                              data-position="{{ $data->position }}" 
-                              data-name="{{ $data->name }}" 
-                              data-description="{{ $data->description }}" 
-                              data-facebook="{{ $data->facebook }}" 
-                              data-instagram="{{ $data->instagram }}" 
-                              data-email="{{ $data->email }}" 
-                              data-image="{{ $data->image }}"
-                          >
-                              Edit
-                          </button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
+      <div class="table-header d-flex justify-content-between align-items-center">
+          <span>Tabel Perangkat Desa</span>
+          <button class="btn btn-tambah" onclick="openAddVillageInstrumentModal()">
+              <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
+          </button>
+      </div>
+      <div class="table-responsive">
+          <table id="table-perangkat-desa" class="table align-middle">
+              <thead>
+                  <tr>
+                      <th>No</th>
+                      <th>Foto</th>
+                      <th>Kategori</th>
+                      <th>Nama</th>
+                      <th>Jabatan</th>
+                      <th>Deskripsi</th>
+                      <th>Facebook</th>
+                      <th>Instagram</th>
+                      <th>Email</th>
+                      <th>Aksi</th>
+                  </tr>
+              </thead>
+              <tbody class="table-body">
+                  @foreach ($kades as $index => $instrument)
+                      <tr>
+                          <td>{{ $index + 1 }}</td>
+                          <td>
+                              @if ($instrument->image)
+                                  <img src="{{ asset('assets/images/VillageInstrument_images/' . $instrument->image) }}" class="card-img-top" alt="{{ $instrument->name }}" width="100">
+                              @else
+                                  <span>Tidak ada gambar</span>
+                              @endif
+                          </td>
+                          <td>{{ $instrument->category }}</td>
+                          <td>{{ $instrument->name }}</td>
+                          <td>{{ $instrument->position }}</td>
+                          <td>{{ $instrument->description }}</td>
+                          <td>
+                              @if ($instrument->facebook)
+                                  <a href="{{ $instrument->facebook }}" target="_blank">Facebook</a>
+                              @else
+                                  <span>-</span>
+                              @endif
+                          </td>
+                          <td>
+                              @if ($instrument->instagram)
+                                  <a href="{{ $instrument->instagram }}" target="_blank">Instagram</a>
+                              @else
+                                  <span>-</span>
+                              @endif
+                          </td>
+                          <td>{{ $instrument->email }}</td>
+                          <td>
+                            <button 
+                                class="btn btn-light" 
+                                onclick="openEditModal(this)" 
+                                data-id="{{ $instrument->id }}" 
+                                data-category="{{ $instrument->category }}" 
+                                data-name="{{ $instrument->name }}" 
+                                data-position="{{ $instrument->position }}" 
+                                data-description="{{ $instrument->description }}" 
+                                data-facebook="{{ $instrument->facebook }}" 
+                                data-instagram="{{ $instrument->instagram }}" 
+                                data-email="{{ $instrument->email }}"
+                                data-image="{{ $instrument->image }}"
+                            >
+                                Edit
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteInstrument({{ $instrument->id }})">Hapus</button>
+                          </td>
+                      </tr>
+                  @endforeach
+              </tbody>
+          </table>
+      </div>
+
+     
+  </div>
+  
 
 
 </div>
@@ -125,62 +153,63 @@
     </div>
   </div>
 <!-- Modal Edit Data -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+<div class="modal fade" id="editInstrumentModal" tabindex="-1" aria-labelledby="editInstrumentModalLabel" aria-hidden="true">
   <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-header">
-              <h5 class="modal-title" id="editModalLabel">Edit Kepala Desa</h5>
+              <h5 class="modal-title" id="editInstrumentModalLabel">Edit Perangkat Desa</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <form id="editFormKades">
+          <form id="editInstrumentForm">
               <div class="modal-body">
-                  <input type="hidden" id="kadesId" name="id">
+                  <input type="hidden" id="editInstrumentId" name="id">
                   <div class="mb-3">
-                      <label for="name" class="form-label">Nama</label>
-                      <input type="text" class="form-control" id="name" name="name" required>
+                      <label for="editInstrumentCategory" class="form-label">Kategori</label>
+                      <input type="text" class="form-control" id="editInstrumentCategory" name="category" required>
                   </div>
                   <div class="mb-3">
-                      <label for="position" class="form-label">Jabatan</label>
-                      <input type="text" class="form-control" id="position" name="position" readonly>
+                      <label for="editInstrumentName" class="form-label">Nama</label>
+                      <input type="text" class="form-control" id="editInstrumentName" name="name" required>
                   </div>
                   <div class="mb-3">
-                      <label for="description" class="form-label">Deskripsi</label>
-                      <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                      <label for="editInstrumentPosition" class="form-label">Jabatan</label>
+                      <input type="text" class="form-control" id="editInstrumentPosition" name="position" required>
                   </div>
                   <div class="mb-3">
-                      <label for="facebook" class="form-label">Facebook</label>
-                      <input type="url" class="form-control" id="facebook" name="facebook">
+                      <label for="editInstrumentDescription" class="form-label">Deskripsi</label>
+                      <textarea class="form-control" id="editInstrumentDescription" name="description"></textarea>
                   </div>
                   <div class="mb-3">
-                      <label for="instagram" class="form-label">Instagram</label>
-                      <input type="url" class="form-control" id="instagram" name="instagram">
+                      <label for="editInstrumentFacebook" class="form-label">Facebook</label>
+                      <input type="text" class="form-control" id="editInstrumentFacebook" name="facebook">
                   </div>
                   <div class="mb-3">
-                      <label for="email" class="form-label">Email</label>
-                      <input type="email" class="form-control" id="email" name="email">
+                      <label for="editInstrumentInstagram" class="form-label">Instagram</label>
+                      <input type="text" class="form-control" id="editInstrumentInstagram" name="instagram">
                   </div>
                   <div class="mb-3">
-                      <label for="image" class="form-label">Gambar (Opsional)</label>
-                      <input type="file" class="form-control" id="image" name="image" accept="image/*">
-                      <div id="imagePreview" class="mt-2"></div>
+                      <label for="editInstrumentEmail" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="editInstrumentEmail" name="email">
+                  </div>
+                  <div class="mb-3">
+                      <label for="editInstrumentImage" class="form-label">Gambar</label>
+                      <input type="file" class="form-control" id="editInstrumentImage" name="image">
+                      <img id="editImagePreview" src="" alt="" style="max-width: 100px; margin-top: 10px;">
                   </div>
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                  <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-primary">Simpan</button>
               </div>
           </form>
       </div>
   </div>
 </div>
 
-
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
   <script src="../assets/js/Admin/script.js"></script>
-  <script src="../assets/js/Admin/kades.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/Admin/perangkat-desa.js"></script>
 </body>
 
 </html>

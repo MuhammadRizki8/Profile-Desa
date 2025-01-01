@@ -26,36 +26,49 @@
         </div>
         <hr>
         <nav class="nav flex-column">
-          <a href="/admin/dashboard" class="nav-link"><i class="fas fa-home"></i> Home</a>
-          <!-- Billing Menu with Arrow Icon -->
-          <div class="nav-item">
-            <a href="#" class="nav-link active" onclick="toggleSubMenu(event, 'profileSubMenu')">
-              <i class="fas fa-user-circle"></i> Profile
-              <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-            </a>
-            <ul class="sub-menu" id="profileSubMenu">
-              <li><a href="/admin/kades" class="nav-link"><i class="fa fa-user"></i>Kepala Desa</a></li>
-              <li><a href="/admin/perangkat-desa" class="nav-link active"> <i class="fa fa-users"></i>Perangkat Desa</a></li>
-              <li><a href="/admin/struktur" class="nav-link"><i class="fas fa-sitemap"></i>Struktur Desa</a></li>
-            </ul>
-          </div>
-          <a href="/admin/pemerintahan" class="nav-link"><i class="fas fa-building"></i> Pemerintahan</a>
-          <div class="nav-item">
-            <a href="#" class="nav-link" onclick="toggleSubMenu(event, 'informasiPublikSubMenu')">
-              <i class="fas fa-info-circle"></i> Informasi Publik
-              <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-            </a>
-            <ul class="sub-menu" id="informasiPublikSubMenu">
-              <li><a href="/admin/agenda" class="nav-link"><i class="fas fa-calendar"></i>Agenda</a></li>
-              <li><a href="/admin/produk-hukum" class="nav-link"> <i class="fas fa-book"></i>Produk Hukum</a></li>
-              <li><a href="/admin/transparansi" class="nav-link"><i class="fas fa-file-invoice-dollar"></i>Transparansi Anggaran</a></li>
-            </ul>
-          </div>
-          <a href="/admin/monografi" class="nav-link"><i class="fa fa-line-chart"></i> Monografi</a>
-          <hr>
-          <h6>Account Pages</h6>
-          <a href="#" class="nav-link"><i class="fas fa-sign-in-alt"></i> Log Out</a>
-        </nav>
+            <a href="/admin/dashboard" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <!-- Billing Menu with Arrow Icon -->
+            <div class="nav-item">
+                <a href="#" class="nav-link {{ in_array($type, ['kades', 'perangkat-desa']) ? 'active' : '' }}" 
+                   onclick="toggleSubMenu(event, 'profileSubMenu')">
+                    <i class="fas fa-user-circle"></i> Profile
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </a>
+                <ul class="sub-menu" id="profileSubMenu">
+                    <li>
+                        <a href="/admin/kades" class="nav-link {{ $type === 'kades' ? 'active' : '' }}">
+                            <i class="fa fa-user"></i> Kepala Desa
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/perangkat-desa" class="nav-link {{ $type === 'perangkat-desa' ? 'active' : '' }}">
+                            <i class="fa fa-users"></i> Perangkat Desa
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/struktur" class="nav-link {{ $type === 'struktur' ? 'active' : '' }}">
+                            <i class="fas fa-sitemap"></i> Struktur Desa
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <a href="/admin/pemerintahan" class="nav-link"><i class="fas fa-building"></i> Pemerintahan</a>
+            <div class="nav-item">
+                <a href="#" class="nav-link" onclick="toggleSubMenu(event, 'informasiPublikSubMenu')">
+                    <i class="fas fa-info-circle"></i> Informasi Publik
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </a>
+                <ul class="sub-menu" id="informasiPublikSubMenu">
+                    <li><a href="/admin/agenda" class="nav-link"><i class="fas fa-calendar"></i>Agenda</a></li>
+                    <li><a href="/admin/produk-hukum" class="nav-link"><i class="fas fa-book"></i>Produk Hukum</a></li>
+                    <li><a href="/admin/transparansi" class="nav-link"><i class="fas fa-file-invoice-dollar"></i>Transparansi Anggaran</a></li>
+                </ul>
+            </div>
+            <a href="/admin/monografi" class="nav-link"><i class="fa fa-line-chart"></i> Monografi</a>
+            <hr>
+            <h6>Account Pages</h6>
+            <a href="#" class="nav-link"><i class="fas fa-sign-in-alt"></i> Log Out</a>
+        </nav>        
       </div>
 
 

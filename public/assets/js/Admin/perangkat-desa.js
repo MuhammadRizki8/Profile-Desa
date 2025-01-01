@@ -98,7 +98,7 @@ function openEditModal(button) {
 document
     .getElementById("editInstrumentForm")
     .addEventListener("submit", function (e) {
-        e.preventDefault(); // Cegah reload halaman
+        e.preventDefault();
 
         const id = document.getElementById("editInstrumentId").value;
         const formData = new FormData(this);

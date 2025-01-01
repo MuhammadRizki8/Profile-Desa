@@ -14,12 +14,18 @@ class VillageInstrumentController extends Controller
     public function index()
     {
         $villageInstruments = VillageInstrument::all();
-        return view('admin.perangkat-desa', compact('villageInstruments'));
+        $type = 'perangkat-desa';
+
+        return view('admin.perangkat-desa', compact('villageInstruments', 'type'));
     }
+
+    // Menampilkan data Kepala Desa
     public function getKades()
     {
-        $kades = VillageInstrument::where('position', 'Kepala Desa')->get();
-        return view('admin.kades', compact('kades'));
+        $villageInstruments = VillageInstrument::where('position', 'Kepala Desa')->get();
+        $type = 'kades';
+
+        return view('admin.perangkat-desa', compact('villageInstruments', 'type'));
     }
     // Menampilkan form untuk membuat Village Instrument baru
     public function create()
