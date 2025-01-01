@@ -1,63 +1,71 @@
-paginateTable("table-perangkat-desa", "pagination-table-perangkat-desa", 5);
+// EDIT------------------------------------------
+function openEditModal(button) {
+    const modal = document.getElementById("editModal");
+    const form = document.getElementById("editFormKades");
 
-function saveData() {
-    const nip = document.getElementById('dataNIP').value;
-    const nama = document.getElementById('dataNama').value;
-    const jabatan = document.getElementById('dataJabatan').value;
-    const deskripsi = document.getElementById('dataDeskripsi').value;
-    const foto = document.getElementById('dataGambar').files[0];
-  
-    if (!judul || !deskripsi) {
-      alert('judul dan deskripsi harus diisi.');
-      return;
-    }
-  
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const fotoUrl = foto ? e.target.result : '';
-  
-      if (isEditMode) {
-        // Update baris tabel yang ada
-        const row = document.querySelector(`#table-perangkat-desa tbody tr:nth-child(${editingId})`);
-        row.children[1].innerHTML = fotoUrl ? `<img src="${fotoUrl}" class="card-img-top" alt="Foto">` : row.children[1].innerHTML;
-        row.children[2].textContent = nama;
-        row.children[3].textContent = deskripsi;
-        row.children[4].textContent = tanggal;
-      } else {
-        // Tambahkan data baru ke tabel
-        const tableBody = document.querySelector('#table-perangkat-desa tbody');
-        const newRow = `
-          <tr>
-            <td>${nip || tableBody.children.length + 1}</td>
-            <td>${fotoUrl ? `<img src="${fotoUrl}" class="card-img-top" alt="Foto">` : ''}</td>
-            <td>${nama}</td>
-            <td>${jabatan}</td>
-            <td>${deskripsi}</td>
-            <td>
-              <button class="btn btn-light" onclick="openEditModal(${tableBody.children.length + 1})">Edit</button>
-              <button class="btn btn-danger" onclick="openDeleteModal(${tableBody.children.length + 1})">Hapus</button>
-            </td>
-          </tr>
-        `;
-        tableBody.insertAdjacentHTML('beforeend', newRow);
-      }
-  
-      // Tutup modal
-      const dataModal = bootstrap.Modal.getInstance(document.getElementById('dataModal'));
-      dataModal.hide();
-    };
-  }
+    // Ambil data dari tombol
+    const id = button.getAttribute("data-id");
+    const name = button.getAttribute("data-name");
+    const position = button.getAttribute("data-position");
+    const description = button.getAttribute("data-description");
+    const facebook = button.getAttribute("data-facebook");
+    const instagram = button.getAttribute("data-instagram");
+    const email = button.getAttribute("data-email");
+    const image = button.getAttribute("data-image");
 
-function openEditModal(id) {
-    isEditMode = true;
-    editingId = id;
-  
-    document.getElementById('dataModalLabel').textContent = 'Edit Data';
-    document.getElementById('dataNIP').value = id; // Bisa ambil data berdasarkan ID jika ada
-    document.getElementById('dataNama').value = ''; // Reset file input
-    document.getElementById('dataJabatan').value = ''; // Reset file input
-    document.getElementById('dataDeskripsi').value = ' ' + id;
-    document.getElementById('dataFoto').value = ''; // Reset file input
-    const dataModal = new bootstrap.Modal(document.getElementById('dataModal'));
-    dataModal.show();
+    // Isi data ke dalam form modal
+    form.kadesId.value = id;
+    form.name.value = name;
+    form.position.value = position;
+    form.description.value = description;
+    form.facebook.value = facebook || "";
+    form.instagram.value = instagram || "";
+    form.email.value = email || "";
+
+    // Tampilkan preview gambar
+    const imagePreview = document.getElementById("imagePreview");
+    imagePreview.innerHTML = `<img src="/assets/images/VillageInstrument_images/${image}" alt="${name}" class="img-thumbnail" width="100">`;
+
+    // Tampilkan modal
+    const bootstrapModal = new bootstrap.Modal(modal);
+    bootstrapModal.show();
 }
+document
+    .getElementById("editFormKades")
+    .addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const id = document.getElementById("kadesId").value; // ID Kepala Desa
+        const formData = new FormData(this);
+
+        console.log("ID yang dikirim:", id);
+        console.log("Data yang dikirim:", [...formData.entries()]);
+
+        fetch(`/village-instruments/${id}`, {
+            method: "PUT",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+            },
+            body: formData,
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                if (data.message) {
+                    alert(data.message);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 500);
+                }
+            })
+            .catch((error) => {
+                console.error("Error updating village instrument:", error);
+            });
+    });

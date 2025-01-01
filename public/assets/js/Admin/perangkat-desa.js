@@ -1,108 +1,149 @@
-function openAddModal() {
-    isEditMode = false;
-    editingId = null;
-  
-    document.getElementById('dataModalLabel').textContent = 'Tambah Data';
-    document.getElementById('dataForm').reset(); // Reset semua input
-  
-    const dataModal = new bootstrap.Modal(document.getElementById('dataModal'));
-    dataModal.show();
-  }
-  
-function saveData() {
-    const no = document.getElementById('dataNo').value;
-    const nama = document.getElementById('dataNama').value;
-    const jabatan = document.getElementById('dataJabatan').value;
-    const foto = document.getElementById('dataFoto').files[0];
-  
-    if (!nama || !jabatan) {
-      alert('nama dan jabatan harus diisi.');
-      return;
-    }
-  
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const fotoUrl = foto ? e.target.result : '';
-  
-      if (isEditMode) {
-        // Update baris tabel yang ada
-        const row = document.querySelector(`#table-perangkat-desa tbody tr:nth-child(${editingId})`);
-        row.children[1].innerHTML = fotoUrl ? `<img src="${fotoUrl}" class="card-img-top" alt="Foto">` : row.children[1].innerHTML;
-        row.children[2].textContent = nama;
-        row.children[3].textContent = jabatan;
-      } else {
-        // Tambahkan data baru ke tabel
-        const tableBody = document.querySelector('#table-perangkat-desa tbody');
-        const newRow = `
-          <tr>
-            <td>${nomo || tableBody.children.length + 1}</td>
-            <td>${fotoUrl ? `<img src="${fotoUrl}" class="card-img-top" alt="Foto">` : ''}</td>
-            <td>${nama}</td>
-            <td>${jabatan}</td>
-            <td>
-              <button class="btn btn-light" onclick="openEditModal(${tableBody.children.length + 1})">Edit</button>
-              <button class="btn btn-danger" onclick="openDeleteModal(${tableBody.children.length + 1})">Hapus</button>
-            </td>
-          </tr>
-        `;
-        tableBody.insertAdjacentHTML('beforeend', newRow);
-      }
-  
-      // Tutup modal
-      const dataModal = bootstrap.Modal.getInstance(document.getElementById('dataModal'));
-      dataModal.hide();
-    };
-  }
-
-function openEditModal(id) {
-    isEditMode = true;
-    editingId = id;
-  
-    document.getElementById('dataModalLabel').textContent = 'Edit Data';
-    document.getElementById('dataNo').value = id; // Bisa ambil data berdasarkan ID jika ada
-    document.getElementById('dataNama').value = ''; // Reset file input
-    document.getElementById('dataJabatan').value = ''; // Reset file input
-    document.getElementById('dataFoto').value = ''; // Reset file input
-    const dataModal = new bootstrap.Modal(document.getElementById('dataModal'));
-    dataModal.show();
+// Fungsi untuk membuka modal tambah perangkat desa
+function openAddVillageInstrumentModal() {
+    const addVillageInstrumentModal = new bootstrap.Modal(
+        document.getElementById("addVillageInstrumentModal")
+    );
+    addVillageInstrumentModal.show();
 }
 
-function openDeleteModal(id) {
-    const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-    deleteModal.show();
-  }
+// Fungsi untuk menambahkan perangkat desa
+async function addVillageInstrument(formData) {
+    try {
+        const response = await fetch("/village-instruments", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+                Accept: "application/json",
+            },
+            body: formData,
+        });
 
-  
-  document.getElementById('searchInput').addEventListener('input', function () {
-    const searchValue = this.value.toLowerCase();
-    const tableRows = document.querySelectorAll('#table-perangkat-desa tbody tr');
-    let hasVisibleRow = false;
+        if (!response.ok) {
+            const error = await response.json();
+            console.error("Error:", error);
+            return {
+                success: false,
+                message: error.message || "Unknown error",
+            };
+        }
 
-    tableRows.forEach(row => {
-        const nama = row.children[2].textContent.toLowerCase();
-        const jabatan = row.children[3].textContent.toLowerCase();
+        const result = await response.json();
+        console.log("Perangkat desa berhasil ditambahkan:", result);
+        return { success: true, data: result };
+    } catch (error) {
+        console.error("Error:", error);
+        return {
+            success: false,
+            message: "Terjadi kesalahan saat menambahkan perangkat desa!",
+        };
+    }
+}
 
-        if (nama.includes(searchValue) || jabatan.includes(searchValue)) {
-            row.style.display = '';
-            hasVisibleRow = true;
+// Event listener untuk form submit
+document
+    .getElementById("addVillageInstrumentForm")
+    .addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const result = await addVillageInstrument(formData);
+
+        if (result.success) {
+            alert("Perangkat desa berhasil ditambahkan!");
+            location.reload(); // Reload halaman untuk memperbarui tabel perangkat desa
         } else {
-            row.style.display = 'none';
+            alert("Gagal menambahkan perangkat desa: " + result.message);
         }
     });
+// EDIT==============================================================
+function openEditModal(button) {
+    const id = button.getAttribute("data-id");
+    const category = button.getAttribute("data-category");
+    const name = button.getAttribute("data-name");
+    const position = button.getAttribute("data-position");
+    const description = button.getAttribute("data-description");
+    const facebook = button.getAttribute("data-facebook");
+    const instagram = button.getAttribute("data-instagram");
+    const email = button.getAttribute("data-email");
+    const image = button.getAttribute("data-image");
 
-    // Tampilkan pesan jika tidak ada hasil
-    const noDataMessage = document.getElementById('noDataMessage');
-    if (!hasVisibleRow) {
-        if (!noDataMessage) {
-            const newMessage = document.createElement('tr');
-            newMessage.id = 'noDataMessage';
-            newMessage.innerHTML = `<td colspan="5" class="text-center">Tidak ada data</td>`;
-            document.querySelector('#table-perangkat-desa tbody').appendChild(newMessage);
-        }
+    // Isi data ke dalam form
+    document.getElementById("editInstrumentId").value = id;
+    document.getElementById("editInstrumentCategory").value = category;
+    document.getElementById("editInstrumentName").value = name;
+    document.getElementById("editInstrumentPosition").value = position;
+    document.getElementById("editInstrumentDescription").value = description;
+    document.getElementById("editInstrumentFacebook").value = facebook;
+    document.getElementById("editInstrumentInstagram").value = instagram;
+    document.getElementById("editInstrumentEmail").value = email;
+
+    // Menampilkan gambar jika ada
+    const imagePreview = document.getElementById("editImagePreview");
+    if (image) {
+        imagePreview.src = `/assets/images/VillageInstrument_images/${image}`;
+        imagePreview.style.display = "block";
     } else {
-        if (noDataMessage) {
-            noDataMessage.remove();
-        }
+        imagePreview.style.display = "none";
     }
-});
 
+    // Tampilkan modal
+    const modal = new bootstrap.Modal(
+        document.getElementById("editInstrumentModal")
+    );
+    modal.show();
+}
+
+document
+    .getElementById("editInstrumentForm")
+    .addEventListener("submit", function (e) {
+        e.preventDefault(); // Cegah reload halaman
+
+        const id = document.getElementById("editInstrumentId").value;
+        const formData = new FormData(this);
+
+        fetch(`/village-instruments/${id}`, {
+            method: "POST", // Gunakan POST
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+                "X-HTTP-Method-Override": "PUT", // Laravel mengenali ini sebagai PUT
+            },
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.message) {
+                    alert(data.message);
+                    setTimeout(() => {
+                        location.reload(); // Muat ulang halaman setelah edit berhasil
+                    }, 500); // Tunggu 500ms sebelum reload
+                }
+            })
+            .catch((error) =>
+                console.error("Error updating village instrument:", error)
+            );
+    });
+// DELETE-------------------------------------------
+function deleteInstrument(id) {
+    if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+        fetch(`/village-instruments/${id}`, {
+            method: "DELETE",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.message) {
+                    alert(data.message);
+                    location.reload(); // Muat ulang halaman setelah penghapusan berhasil
+                }
+            })
+            .catch((error) => console.error("Error:", error));
+    }
+}

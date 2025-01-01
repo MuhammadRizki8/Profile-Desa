@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Desa Tangsimekar</title>
@@ -60,141 +61,199 @@
 
       <div class="col-md-9 col-lg-9 main-content">
         <div class="d-flex justify-content-between align-items-center">
-          <div class="breadcrumb">Pages / Perangkat Desa</div>
-          <input type="text" class="form-control w-25" placeholder="Search..." id="searchInput">
+            <div class="breadcrumb">Pages / Perangkat Desa</div>
+            <input type="text" class="form-control w-25" placeholder="Search..." id="searchInput">
         </div>
         <h5 class="mb-4">Perangkat Desa</h5>
         <div class="card">
-          <div class="table-header d-flex justify-content-between align-items-center">
-            <span>Tabel Perangkat Desa</span>
-            <button class="btn btn-tambah" onclick="openAddModal()">
-              <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
-            </button>
-          </div>
-          <div class="table-responsive">
-            <table id="table-perangkat-desa" class="table align-middle">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Foto</th>
-                  <th>Nama</th>
-                  <th>Jabatan</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <tr>
-                  <td>1</td>
-                  <td><img src="https://storage.googleapis.com/a1aa/image/r7Z2x1HMBsqjN50SFfoGVMFMYkZW45RL4fW1SdOaeIeWkHIPB.jpg" class="card-img-top" alt="Berita 1"></td>
-                  <td>Didi Kempot</td>
-                  <td>Kepala Desa</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td><img src="https://storage.googleapis.com/a1aa/image/r7Z2x1HMBsqjN50SFfoGVMFMYkZW45RL4fW1SdOaeIeWkHIPB.jpg" class="card-img-top" alt="Berita 1"></td>
-                  <td>Didi Supendi</td>
-                  <td>Kepala suku</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td><img src="https://storage.googleapis.com/a1aa/image/r7Z2x1HMBsqjN50SFfoGVMFMYkZW45RL4fW1SdOaeIeWkHIPB.jpg" class="card-img-top" alt="Berita 1"></td>
-                  <td>Didi Supendi</td>
-                  <td>Kepala Desa</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td><img src="https://storage.googleapis.com/a1aa/image/r7Z2x1HMBsqjN50SFfoGVMFMYkZW45RL4fW1SdOaeIeWkHIPB.jpg" class="card-img-top" alt="Berita 1"></td>
-                  <td>Didi Supendi</td>
-                  <td>Kepala Desa</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Pagination -->
-          <ul id="pagination-table-perangkat-desa" class="pagination">
-            <li><a href="#">&laquo; Previous</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">Next &raquo;</a></li>
-          </ul>
-
+            <div class="table-header d-flex justify-content-between align-items-center">
+                <span>Tabel Perangkat Desa</span>
+                <button class="btn btn-tambah" onclick="openAddVillageInstrumentModal()">
+                    <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table id="table-perangkat-desa" class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Foto</th>
+                            <th>Kategori</th>
+                            <th>Nama</th>
+                            <th>Jabatan</th>
+                            <th>Deskripsi</th>
+                            <th>Facebook</th>
+                            <th>Instagram</th>
+                            <th>Email</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-body">
+                        @foreach ($villageInstruments as $index => $instrument)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>
+                                    @if ($instrument->image)
+                                        <img src="{{ asset('assets/images/VillageInstrument_images/' . $instrument->image) }}" class="card-img-top" alt="{{ $instrument->name }}" width="100">
+                                    @else
+                                        <span>Tidak ada gambar</span>
+                                    @endif
+                                </td>
+                                <td>{{ $instrument->category }}</td>
+                                <td>{{ $instrument->name }}</td>
+                                <td>{{ $instrument->position }}</td>
+                                <td>{{ $instrument->description }}</td>
+                                <td>
+                                    @if ($instrument->facebook)
+                                        <a href="{{ $instrument->facebook }}" target="_blank">Facebook</a>
+                                    @else
+                                        <span>-</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($instrument->instagram)
+                                        <a href="{{ $instrument->instagram }}" target="_blank">Instagram</a>
+                                    @else
+                                        <span>-</span>
+                                    @endif
+                                </td>
+                                <td>{{ $instrument->email }}</td>
+                                <td>
+                                  <button 
+                                      class="btn btn-light" 
+                                      onclick="openEditModal(this)" 
+                                      data-id="{{ $instrument->id }}" 
+                                      data-category="{{ $instrument->category }}" 
+                                      data-name="{{ $instrument->name }}" 
+                                      data-position="{{ $instrument->position }}" 
+                                      data-description="{{ $instrument->description }}" 
+                                      data-facebook="{{ $instrument->facebook }}" 
+                                      data-instagram="{{ $instrument->instagram }}" 
+                                      data-email="{{ $instrument->email }}"
+                                      data-image="{{ $instrument->image }}"
+                                  >
+                                      Edit
+                                  </button>
+                                  <button class="btn btn-danger" onclick="deleteInstrument({{ $instrument->id }})">Hapus</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+    
+           
         </div>
-      </div>
+    </div>
+    
     </div>
   </div>
 
-  <!-- Modal Edit -->
-  <div class="modal fade" id="dataModal" tabindex="-1" aria-labelledby="dataModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+  <!-- Modal Tambah Perangkat Desa -->
+<div class="modal fade" id="addVillageInstrumentModal" tabindex="-1" aria-labelledby="addVillageInstrumentModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="dataModalLabel">Edit Data</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="dataForm">
-            <div class="mb-3">
-              <label for="dataNo" class="form-label">No</label>
-              <input type="text" class="form-control" id="dataNo" readonly>
-            </div>
-            <div class="mb-3">
-              <label for="dataFoto" class="form-label">Foto</label>
-              <input type="file" class="form-control" id="dataFoto" accept="image/*">
-            </div>
-            <div class="mb-3">
-              <label for="dataNama" class="form-label">Nama</label>
-              <input type="text" class="form-control" id="dataNama">
-            </div>
-            <div class="mb-3">
-              <label for="dataJabatan" class="form-label">Jabatan</label>
-              <input type="text" class="form-control" id="dataJabatan">
-            </div>
+          <div class="modal-header">
+              <h5 class="modal-title" id="addVillageInstrumentModalLabel">Tambah Perangkat Desa</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form id="addVillageInstrumentForm">
+              <div class="modal-body">
+                  <div class="mb-3">
+                      <label for="instrumentImage" class="form-label">Gambar</label>
+                      <input type="file" class="form-control" id="instrumentImage" name="image" accept="image/*" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="instrumentCategory" class="form-label">Kategori</label>
+                      <input type="text" class="form-control" id="instrumentCategory" name="category" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="instrumentName" class="form-label">Nama</label>
+                      <input type="text" class="form-control" id="instrumentName" name="name" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="instrumentPosition" class="form-label">Jabatan</label>
+                      <input type="text" class="form-control" id="instrumentPosition" name="position" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="instrumentDescription" class="form-label">Deskripsi</label>
+                      <textarea class="form-control" id="instrumentDescription" name="description" rows="3" required></textarea>
+                  </div>
+                  <div class="mb-3">
+                      <label for="instrumentFacebook" class="form-label">Facebook</label>
+                      <input type="url" class="form-control" id="instrumentFacebook" name="facebook">
+                  </div>
+                  <div class="mb-3">
+                      <label for="instrumentInstagram" class="form-label">Instagram</label>
+                      <input type="url" class="form-control" id="instrumentInstagram" name="instagram">
+                  </div>
+                  <div class="mb-3">
+                      <label for="instrumentEmail" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="instrumentEmail" name="email">
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-primary">Simpan</button>
+              </div>
           </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-light" id="saveButton" onclick="saveData()">Simpan</button>
-        </div>
       </div>
-    </div>
   </div>
+</div>
 
-  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+<!-- Modal Edit Data -->
+<div class="modal fade" id="editInstrumentModal" tabindex="-1" aria-labelledby="editInstrumentModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body confirmation">
-          <i class="fas fa-exclamation-triangle icon-warning"></i>
-          <p>Apakah Anda yakin ingin menghapus data ini?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-          <button type="button" class="btn btn-danger">Hapus</button>
-        </div>
+          <div class="modal-header">
+              <h5 class="modal-title" id="editInstrumentModalLabel">Edit Perangkat Desa</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form id="editInstrumentForm">
+              <div class="modal-body">
+                  <input type="hidden" id="editInstrumentId" name="id">
+                  <div class="mb-3">
+                      <label for="editInstrumentCategory" class="form-label">Kategori</label>
+                      <input type="text" class="form-control" id="editInstrumentCategory" name="category" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="editInstrumentName" class="form-label">Nama</label>
+                      <input type="text" class="form-control" id="editInstrumentName" name="name" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="editInstrumentPosition" class="form-label">Jabatan</label>
+                      <input type="text" class="form-control" id="editInstrumentPosition" name="position" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="editInstrumentDescription" class="form-label">Deskripsi</label>
+                      <textarea class="form-control" id="editInstrumentDescription" name="description"></textarea>
+                  </div>
+                  <div class="mb-3">
+                      <label for="editInstrumentFacebook" class="form-label">Facebook</label>
+                      <input type="text" class="form-control" id="editInstrumentFacebook" name="facebook">
+                  </div>
+                  <div class="mb-3">
+                      <label for="editInstrumentInstagram" class="form-label">Instagram</label>
+                      <input type="text" class="form-control" id="editInstrumentInstagram" name="instagram">
+                  </div>
+                  <div class="mb-3">
+                      <label for="editInstrumentEmail" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="editInstrumentEmail" name="email">
+                  </div>
+                  <div class="mb-3">
+                      <label for="editInstrumentImage" class="form-label">Gambar</label>
+                      <input type="file" class="form-control" id="editInstrumentImage" name="image">
+                      <img id="editImagePreview" src="" alt="" style="max-width: 100px; margin-top: 10px;">
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button type="submit" class="btn btn-primary">Simpan</button>
+              </div>
+          </form>
       </div>
-    </div>
   </div>
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Desa Tangsimekar</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -60,84 +61,121 @@
 
 
       <div class="col-md-9 col-lg-9 main-content">
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="breadcrumb">Pages / Kepala Desa</div>
-        </div>
-        <h5 class="mb-4">Kepala Desa</h5>
-        <div class="card">
-          <div class="table-header">Biodata Kepala Desa</div>
-          <div class="table-responsive">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="breadcrumb">Pages / Kepala Desa</div>
+    </div>
+    <h5 class="mb-4">Kepala Desa</h5>
+    <div class="card">
+        <div class="table-header">Biodata Kepala Desa</div>
+        <div class="table-responsive">
             <table id="table-kepala-desa" class="table align-middle">
-              <thead>
-                <tr>
-                  <th>NIP</th>
-                  <th>Foto</th>
-                  <th>Nama</th>
-                  <th>Jabatan</th>
-                  <th>Deskripsi</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <tr>
-                  <td>312314</td>
-                  <td><img src="https://storage.googleapis.com/a1aa/image/r7Z2x1HMBsqjN50SFfoGVMFMYkZW45RL4fW1SdOaeIeWkHIPB.jpg" class="card-img-top" alt="Berita 1"></td>
-                  <td>Didi Supendi</td>
-                  <td>Kepala Desa</td>
-                  <td class="deskripsi">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus scelerisque hendrerit nisl a pellentesque. In aliquam metus a nulla tempus, eget aliquam tortor egestas. Ut tempor massa eu iaculis tincidunt. Ut non iaculis neque. Phasellus eu pellentesque neque. Fusce dictum et odio et varius. Curabitur tempus et sapien vitae iaculis. Curabitur ac tempor metus. Donec scelerisque in massa sit amet porttitor. Aliquam rutrum ligula nec volutpat congue. Cras at auctor leo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla a scelerisque nibh.</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                  </td>
-                </tr>
-
-              </tbody>
+                <thead>
+                    <tr>
+                        <th>NIP</th>
+                        <th>Foto</th>
+                        <th>Nama</th>
+                        <th>Jabatan</th>
+                        <th>Deskripsi</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="table-body">
+                    @foreach ($kades as $data)
+                        <tr>
+                            <td>312314</td> <!-- NIP statis -->
+                            <td>
+                                <img 
+                                    src="{{ asset('assets/images/VillageInstrument_images/' . $data->image) }}" 
+                                    class="card-img-top" 
+                                    alt="{{ $data->name }}" 
+                                    width="100"
+                                >
+                            </td>
+                            <td>{{ $data->name }}</td>
+                            <td>{{ $data->position }}</td>
+                            <td class="deskripsi">{{ $data->description }}</td>
+                            <td>
+                              <button 
+                              class="btn btn-light" 
+                              onclick="openEditModal(this)" 
+                              data-id="{{ $data->id }}" 
+                              data-category="{{ $data->category }}" 
+                              data-position="{{ $data->position }}" 
+                              data-name="{{ $data->name }}" 
+                              data-description="{{ $data->description }}" 
+                              data-facebook="{{ $data->facebook }}" 
+                              data-instagram="{{ $data->instagram }}" 
+                              data-email="{{ $data->email }}" 
+                              data-image="{{ $data->image }}"
+                          >
+                              Edit
+                          </button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
-          </div>
-
         </div>
-      </div>
+    </div>
+
+
+</div>
+
+      
     </div>
   </div>
-
-  <!-- Modal Edit -->
-  <div class="modal fade" id="dataModal" tabindex="-1" aria-labelledby="dataModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+<!-- Modal Edit Data -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="dataModalLabel">Edit Data</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="dataForm">
-            <div class="mb-3">
-              <label for="dataNIP" class="form-label">Id</label>
-              <input type="text" class="form-control" id="dataNIP" readonly>
-            </div>
-            <div class="mb-3">
-              <label for="dataFoto" class="form-label">Foto</label>
-              <input type="file" class="form-control" id="dataFoto" accept="image/*">
-            </div>
-            <div class="mb-3">
-              <label for="dataNama" class="form-label">Nama</label>
-              <input type="text" class="form-control" id="dataNama">
-            </div>
-            <div class="mb-3">
-              <label for="dataJabatan" class="form-label">Jabatan</label>
-              <input type="text" class="form-control" id="dataJabatan">
-            </div>
-            <div class="mb-3">
-              <label for="dataDeskripsi" class="form-label">Deskripsi</label>
-              <textarea class="form-control" id="dataDeskripsi" rows="3"></textarea>
-            </div>
+          <div class="modal-header">
+              <h5 class="modal-title" id="editModalLabel">Edit Kepala Desa</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form id="editFormKades">
+              <div class="modal-body">
+                  <input type="hidden" id="kadesId" name="id">
+                  <div class="mb-3">
+                      <label for="name" class="form-label">Nama</label>
+                      <input type="text" class="form-control" id="name" name="name" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="position" class="form-label">Jabatan</label>
+                      <input type="text" class="form-control" id="position" name="position" readonly>
+                  </div>
+                  <div class="mb-3">
+                      <label for="description" class="form-label">Deskripsi</label>
+                      <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                  </div>
+                  <div class="mb-3">
+                      <label for="facebook" class="form-label">Facebook</label>
+                      <input type="url" class="form-control" id="facebook" name="facebook">
+                  </div>
+                  <div class="mb-3">
+                      <label for="instagram" class="form-label">Instagram</label>
+                      <input type="url" class="form-control" id="instagram" name="instagram">
+                  </div>
+                  <div class="mb-3">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="email" name="email">
+                  </div>
+                  <div class="mb-3">
+                      <label for="image" class="form-label">Gambar (Opsional)</label>
+                      <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                      <div id="imagePreview" class="mt-2"></div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                  <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+              </div>
           </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-light" id="saveButton" onclick="saveData()">Simpan</button>
-        </div>
       </div>
-    </div>
   </div>
+</div>
+
+
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/Admin/script.js"></script>
   <script src="../assets/js/Admin/kades.js"></script>

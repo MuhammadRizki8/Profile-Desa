@@ -13,6 +13,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\VillageInstrumentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -92,8 +93,10 @@ Route::get('/admin/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard')
     ->middleware('auth');
 
-Route::view('/admin/kades', 'admin.kades')->name('kades');
-Route::view('/admin/perangkat-desa', 'admin.perangkat-desa')->name('perangkat-desa');
+Route::get('/admin/kades', [VillageInstrumentController::class, 'getKades'])->name('getkades');
+
+
+Route::get('/admin/perangkat-desa', [VillageInstrumentController::class, 'index'])->name('perangkat-desa');
 Route::view('/admin/struktur', 'admin.struktur')->name('struktur');
 Route::view('/admin/pemerintahan', 'admin.pemerintahan')->name('pemerintahan');
 Route::view('/admin/agenda', 'admin.agenda')->name('agenda');
@@ -160,3 +163,16 @@ Route::prefix('gallery')->group(function () {
     Route::put('/{gallery}', [GalleryController::class, 'update'])->name('gallery.update');
     Route::delete('/{gallery}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
 });
+
+
+
+Route::prefix('village-instruments')->group(function () {
+    Route::get('/', [VillageInstrumentController::class, 'index'])->name('village-instruments.index'); 
+    Route::get('/create', [VillageInstrumentController::class, 'create'])->name('village-instruments.create'); 
+    Route::post('/', [VillageInstrumentController::class, 'store'])->name('village-instruments.store'); 
+    Route::get('/{villageInstrument}', [VillageInstrumentController::class, 'show'])->name('village-instruments.show'); 
+    Route::get('/{villageInstrument}/edit', [VillageInstrumentController::class, 'edit'])->name('village-instruments.edit'); 
+    Route::put('/{villageInstrument}', [VillageInstrumentController::class, 'update'])->name('village-instruments.update'); 
+    Route::delete('/{villageInstrument}', [VillageInstrumentController::class, 'destroy'])->name('village-instruments.destroy'); 
+});
+
