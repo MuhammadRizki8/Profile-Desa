@@ -298,7 +298,7 @@
       </div>
     </section>
 
-    <!-- Contact Section -->
+   <!-- Produk Hukum Section -->
     <section id="produkhukum" class="produk-hukum bg-secondary">
       <div class="container">
         <h2 class="text-center mb-5">Produk Hukum</h2>
@@ -326,60 +326,25 @@
                   </thead>
 
                   <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>
-                        Daftar Usulan Masyarakat Berdasarkan Tujuan SDGS
-                        Desa-permendes21
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>SK PKTD</td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
+                    @foreach ($produkHukumDocuments as $index => $document)
+                      <tr>
+                        <th scope="row">{{ $index + 1 }}</th>
+                        <td>{{ $document->title }}</td>
+                        <td>
+                          <button class="btn btn-warning" type="button">
+                            {{ $document->category }}
+                          </button>
+                        </td>
+                        <td>
+                          <a href="{{ asset('assets/documents/' . $document->document) }}" target="_blank" class="btn btn-warning">
+                            Lihat
+                        </a>
+                        <a href="{{ asset('assets/documents/' . $document->document) }}" class="btn btn-success" download>
+                            Download
+                        </a>
+                        </td>
+                      </tr>
+                    @endforeach
                   </tbody>
                 </table>
               </div>

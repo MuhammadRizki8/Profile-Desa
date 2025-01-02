@@ -64,24 +64,16 @@ Route::get('/monografi_dashboard', function () {
 Route::get('/monografi', [MonografiController::class, 'show'])->name('monografi');
 
 
-Route::get('/pemerintahan', function () {
-    return view('pemerintahan');
-});
-
-
-
-Route::get('/produkhukum', function () {
-    return view('produkhukum');
-});
+Route::get('/pemerintahan', [DocumentController::class, 'pemerintahan']);
+Route::get('/produkhukum', [DocumentController::class, 'produkHukum']);
+Route::get('/transparansi', [DocumentController::class, 'transparansiAnggaran']);
 
 
 
 Route::get('/berita', function () {
     return view('berita');
 });
-Route::get('/transparansi', function () {
-    return view('transparansi');
-});
+
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

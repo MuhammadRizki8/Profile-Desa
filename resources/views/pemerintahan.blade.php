@@ -474,402 +474,162 @@
       </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- RPJM Section -->
     <section id="RPJM" class="tabel section-title bg-secondary">
       <div class="container">
-        <h2 class="text-center mb-5">RPJM Desa</h2>
-        <div class="container-fluid">
-          <!-- DataTales Example -->
-          <div class="card shadow mb-4 table-primary">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-dark">RPJM Desa</h6>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table
-                  class="table table-bordered"
-                  id="dataTableRPJM"
-                  width="100%"
-                  cellspacing="0"
-                >
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Judul</th>
-                      <th>Kategori</th>
-                      <th>Aksi</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>
-                        Daftar Usulan Masyarakat Berdasarkan Tujuan SDGS
-                        Desa-permendes21
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>SK PKTD</td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+          <h2 class="text-center mb-5">RPJM Desa</h2>
+          <div class="container-fluid">
+              <!-- DataTales Example -->
+              <div class="card shadow mb-4 table-primary">
+                  <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold text-dark">RPJM Desa</h6>
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive">
+                          <table class="table table-bordered" id="dataTableRPJM" width="100%" cellspacing="0">
+                              <thead>
+                                  <tr>
+                                      <th>#</th>
+                                      <th>Judul</th>
+                                      <th>Kategori</th>
+                                      <th>Aksi</th>
+                                  </tr>
+                              </thead>
+  
+                              <tbody>
+                                  @foreach ($rpjmDocuments as $index => $document)
+                                      <tr>
+                                          <th scope="row">{{ $index + 1 }}</th>
+                                          <td>{{ $document->title }}</td>
+                                          <td>
+                                              <button class="btn btn-warning" type="button">
+                                                  {{ $document->category }}
+                                              </button>
+                                          </td>
+                                          <td>
+                                              <a href="{{ asset('assets/documents/' . $document->document) }}" target="_blank" class="btn btn-warning">
+                                                  Lihat
+                                              </a>
+                                              <a href="{{ asset('assets/documents/' . $document->document) }}" class="btn btn-success" download>
+                                                  Download
+                                              </a>
+                                          </td>
+                                      </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
               </div>
-            </div>
           </div>
-        </div>
       </div>
-    </section>
+  </section>
+  
 
-    <!-- Contact Section -->
-    <section id="APB" class="tabel section-title bg-danger">
+    <!-- APB Section -->
+    <section id="APB" class="tabel section-title bg-secondary">
       <div class="container">
-        <h2 class="text-center mb-5">APB Desa</h2>
-        <div class="container-fluid">
-          <!-- DataTales Example -->
-          <div class="card shadow mb-4 table-primary">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-dark">APB Desa</h6>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table
-                  class="table table-bordered"
-                  id="dataTableAPB"
-                  width="100%"
-                  cellspacing="0"
-                >
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Judul</th>
-                      <th>Kategori</th>
-                      <th>Aksi</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>
-                        Daftar Usulan Masyarakat Berdasarkan Tujuan SDGS
-                        Desa-permendes21
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>SK PKTD</td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+          <h2 class="text-center mb-5">APB Desa</h2>
+          <div class="container-fluid">
+              <!-- DataTales Example -->
+              <div class="card shadow mb-4 table-primary">
+                  <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold text-dark">APB Desa</h6>
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive">
+                          <table class="table table-bordered" id="dataTableAPB" width="100%" cellspacing="0">
+                              <thead>
+                                  <tr>
+                                      <th>#</th>
+                                      <th>Judul</th>
+                                      <th>Kategori</th>
+                                      <th>Aksi</th>
+                                  </tr>
+                              </thead>
+  
+                              <tbody>
+                                  @foreach ($apbDocuments as $index => $document)
+                                      <tr>
+                                          <th scope="row">{{ $index + 1 }}</th>
+                                          <td>{{ $document->title }}</td>
+                                          <td>
+                                              <button class="btn btn-warning" type="button">
+                                                  {{ $document->category }}
+                                              </button>
+                                          </td>
+                                          <td>
+                                              <a href="{{ asset('assets/documents/' . $document->document) }}" target="_blank" class="btn btn-warning">
+                                                  Lihat
+                                              </a>
+                                              <a href="{{ asset('assets/documents/' . $document->document) }}" class="btn btn-success" download>
+                                                  Download
+                                              </a>
+                                          </td>
+                                      </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
               </div>
-            </div>
           </div>
-        </div>
       </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="RKA" class="tabel bg-success mb-5">
+  </section>
+  
+    <!-- Rencana Kerja & Anggaran Section -->
+    <section id="Rencana Kerja & Anggaran" class="tabel section-title bg-secondary">
       <div class="container">
-        <h2 class="text-center mb-5">Rencana Kerja & Anggaran</h2>
-        <div class="container-fluid">
-          <!-- DataTales Example -->
-          <div class="card shadow mb-4 table-primary">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-dark">
-                Rencana Kerja & Anggaran
-              </h6>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table
-                  class="table table-bordered"
-                  id="dataTableRKA"
-                  width="100%"
-                  cellspacing="0"
-                >
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Judul</th>
-                      <th>Kategori</th>
-                      <th>Aksi</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>
-                        Daftar Usulan Masyarakat Berdasarkan Tujuan SDGS
-                        Desa-permendes21
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>SK PKTD</td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">4</th>
-                      <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">5</th>
-                      <td>
-                        Daftar Usulan Masyarakat Berdasarkan Tujuan SDGS
-                        Desa-permendes21
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">6</th>
-                      <td>SK PKTD</td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">7</th>
-                      <td>SK PKTD</td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">8</th>
-                      <td>SK PKTD</td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">9</th>
-                      <td>SK PKTD</td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">10</th>
-                      <td>SK PKTD</td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Peraturan Kepala Desa
-                        </button>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning" type="button">
-                          Lihat
-                        </button>
-                        <button class="btn btn-success" type="button">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+          <h2 class="text-center mb-5">Rencana Kerja & Anggaran Desa</h2>
+          <div class="container-fluid">
+              <!-- DataTales Example -->
+              <div class="card shadow mb-4 table-primary">
+                  <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold text-dark">Rencana Kerja & Anggaran Desa</h6>
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive">
+                          <table class="table table-bordered" id="dataTableRencana Kerja & Anggaran" width="100%" cellspacing="0">
+                              <thead>
+                                  <tr>
+                                      <th>#</th>
+                                      <th>Judul</th>
+                                      <th>Kategori</th>
+                                      <th>Aksi</th>
+                                  </tr>
+                              </thead>
+  
+                              <tbody>
+                                  @foreach ($rencanaKerjaDocuments as $index => $document)
+                                      <tr>
+                                          <th scope="row">{{ $index + 1 }}</th>
+                                          <td>{{ $document->title }}</td>
+                                          <td>
+                                              <button class="btn btn-warning" type="button">
+                                                  {{ $document->category }}
+                                              </button>
+                                          </td>
+                                          <td>
+                                              <a href="{{ asset('assets/documents/' . $document->document) }}" target="_blank" class="btn btn-warning">
+                                                  Lihat
+                                              </a>
+                                              <a href="{{ asset('assets/documents/' . $document->document) }}" class="btn btn-success" download>
+                                                  Download
+                                              </a>
+                                          </td>
+                                      </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
               </div>
-            </div>
           </div>
-        </div>
       </div>
-    </section>
+  </section>
+  
+
+
 
     <!-- Footer -->
 

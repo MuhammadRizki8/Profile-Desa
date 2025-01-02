@@ -11,24 +11,50 @@ class DocumentController extends Controller
 {
     // Menampilkan semua dokumen
     public function index()
-{
-    // Memfilter dokumen berdasarkan tipe
-    $rpjmDocuments = Document::where('type', 'RPJM')->get(); // Dokumen dengan tipe RPJM
-    $apbDocuments = Document::where('type', 'APB')->get(); // Dokumen dengan tipe APB
-    $rencanaKerjaDocuments = Document::where('type', 'Rencana Kerja & Anggaran')->get(); // Dokumen dengan tipe Rencana Kerja & Anggaran
-    $produkHukumDocuments = Document::where('type', 'Produk Hukum')->get(); // Dokumen dengan tipe Produk Hukum
-    $transparansiAnggaranDocuments = Document::where('type', 'Transparansi Anggaran')->get(); // Dokumen dengan tipe Transparansi Anggaran
+    {
+        // Memfilter dokumen berdasarkan tipe
+        $rpjmDocuments = Document::where('type', 'RPJM')->get(); // Dokumen dengan tipe RPJM
+        $apbDocuments = Document::where('type', 'APB')->get(); // Dokumen dengan tipe APB
+        $rencanaKerjaDocuments = Document::where('type', 'Rencana Kerja & Anggaran')->get(); // Dokumen dengan tipe Rencana Kerja & Anggaran
+        $produkHukumDocuments = Document::where('type', 'Produk Hukum')->get(); // Dokumen dengan tipe Produk Hukum
+        $transparansiAnggaranDocuments = Document::where('type', 'Transparansi Anggaran')->get(); // Dokumen dengan tipe Transparansi Anggaran
+    
+        // Mengirimkan semua variabel tersebut ke view
+        return view('admin.dokumen', compact(
+            'rpjmDocuments', 
+            'apbDocuments', 
+            'rencanaKerjaDocuments', 
+            'produkHukumDocuments', 
+            'transparansiAnggaranDocuments'
+        ));
+    }
+    public function transparansiAnggaran()
+    {
+        // Memfilter dokumen berdasarkan tipe Transparansi Anggaran
+        $transparansiAnggaranDocuments = Document::where('type', 'Transparansi Anggaran')->get();
 
-    // Mengirimkan semua variabel tersebut ke view
-    return view('admin.dokumen', compact(
-        'rpjmDocuments', 
-        'apbDocuments', 
-        'rencanaKerjaDocuments', 
-        'produkHukumDocuments', 
-        'transparansiAnggaranDocuments'
-    ));
-}
+        // Mengirimkan data dokumen ke view transparansi
+        return view('transparansi', compact('transparansiAnggaranDocuments'));
+    }
 
+    public function pemerintahan()
+    {
+        // Memfilter dokumen berdasarkan tipe
+        $rpjmDocuments = Document::where('type', 'RPJM')->get();  // Dokumen dengan tipe RPJM
+        $apbDocuments = Document::where('type', 'APB')->get();    // Dokumen dengan tipe APB
+        $rencanaKerjaDocuments = Document::where('type', 'Rencana Kerja & Anggaran')->get();  // Dokumen dengan tipe Rencana Kerja & Anggaran
+
+        // Mengirimkan ketiga variabel tersebut ke view
+        return view('pemerintahan', compact('rpjmDocuments', 'apbDocuments', 'rencanaKerjaDocuments'));
+    }
+    public function produkHukum()
+    {
+        // Mengambil dokumen dengan tipe Produk Hukum
+        $produkHukumDocuments = Document::where('type', 'Produk Hukum')->get();
+
+        // Mengirimkan data dokumen ke view
+        return view('produkhukum', compact('produkHukumDocuments'));
+    }
     
     // Menampilkan form untuk menambahkan dokumen baru
     public function create()
