@@ -201,7 +201,7 @@
                     <label for="instrumentCategory" class="form-label">Kategori</label>
                     <select class="form-select" id="instrumentCategory" name="category" required>
                         <option value="" disabled selected>Pilih Kategori</option>
-                        <option value="Kepala Desa">Kepala Desa</option>
+                        {{-- <option value="Kepala Desa">Kepala Desa</option> --}}
                         <option value="Struktur Desa">Struktur Desa</option>
                         <option value="Perangkat Desa">Perangkat Desa</option>
                     </select>
@@ -255,7 +255,7 @@
                     <label for="instrumentCategory" class="form-label">Kategori</label>
                     <select class="form-select" id="instrumentCategory" name="category" required>
                         <option value="" disabled selected>Pilih Kategori</option>
-                        <option value="Kepala Desa">Kepala Desa</option>
+                        {{-- <option value="Kepala Desa">Kepala Desa</option> --}}
                         <option value="Struktur Desa">Struktur Desa</option>
                         <option value="Perangkat Desa">Perangkat Desa</option>
                     </select>                    
