@@ -291,289 +291,78 @@
     <!-- Contact Section -->
     <section id="agenda" class="produk-hukum bg-secondary">
       <div class="container">
-        <h2 class="text-center mb-5">Agenda</h2>
-        <div id="eventCarousel" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="card-agenda" onclick="location.href='page.html';">
-                    <img
-                      src="https://storage.googleapis.com/a1aa/image/nLyfAC1S3aX0XiyjUJbKxuyed6kFFedWUgecLfp3Qyzk4lQeE.jpg"
-                      class="card-img-top"
-                      alt="Event 1"
-                    />
-                    <div
-                      class="card-body text-light"
-                      style="background-color: #45d9d9; padding: 20px"
-                    >
-                      <h5 class="card-title">Merayakan 17-an dengan lomba</h5>
-                      <p>
-                        <img
-                          src="https://cdn-icons-png.flaticon.com/512/833/833593.png"
-                          class="date-icon"
-                          alt="Kalender"
-                        />
-                        17 Agustus 2024
-                      </p>
-                    </div>
+          <h2 class="text-center mb-5">Agenda</h2>
+          <div id="eventCarousel" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                  @foreach($agendas->chunk(6) as $chunkIndex => $chunk)
+                  <div class="carousel-item {{ $chunkIndex === 0 ? 'active' : '' }}">
+                      <div class="row">
+                          @foreach($chunk as $agenda)
+                          <div class="col-md-4">
+                              <div class="card-agenda" onclick="location.href='{{ url('agenda/' . $agenda->id) }}';">
+                                  <img
+                                      src="{{ asset('assets/images/' . $agenda->image) }}"
+                                      class="card-img-top"
+                                      alt="{{ $agenda->title }}"
+                                      style="width: 100%; height: 200px; object-fit: cover;"
+                                  />
+                                  <div
+                                      class="card-body text-light"
+                                      style="background-color: #45d9d9; padding: 20px"
+                                  >
+                                      <h5 class="card-title">{{ $agenda->title }}</h5>
+                                      <p>
+                                          <img
+                                              src="https://cdn-icons-png.flaticon.com/512/833/833593.png"
+                                              class="date-icon"
+                                              alt="Kalender"
+                                          />
+                                          {{ \Carbon\Carbon::parse($agenda->agenda_date)->format('d F Y') }}
+                                      </p>
+                                  </div>
+                              </div>
+                          </div>
+                          @endforeach
+                      </div>
                   </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="card-agenda" onclick="location.href='page.html';">
-                    <img
-                      src="https://storage.googleapis.com/a1aa/image/nLyfAC1S3aX0XiyjUJbKxuyed6kFFedWUgecLfp3Qyzk4lQeE.jpg"
-                      class="card-img-top"
-                      alt="Event 2"
-                    />
-                    <div
-                      class="card-body text-light"
-                      style="background-color: #45d9d9; padding: 20px"
-                    >
-                      <h5 class="card-title">Merayakan 17-an dengan lomba</h5>
-                      <p>
-                        <img
-                          src="https://cdn-icons-png.flaticon.com/512/833/833593.png"
-                          class="date-icon"
-                          alt="Kalender"
-                        />
-                        17 Agustus 2024
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="card-agenda" onclick="location.href='page.html';">
-                    <img
-                      src="https://storage.googleapis.com/a1aa/image/nLyfAC1S3aX0XiyjUJbKxuyed6kFFedWUgecLfp3Qyzk4lQeE.jpg"
-                      class="card-img-top"
-                      alt="Event 3"
-                    />
-                    <div
-                      class="card-body text-light"
-                      style="background-color: #45d9d9; padding: 20px"
-                    >
-                      <h5 class="card-title">Merayakan 17-an dengan lomba</h5>
-                      <p>
-                        <img
-                          src="https://cdn-icons-png.flaticon.com/512/833/833593.png"
-                          class="date-icon"
-                          alt="Kalender"
-                        />
-                        17 Agustus 2024
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                  @endforeach
               </div>
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="card-agenda" onclick="location.href='page.html';">
-                    <img
-                      src="https://storage.googleapis.com/a1aa/image/nLyfAC1S3aX0XiyjUJbKxuyed6kFFedWUgecLfp3Qyzk4lQeE.jpg"
-                      class="card-img-top"
-                      alt="Event 4"
-                    />
-                    <div
-                      class="card-body text-light"
-                      style="background-color: #45d9d9; padding: 20px"
-                    >
-                      <h5 class="card-title">Merayakan 17-an dengan lomba</h5>
-                      <p>
-                        <img
-                          src="https://cdn-icons-png.flaticon.com/512/833/833593.png"
-                          class="date-icon"
-                          alt="Kalender"
-                        />
-                        17 Agustus 2024
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="card-agenda" onclick="location.href='page.html';">
-                    <img
-                      src="https://storage.googleapis.com/a1aa/image/nLyfAC1S3aX0XiyjUJbKxuyed6kFFedWUgecLfp3Qyzk4lQeE.jpg"
-                      class="card-img-top"
-                      alt="Event 5"
-                    />
-                    <div
-                      class="card-body text-light"
-                      style="background-color: #45d9d9; padding: 20px"
-                    >
-                      <h5 class="card-title">Merayakan 17-an dengan lomba</h5>
-                      <p>
-                        <img
-                          src="https://cdn-icons-png.flaticon.com/512/833/833593.png"
-                          class="date-icon"
-                          alt="Kalender"
-                        />
-                        17 Agustus 2024
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="card-agenda" onclick="location.href='page.html';">
-                    <img
-                      src="https://storage.googleapis.com/a1aa/image/nLyfAC1S3aX0XiyjUJbKxuyed6kFFedWUgecLfp3Qyzk4lQeE.jpg"
-                      class="card-img-top"
-                      alt="Event 6"
-                    />
-                    <div
-                      class="card-body text-light"
-                      style="background-color: #45d9d9; padding: 20px"
-                    >
-                      <h5 class="card-title">Merayakan 17-an dengan lomba</h5>
-                      <p>
-                        <img
-                          src="https://cdn-icons-png.flaticon.com/512/833/833593.png"
-                          class="date-icon"
-                          alt="Kalender"
-                        />
-                        17 Agustus 2024
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="card-agenda" onclick="location.href='page.html';">
-                    <img
-                      src="https://storage.googleapis.com/a1aa/image/nLyfAC1S3aX0XiyjUJbKxuyed6kFFedWUgecLfp3Qyzk4lQeE.jpg"
-                      class="card-img-top"
-                      alt="Event 7"
-                    />
-                    <div
-                      class="card-body text-light"
-                      style="background-color: #45d9d9; padding: 20px"
-                    >
-                      <h5 class="card-title">Merayakan 17-an dengan lomba</h5>
-                      <p>
-                        <img
-                          src="https://cdn-icons-png.flaticon.com/512/833/833593.png"
-                          class="date-icon"
-                          alt="Kalender"
-                        />
-                        17 Agustus 2024
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="card-agenda" onclick="location.href='page.html';">
-                    <img
-                      src="https://storage.googleapis.com/a1aa/image/nLyfAC1S3aX0XiyjUJbKxuyed6kFFedWUgecLfp3Qyzk4lQeE.jpg"
-                      class="card-img-top"
-                      alt="Event 8"
-                    />
-                    <div
-                      class="card-body text-light"
-                      style="background-color: #45d9d9; padding: 20px"
-                    >
-                      <h5 class="card-title">Merayakan 17-an dengan lomba</h5>
-                      <p>
-                        <img
-                          src="https://cdn-icons-png.flaticon.com/512/833/833593.png"
-                          class="date-icon"
-                          alt="Kalender"
-                        />
-                        17 Agustus 2024
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="card-agenda" onclick="location.href='page.html';">
-                    <img
-                      src="https://storage.googleapis.com/a1aa/image/nLyfAC1S3aX0XiyjUJbKxuyed6kFFedWUgecLfp3Qyzk4lQeE.jpg"
-                      class="card-img-top"
-                      alt="Event 9"
-                    />
-                    <div
-                      class="card-body text-light"
-                      style="background-color: #45d9d9; padding: 20px"
-                    >
-                      <h5 class="card-title">Merayakan 17-an dengan lomba</h5>
-                      <p>
-                        <img
-                          src="https://cdn-icons-png.flaticon.com/512/833/833593.png"
-                          class="date-icon"
-                          alt="Kalender"
-                        />
-                        17 Agustus 2024
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="card-agenda" onclick="location.href='page.html';">
-                    <img
-                      src="https://storage.googleapis.com/a1aa/image/nLyfAC1S3aX0XiyjUJbKxuyed6kFFedWUgecLfp3Qyzk4lQeE.jpg"
-                      class="card-img-top"
-                      alt="Event 10"
-                    />
-                    <div
-                      class="card-body text-light"
-                      style="background-color: #45d9d9; padding: 20px"
-                    >
-                      <h5 class="card-title">Merayakan 17-an dengan lomba</h5>
-                      <p>
-                        <img
-                          src="https://cdn-icons-png.flaticon.com/512/833/833593.png"
-                          class="date-icon"
-                          alt="Kalender"
-                        />
-                        17 Agustus 2024
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <button
-            class="carousel-control-prev"
-            type="button"
-            data-bs-target="#eventCarousel"
-            data-bs-slide="prev"
-          >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            data-bs-target="#eventCarousel"
-            data-bs-slide="next"
-          >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
+              <button
+                  class="carousel-control-prev"
+                  type="button"
+                  data-bs-target="#eventCarousel"
+                  data-bs-slide="prev"
+              >
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                  class="carousel-control-next"
+                  type="button"
+                  data-bs-target="#eventCarousel"
+                  data-bs-slide="next"
+              >
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+              </button>
 
-          <div class="carousel-indicators">
-            <button
-              type="button"
-              data-bs-target="#eventCarousel"
-              data-bs-slide-to="0"
-              class="active"
-              aria-current="true"
-              aria-label="Slide 1"
-            ></button>
-            <button
-              type="button"
-              data-bs-target="#eventCarousel"
-              data-bs-slide-to="1"
-              aria-label="Slide 2"
-            ></button>
+              <div class="carousel-indicators">
+                  @foreach($agendas->chunk(6) as $chunkIndex => $chunk)
+                  <button
+                      type="button"
+                      data-bs-target="#eventCarousel"
+                      data-bs-slide-to="{{ $chunkIndex }}"
+                      class="{{ $chunkIndex === 0 ? 'active' : '' }}"
+                      aria-current="{{ $chunkIndex === 0 ? 'true' : 'false' }}"
+                      aria-label="Slide {{ $chunkIndex + 1 }}"
+                  ></button>
+                  @endforeach
+              </div>
           </div>
-        </div>
       </div>
     </section>
+
 
     <!-- Footer -->
     <footer class="site-footer">

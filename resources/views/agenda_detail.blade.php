@@ -330,22 +330,23 @@
       <a href="#vision" class="btn btn-masuk btn-lg">Learn More</a>
     </div>
   </section>
-  <div class="news-container">
-    <!-- Gambar Agenda -->
-    <div class="news-image">
-      <img src="assets/images/berita 1.png" alt="Gambar Agenda">
+  <div class="container">
+    <div class="news-container">
+        <!-- Gambar Agenda -->
+        <div class="news-image">
+            <img src="{{ asset('assets/images/' . $agenda->image) }}" alt="Gambar {{ $agenda->title }}" class="img-fluid">
+        </div>
+        <!-- Konten Agenda -->
+        <div class="news-content">
+            <h1 class="news-title">{{ $agenda->title }}</h1>
+            <div class="news-meta">👤 Admin | 📅 {{ \Carbon\Carbon::parse($agenda->agenda_date)->format('d F Y') }}</div>
+            <div class="news-description">
+                <p>{{ $agenda->description }}</p>
+            </div>
+            <a href="{{ route('agenda.showAll') }}" class="btn-more">LIHAT AGENDA LAINNYA</a>
+        </div>
     </div>
-    <!-- Konten Agenda -->
-    <div class="news-content">
-      <h1 class="news-title">Sosialisasi Pengadaan Tanah</h1>
-      <div class="news-meta">👤 Admin | 📅 17 Agustus 2024</div>
-      <div class="news-description">
-        <p>Pada hari rabu tanggal 27 Juli 2022 di Desa Tangsimekar Kecamatan Paseh Kabupaten Bandung pihak PUPR mengadakan rapat sosialisasi terkait pengadaan tanah. Acara ini bertujuan untuk memberikan informasi kepada masyarakat mengenai proses pengadaan tanah yang akan digunakan untuk proyek infrastruktur pemerintah.</p>
-        <p>Anda diperbolehkan untuk menggunakan template ini untuk keperluan sekolah, universitas, atau bisnis Anda. Silakan bebas memodifikasi layout ini.</p>
-      </div>
-      <a href="/agenda" class="btn-more">LIHAT Agenda LAINNYA</a>
-    </div>
-  </div>
+</div>
 
   <!-- Footer -->
   <footer class="site-footer">

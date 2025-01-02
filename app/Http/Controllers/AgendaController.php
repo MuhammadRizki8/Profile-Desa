@@ -25,7 +25,7 @@ class AgendaController extends Controller
             $validated = $request->validate([
                 'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
                 'title' => 'required|string|max:255',
-                'description' => 'required|string|max:500',
+                'description' => 'required|string',
                 'agenda_date' => 'required|date',
             ]);
 
@@ -58,10 +58,21 @@ class AgendaController extends Controller
         }
     }
 
+    public function showAll()
+    {
+        // Ambil semua agenda dari database
+        $agendas = Agenda::all();
+
+        // Tampilkan view 'agenda' dengan data semua agenda
+        return view('agenda', compact('agendas'));
+    }
     public function show(Agenda $agenda)
     {
-        return view('agenda.show', compact('agenda'));
+        // Kirim data agenda ke view agenda_detail
+        return view('agenda_detail', compact('agenda'));
     }
+
+
 
     public function edit(Agenda $agenda)
     {
@@ -75,7 +86,7 @@ class AgendaController extends Controller
             $validated = $request->validate([
                 'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
                 'title' => 'required|string|max:255',
-                'description' => 'required|string|max:500',
+                'description' => 'required|string',
                 'agenda_date' => 'required|date',
             ]);
 

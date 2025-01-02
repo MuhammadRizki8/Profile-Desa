@@ -30,9 +30,6 @@ use App\Http\Controllers\AgendaController;
 
 Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/agenda', function () {
-    return view('agenda');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -148,7 +145,7 @@ Route::prefix('berita')->group(function () {
 });
 
 Route::prefix('agenda')->group(function () {
-    Route::get('/', [AgendaController::class, 'index'])->name('agenda.index'); // Menampilkan daftar agenda
+    Route::get('/', [AgendaController::class, 'showAll'])->name('agenda.showAll'); // Menampilkan daftar agenda
     Route::get('/create', [AgendaController::class, 'create'])->name('agenda.create'); // Form tambah agenda
     Route::post('/', [AgendaController::class, 'store'])->name('agenda.store'); // Simpan agenda baru
     Route::get('/{agenda}', [AgendaController::class, 'show'])->name('agenda.show'); // Menampilkan detail agenda
