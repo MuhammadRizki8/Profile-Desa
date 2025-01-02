@@ -14,6 +14,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VillageInstrumentController;
+use App\Http\Controllers\AgendaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -91,7 +92,7 @@ Route::get('/admin/dashboard', [DashboardController::class, 'index'])
     ->middleware('auth');
 
 Route::view('/admin/pemerintahan', 'admin.pemerintahan')->name('pemerintahan');
-Route::view('/admin/agenda', 'admin.agenda')->name('agenda');
+
 Route::view('/admin/produk-hukum', 'admin.produk-hukum')->name('produk-hukum');
 Route::view('/admin/transparansi', 'admin.transparansi')->name('transparansi');
 
@@ -144,8 +145,19 @@ Route::prefix('berita')->group(function () {
     Route::get('/{news}/edit', [NewsController::class, 'edit'])->name('news.edit'); // Form edit berita
     Route::put('/{news}', [NewsController::class, 'update'])->name('news.update'); // Update berita
     Route::delete('/{news}', [NewsController::class, 'destroy'])->name('news.destroy'); // Hapus berita
-
 });
+
+Route::prefix('agenda')->group(function () {
+    Route::get('/', [AgendaController::class, 'index'])->name('agenda.index'); // Menampilkan daftar agenda
+    Route::get('/create', [AgendaController::class, 'create'])->name('agenda.create'); // Form tambah agenda
+    Route::post('/', [AgendaController::class, 'store'])->name('agenda.store'); // Simpan agenda baru
+    Route::get('/{agenda}', [AgendaController::class, 'show'])->name('agenda.show'); // Menampilkan detail agenda
+    Route::get('/{agenda}/edit', [AgendaController::class, 'edit'])->name('agenda.edit'); // Form edit agenda
+    Route::put('/{agenda}', [AgendaController::class, 'update'])->name('agenda.update'); // Update agenda
+    Route::delete('/{agenda}', [AgendaController::class, 'destroy'])->name('agenda.destroy'); // Hapus agenda
+});
+Route::get('/admin/agenda', [AgendaController::class, 'index'])->name('agenda');
+
 
 Route::prefix('gallery')->group(function () {
     Route::get('/', [GalleryController::class, 'index'])->name('gallery.index');

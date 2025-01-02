@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Desa Tangsimekar</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -67,157 +68,134 @@
         <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
             <span>Tabel Agenda Kegiatan</span>
-            <button class="btn btn-tambah" onclick="openAddModal()">
+            <button class="btn btn-tambah" onclick="openAddAgendaModal()">
               <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
             </button>
           </div>
           <div class="table-responsive">
             <table id="table-agenda" class="table align-middle">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Gambar</th>
-                  <th>Judul</th>
-                  <th>Deskripsi</th>
-                  <th>Tanggal</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Agenda aja</span></td>
-                  <td class="truncate">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry...
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Agenda Akuu</span></td>
-                  <td class="truncate">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry...
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Agenda Akuu</span></td>
-                  <td class="truncate">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry...
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td><img src="../assets/images/berita 1.png" class="card-img-top" alt="Berita 1"></td>
-                  <td><span class="judul">Agenda Akuu</span></td>
-                  <td class="truncate">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry...
-                  </td>
-                  <td>14/06/21</td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Gambar</th>
+                        <th>Judul</th>
+                        <th>Deskripsi</th>
+                        <th>Tanggal</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="table-body">
+                    @foreach ($agendas as $index => $agenda)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>
+                                <img src="{{ asset('assets/images/' . $agenda->image) }}" class="card-img-top" alt="Agenda Image">
+                            </td>
+                            <td><span class="judul">{{ $agenda->title }}</span></td>
+                            <td class="truncate">
+                                {{ Str::limit($agenda->description, 50, '...') }}
+                            </td>
+                            <td>{{ \Carbon\Carbon::parse($agenda->date)->format('d/m/Y') }}</td>
+                            <td>
+                              <button class="btn btn-light" 
+                                      onclick="openEditAgendaModal(this)" 
+                                      data-id="{{ $agenda->id }}" 
+                                      data-title="{{ $agenda->title }}" 
+                                      data-description="{{ $agenda->description }}" 
+                                      data-date="{{ $agenda->agenda_date }}" 
+                                      data-image="{{ $agenda->image }}">
+                                  Edit Agenda
+                              </button>
 
-              </tbody>
+                              <button class="btn btn-danger" onclick="deleteAgenda({{ $agenda->id }})">Hapus</button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
-          </div>
-
-          <!-- Pagination -->
-          <ul id="pagination-table-agenda" class="pagination">
-            <li><a href="#">&laquo; Previous</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">Next &raquo;</a></li>
-          </ul>
+        </div>
+        
 
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal Edit -->
-  <div class="modal fade" id="dataModal" tabindex="-1" aria-labelledby="dataModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="dataModalLabel">Edit Data</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
+<!-- Modal Tambah Agenda -->
+<div class="modal fade" id="addAgendaModal" tabindex="-1" aria-labelledby="addAgendaModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addAgendaModalLabel">Tambah Agenda</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="addAgendaForm">
         <div class="modal-body">
-          <form id="dataForm">
-            <div class="mb-3">
-              <label for="dataId" class="form-label">Id</label>
-              <input type="text" class="form-control" id="dataId" readonly>
-            </div>
-            <div class="mb-3">
-              <label for="dataGambar" class="form-label">Gambar</label>
-              <input type="file" class="form-control" id="dataGambar" accept="image/*">
-            </div>
-            <div class="mb-3">
-              <label for="dataJudul" class="form-label">Judul</label>
-              <input type="text" class="form-control" id="dataJudul">
-            </div>
-            <div class="mb-3">
-              <label for="dataDeskripsi" class="form-label">Deskripsi</label>
-              <textarea class="form-control" id="dataDeskripsi" rows="3"></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="dataTanggal" class="form-label">Tanggal</label>
-              <input type="date" class="form-control" id="dataTanggal">
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-light" id="saveButton" onclick="saveData()">Simpan</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Delete -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body confirmation">
-          <i class="fas fa-exclamation-triangle icon-warning"></i>
-          <p>Apakah Anda yakin ingin menghapus data ini?</p>
+          <div class="mb-3">
+            <label for="agendaImage" class="form-label">Gambar</label>
+            <input type="file" class="form-control" id="agendaImage" name="image" required>
+          </div>
+          <div class="mb-3">
+            <label for="agendaTitle" class="form-label">Judul</label>
+            <input type="text" class="form-control" id="agendaTitle" name="title" required>
+          </div>
+          <div class="mb-3">
+            <label for="agendaDescription" class="form-label">Deskripsi</label>
+            <textarea class="form-control" id="agendaDescription" name="description" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="agendaDate" class="form-label">Tanggal</label>
+            <input type="date" class="form-control" id="agendaDate" name="agenda_date" required>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-          <button type="button" class="btn btn-danger">Hapus</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
+</div>
+
+<!-- Modal Edit Agenda -->
+<div class="modal fade" id="editAgendaModal" tabindex="-1" aria-labelledby="editAgendaModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editAgendaModalLabel">Edit Agenda</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="editAgendaForm" enctype="multipart/form-data">
+        <div class="modal-body">
+          <input type="hidden" id="agendaId" name="agenda_id">
+          <div class="mb-3">
+            <label for="editAgendaImage" class="form-label">Gambar</label>
+            <input type="file" class="form-control" id="editAgendaImage" name="image">
+            <img id="editAgendaImagePreview" src="#" alt="Pratinjau Gambar" style="display:none; margin-top:10px; max-height:150px;">
+          </div>          
+          <div class="mb-3">
+            <label for="editAgendaTitle" class="form-label">Judul</label>
+            <input type="text" class="form-control" id="editAgendaTitle" name="title" required>
+          </div>
+          <div class="mb-3">
+            <label for="editAgendaDescription" class="form-label">Deskripsi</label>
+            <textarea class="form-control" id="editAgendaDescription" name="description" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="editAgendaDate" class="form-label">Tanggal</label>
+            <input type="date" class="form-control" id="editAgendaDate" name="agenda_date" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/Admin/script.js"></script>
