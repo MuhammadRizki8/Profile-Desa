@@ -29,11 +29,13 @@ class VillageInstrumentController extends Controller
     }
     public function getPerangkatDesa()
     {
-        $villageInstruments = VillageInstrument::where('category', 'Perangkat Desa')->get();
+        // Mengambil data dengan kategori bukan 'Struktur Desa'
+        $villageInstruments = VillageInstrument::where('category', '!=', 'Struktur Desa')->get();
         $type = 'perangkat-desa';
 
         return view('admin.perangkat-desa', compact('villageInstruments', 'type'));
     }
+
     public function getStrukturDesa()
     {
         $villageInstruments = VillageInstrument::where('category', 'Struktur Desa')->get();
@@ -167,6 +169,19 @@ class VillageInstrumentController extends Controller
         } catch (\Exception $e) {
             Log::error('Error retrieving Struktur Desa data:', ['message' => $e->getMessage()]);
             return response()->json(['message' => 'Terjadi kesalahan saat mengambil data Struktur Desa.', 'error' => $e->getMessage()], 500);
+        }
+    }
+    public function showPerangkatDesa()
+    {
+        try {
+            // Ambil data perangkat desa (kategori bukan Struktur Desa)
+            $perangkatDesa = VillageInstrument::where('category', '!=', 'Struktur Desa')->get();
+
+            // Kirimkan data ke view
+            return view('perangkat_desa', compact('perangkatDesa'));
+        } catch (\Exception $e) {
+            Log::error('Error retrieving Perangkat Desa data:', ['message' => $e->getMessage()]);
+            return response()->json(['message' => 'Terjadi kesalahan saat mengambil data Perangkat Desa.', 'error' => $e->getMessage()], 500);
         }
     }
 

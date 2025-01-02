@@ -199,13 +199,21 @@
                   </div>
                   <div class="mb-3">
                     <label for="instrumentCategory" class="form-label">Kategori</label>
-                    <select class="form-select" id="instrumentCategory" name="category" required>
-                        <option value="" disabled selected>Pilih Kategori</option>
-                        {{-- <option value="Kepala Desa">Kepala Desa</option> --}}
-                        <option value="Struktur Desa">Struktur Desa</option>
-                        <option value="Perangkat Desa">Perangkat Desa</option>
-                    </select>
-                </div>
+                    @if ($type === 'perangkat-desa')
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="instrumentCategory" 
+                            name="category" 
+                            required>
+                    @else
+                        <select class="form-select" id="instrumentCategory" name="category" required>
+                            <option value="" disabled selected>Pilih Kategori</option>
+                            <option value="Struktur Desa" {{ old('category', $category ?? '') === 'Struktur Desa' ? 'selected' : '' }}>Struktur Desa</option>
+                            <option value="Perangkat Desa" {{ old('category', $category ?? '') === 'Perangkat Desa' ? 'selected' : '' }}>Perangkat Desa</option>
+                        </select>
+                    @endif
+                </div>                
                   <div class="mb-3">
                       <label for="instrumentName" class="form-label">Nama</label>
                       <input type="text" class="form-control" id="instrumentName" name="name" required>
@@ -253,13 +261,21 @@
                   <input type="hidden" id="editInstrumentId" name="id">
                   <div class="mb-3">
                     <label for="instrumentCategory" class="form-label">Kategori</label>
-                    <select class="form-select" id="instrumentCategory" name="category" required>
-                        <option value="" disabled selected>Pilih Kategori</option>
-                        {{-- <option value="Kepala Desa">Kepala Desa</option> --}}
-                        <option value="Struktur Desa">Struktur Desa</option>
-                        <option value="Perangkat Desa">Perangkat Desa</option>
-                    </select>                    
-                </div>
+                    @if ($type === 'perangkat-desa')
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="instrumentCategory" 
+                            name="category" 
+                            required>
+                    @else
+                        <select class="form-select" id="instrumentCategory" name="category" required>
+                            <option value="" disabled selected>Pilih Kategori</option>
+                            <option value="Struktur Desa" {{ old('category', $category ?? '') === 'Struktur Desa' ? 'selected' : '' }}>Struktur Desa</option>
+                            <option value="Perangkat Desa" {{ old('category', $category ?? '') === 'Perangkat Desa' ? 'selected' : '' }}>Perangkat Desa</option>
+                        </select>
+                    @endif
+                </div>                
                   <div class="mb-3">
                       <label for="editInstrumentName" class="form-label">Nama</label>
                       <input type="text" class="form-control" id="editInstrumentName" name="name" required>

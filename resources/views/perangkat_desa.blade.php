@@ -358,7 +358,7 @@
     <section class="meetings-page mb-5" id="perangkat">
       <div class="background-pattern">
         <div class="container">
-          <div class="filters">
+          {{-- <div class="filters">
             <ul>
               <li data-filter="*" class="active">Semua Perangkat Desa</li>
               <li data-filter=".sek">Sekretaris</li>
@@ -366,195 +366,42 @@
               <li data-filter=".kasie">Kasie</li>
               <li data-filter=".kadus">Kadus</li>
             </ul>
-          </div>
+          </div> --}}
 
-          <!-- Baris 1  -->
+          <!-- Baris 1 -->
           <div class="row-filter justify-content-center mt-3 mb-5">
-            <div class="col-md-3 mb-5 templatemo-item-col all sek">
-              <div class="card">
-                <img
-                  alt="Person in a suit giving a thumbs up"
-                  height="150"
-                  src="https://storage.googleapis.com/a1aa/image/PHevonRvbsV9aiXKZvwgsOskm7mK3geoeiJeqVxQBIQ6OwAPB.jpg"
-                  width="150"
-                />
-                <h5 class="card-title">Sekretaris</h5>
-                <p class="card-text">Ujang Atang</p>
-                <div class="social-icons">
-                  <a href="#">
-                    <i class="fab fa-facebook"> </i>
-                  </a>
-                  <a href="#">
-                    <i class="fab fa-instagram"> </i>
-                  </a>
-                  <a href="#">
-                    <i class="fas fa-envelope"> </i>
-                  </a>
+            @foreach ($perangkatDesa as $instrument)
+                <div class="col-md-3 mb-5 templatemo-item-col all {{ strtolower(str_replace(' ', '-', $instrument->position)) }}">
+                    <div class="card">
+                        <img
+                            alt="{{ $instrument->name }}"
+                            height="150"
+                            src="{{ asset('assets/images/VillageInstrument_images/' . $instrument->image) }}" <!-- Assuming you have an image_url attribute -->
+                            width="150"
+                        />
+                        <h5 class="card-title">{{ $instrument->position }}</h5>
+                        <p class="card-text">{{ $instrument->name }}</p>
+                        <div class="social-icons">
+                            @if ($instrument->facebook)
+                                <a href="{{ $instrument->facebook }}">
+                                    <i class="fab fa-facebook"> </i>
+                                </a>
+                            @endif
+                            @if ($instrument->instagram)
+                                <a href="{{ $instrument->instagram }}">
+                                    <i class="fab fa-instagram"> </i>
+                                </a>
+                            @endif
+                            @if ($instrument->email)
+                                <a href="mailto:{{ $instrument->email }}">
+                                    <i class="fas fa-envelope"> </i>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-3 templatemo-item-col all kaur">
-              <div class="card">
-                <img
-                  alt="Person in a suit with arms crossed"
-                  height="150"
-                  src="https://storage.googleapis.com/a1aa/image/PxBisWCH7ko7BVfCEOfLUn9zQlSQ8R3Cj60FciC3y0avDMwTA.jpg"
-                  width="150"
-                />
-                <h5 class="card-title">Kaur Perencanaan</h5>
-                <p class="card-text">Abdul Rohman L</p>
-                <div class="social-icons">
-                  <a href="#">
-                    <i class="fab fa-facebook"> </i>
-                  </a>
-                  <a href="#">
-                    <i class="fab fa-instagram"> </i>
-                  </a>
-                  <a href="#">
-                    <i class="fas fa-envelope"> </i>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 templatemo-item-col all kaur">
-              <div class="card">
-                <img
-                  alt="Person in a striped shirt smiling"
-                  height="150"
-                  src="https://storage.googleapis.com/a1aa/image/aBpPuD7uqFrCDJah8x4u9L3y2tuUcgThjxEhHE0maBP8AD8E.jpg"
-                  width="150"
-                />
-                <h5 class="card-title">Kaur Keuangan</h5>
-                <p class="card-text">Neni Tania</p>
-                <div class="social-icons">
-                  <a href="#">
-                    <i class="fab fa-facebook"> </i>
-                  </a>
-                  <a href="#">
-                    <i class="fab fa-instagram"> </i>
-                  </a>
-                  <a href="#">
-                    <i class="fas fa-envelope"> </i>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 templatemo-item-col all kaur">
-              <div class="card">
-                <img
-                  alt="Person in a black dress and hijab"
-                  height="150"
-                  src="https://storage.googleapis.com/a1aa/image/w8JkTecAPr1WUCLUeUSwRkBg808Nd7dJ2R80BIfU1h3YHYgnA.jpg"
-                  width="150"
-                />
-                <h5 class="card-title">Kaur Tata Usaha & Umum</h5>
-                <p class="card-text">Herul Soleh</p>
-                <div class="social-icons">
-                  <a href="#">
-                    <i class="fab fa-facebook"> </i>
-                  </a>
-                  <a href="#">
-                    <i class="fab fa-instagram"> </i>
-                  </a>
-                  <a href="#">
-                    <i class="fas fa-envelope"> </i>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 templatemo-item-col all kasie">
-              <div class="card">
-                <img
-                  alt="Person in a suit giving a thumbs up"
-                  height="150"
-                  src="https://storage.googleapis.com/a1aa/image/PHevonRvbsV9aiXKZvwgsOskm7mK3geoeiJeqVxQBIQ6OwAPB.jpg"
-                  width="150"
-                />
-                <h5 class="card-title">Kasie Pemerintahan</h5>
-                <p class="card-text">Arif Rahman</p>
-                <div class="social-icons">
-                  <a href="#">
-                    <i class="fab fa-facebook"> </i>
-                  </a>
-                  <a href="#">
-                    <i class="fab fa-instagram"> </i>
-                  </a>
-                  <a href="#">
-                    <i class="fas fa-envelope"> </i>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 templatemo-item-col all kasie">
-              <div class="card">
-                <img
-                  alt="Person in a suit with arms crossed"
-                  height="150"
-                  src="https://storage.googleapis.com/a1aa/image/PxBisWCH7ko7BVfCEOfLUn9zQlSQ8R3Cj60FciC3y0avDMwTA.jpg"
-                  width="150"
-                />
-                <h5 class="card-title">Staff Kasie Pemerintahan</h5>
-                <p class="card-text">Tomi Irpan Sopian</p>
-                <div class="social-icons">
-                  <a href="#">
-                    <i class="fab fa-facebook"> </i>
-                  </a>
-                  <a href="#">
-                    <i class="fab fa-instagram"> </i>
-                  </a>
-                  <a href="#">
-                    <i class="fas fa-envelope"> </i>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 templatemo-item-col all imp">
-              <div class="card">
-                <img
-                  alt="Person in a striped shirt smiling"
-                  height="150"
-                  src="https://storage.googleapis.com/a1aa/image/w8JkTecAPr1WUCLUeUSwRkBg808Nd7dJ2R80BIfU1h3YHYgnA.jpg"
-                  width="150"
-                />
-                <h5 class="card-title">Seni Rupa</h5>
-                <p class="card-text">Andri Renaldi, S.Pd.</p>
-                <div class="social-icons">
-                  <a href="#">
-                    <i class="fab fa-facebook"> </i>
-                  </a>
-                  <a href="#">
-                    <i class="fab fa-instagram"> </i>
-                  </a>
-                  <a href="#">
-                    <i class="fas fa-envelope"> </i>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 templatemo-item-col all soon">
-              <div class="card">
-                <img
-                  alt="Person in a black dress and hijab"
-                  height="150"
-                  src="https://storage.googleapis.com/a1aa/image/aBpPuD7uqFrCDJah8x4u9L3y2tuUcgThjxEhHE0maBP8AD8E.jpg"
-                  width="150"
-                />
-                <h5 class="card-title">Bahasa Inggris</h5>
-                <p class="card-text">Anggi Kusumawati, S.Pd.</p>
-                <div class="social-icons">
-                  <a href="#">
-                    <i class="fab fa-facebook"> </i>
-                  </a>
-                  <a href="#">
-                    <i class="fab fa-instagram"> </i>
-                  </a>
-                  <a href="#">
-                    <i class="fas fa-envelope"> </i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+            @endforeach
+        </div>
         </div>
       </div>
     </section>

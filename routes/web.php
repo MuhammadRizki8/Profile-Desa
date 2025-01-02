@@ -43,7 +43,7 @@ Route::get('/demografi', function () {
 
 Route::get('/kades', [VillageInstrumentController::class, 'showKades']);
 Route::get('/profile', [VillageInstrumentController::class, 'showStrukturDesa']);
-
+Route::get('/perangkat_desa', [VillageInstrumentController::class, 'showPerangkatDesa']);
 
 Route::get('/layanan', function () {
     return view('layanan');
@@ -70,9 +70,6 @@ Route::get('/pemerintahan', function () {
 });
 
 
-Route::get('/perangkat_desa', function () {
-    return view('perangkat_desa');
-});
 
 Route::get('/produkhukum', function () {
     return view('produkhukum');

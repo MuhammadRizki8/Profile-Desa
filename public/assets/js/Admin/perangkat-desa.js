@@ -88,6 +88,7 @@ function openEditModal(button) {
         }
     }
 
+    document.getElementById("instrumentCategory").value = category;
     document.getElementById("editInstrumentName").value = name;
     document.getElementById("editInstrumentPosition").value = position;
     document.getElementById("editInstrumentDescription").value = description;
