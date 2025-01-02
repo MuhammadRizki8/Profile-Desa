@@ -1,74 +1,146 @@
-function openAddModalRPJM() {
-    isEditMode = false;
-    editingId = null;
-  
-    document.getElementById('dataModalLabel').textContent = 'Tambah Data';
-    document.getElementById('dataForm').reset(); // Reset semua input
-  
-    const dataModal = new bootstrap.Modal(document.getElementById('dataModalRPJM'));
-    dataModal.show();
-  }
-  
-function saveData() {
-    const no = document.getElementById('dataNo').value;
-    const nama = document.getElementById('dataJudul').value;
-    const jabatan = document.getElementById('dataKategori').value;
-    const foto = document.getElementById('dataDokumen').files[0];
-  
-    if (!judul || !deskripsi) {
-      alert('judul dan deskripsi harus diisi.');
-      return;
-    }
-  
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const fotoUrl = foto ? e.target.result : '';
-  
-      if (isEditMode) {
-        // Update baris tabel yang ada
-        const row = document.querySelector(`#table-perangkat-desa tbody tr:nth-child(${editingId})`);
-        row.children[1].innerHTML = fotoUrl ? `<img src="${fotoUrl}" class="card-img-top" alt="Foto">` : row.children[1].innerHTML;
-        row.children[2].textContent = nama;
-        row.children[3].textContent = deskripsi;
-        row.children[4].textContent = jabatan;
-      } else {
-        // Tambahkan data baru ke tabel
-        const tableBody = document.querySelector('#table-perangkat-desa tbody');
-        const newRow = `
-          <tr>
-            <td>${nomo || tableBody.children.length + 1}</td>
-            <td>${fotoUrl ? `<img src="${fotoUrl}" class="card-img-top" alt="Foto">` : ''}</td>
-            <td>${nama}</td>
-            <td>${jabatan}</td>
-            <td>
-              <button class="btn btn-light" onclick="openEditModal(${tableBody.children.length + 1})">Edit</button>
-              <button class="btn btn-danger" onclick="openDeleteModal(${tableBody.children.length + 1})">Hapus</button>
-            </td>
-          </tr>
-        `;
-        tableBody.insertAdjacentHTML('beforeend', newRow);
-      }
-  
-      // Tutup modal
-      const dataModal = bootstrap.Modal.getInstance(document.getElementById('dataModal'));
-      dataModal.hide();
-    };
-  }
+// Fungsi untuk membuka modal tambah dokumen
+function openAddModalDocument() {
+    const addDocumentModal = new bootstrap.Modal(
+        document.getElementById("addDocumentModal")
+    );
+    addDocumentModal.show();
+}
+// Fungsi untuk menambah dokumen
+async function addDocument(formData) {
+    try {
+        const response = await fetch("/documents", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+                Accept: "application/json",
+            },
+            body: formData,
+        });
 
-function openEditModal(id) {
-    isEditMode = true;
-    editingId = id;
-  
-    document.getElementById('dataModalLabel').textContent = 'Edit Data';
-    document.getElementById('dataNo').value = id; // Bisa ambil data berdasarkan ID jika ada
-    document.getElementById('dataJudul').value = ''; // Reset file input
-    document.getElementById('dataKategori').value = ''; // Reset file input
-    document.getElementById('dataDokumen').value = ''; // Reset file input
-    const dataModal = new bootstrap.Modal(document.getElementById('dataModalRPJM'));
-    dataModal.show();
+        if (!response.ok) {
+            const error = await response.json();
+            console.error("Error:", error);
+            return {
+                success: false,
+                message: error.message || "Unknown error",
+            };
+        }
+
+        const result = await response.json();
+        console.log("Dokumen berhasil ditambahkan:", result);
+        return { success: true, data: result };
+    } catch (error) {
+        console.error("Error:", error);
+        return {
+            success: false,
+            message: "Terjadi kesalahan saat menambahkan dokumen!",
+        };
+    }
 }
 
-function openDeleteModal(id) {
-    const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-    deleteModal.show();
-  }
+// Event listener untuk form submit
+document
+    .getElementById("addDocumentForm")
+    .addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const result = await addDocument(formData);
+
+        if (result.success) {
+            alert("Dokumen berhasil ditambahkan!");
+            location.reload(); // Reload halaman untuk memperbarui tabel dokumen
+        } else {
+            alert("Gagal menambahkan dokumen: " + result.message);
+        }
+    });
+// EDIT=================================================
+// Fungsi untuk membuka modal edit dokumen
+function openEditDocumentModal(button) {
+    // Ambil data dari tombol
+    const id = button.getAttribute("data-id");
+    const title = button.getAttribute("data-title");
+    const category = button.getAttribute("data-category");
+    const type = button.getAttribute("data-type");
+    const documentFile = button.getAttribute("data-document");
+
+    // Isi form dengan data
+    document.getElementById("documentId").value = id;
+    document.getElementById("documentEditTitle").value = title;
+    document.getElementById("documentEditCategory").value = category;
+    document.getElementById("documentType").value = type;
+
+    // Tampilkan dokumen saat ini jika ada
+    const currentDocument = document.getElementById("currentDocument");
+    if (documentFile) {
+        currentDocument.innerHTML = `
+          <p>Dokumen saat ini: 
+              <a href="/assets/documents/${documentFile}" target="_blank">${documentFile}</a>
+          </p>`;
+    } else {
+        currentDocument.innerHTML = ""; // Hapus jika tidak ada dokumen
+    }
+
+    // Tampilkan modal
+    const editModal = new bootstrap.Modal(
+        document.getElementById("editDocumentModal")
+    );
+    editModal.show();
+}
+
+// Event listener untuk form edit dokumen
+document
+    .getElementById("editDocumentForm")
+    .addEventListener("submit", function (e) {
+        e.preventDefault(); // Cegah reload halaman
+
+        const id = document.getElementById("documentId").value;
+        const formData = new FormData(this);
+
+        fetch(`/documents/${id}`, {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+                "X-HTTP-Method-Override": "PUT", // Laravel mengenali ini sebagai PUT
+            },
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.message) {
+                    alert(data.message);
+                    location.reload(); // Muat ulang halaman setelah edit berhasil
+                }
+            })
+            .catch((error) => console.error("Error updating document:", error));
+    });
+// DELETE===============================================
+function deleteDocument(id) {
+    if (confirm("Apakah Anda yakin ingin menghapus dokumen ini?")) {
+        fetch(`/documents/${id}`, {
+            method: "DELETE",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.message) {
+                    alert(data.message);
+                    location.reload(); // Muat ulang halaman setelah penghapusan berhasil
+                } else {
+                    alert("Terjadi kesalahan saat menghapus dokumen.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                alert("Terjadi kesalahan saat menghapus dokumen.");
+            });
+    }
+}

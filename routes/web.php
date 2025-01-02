@@ -15,6 +15,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VillageInstrumentController;
 use App\Http\Controllers\AgendaController;
+use App\Http\Controllers\DocumentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -88,7 +89,7 @@ Route::get('/admin/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard')
     ->middleware('auth');
 
-Route::view('/admin/pemerintahan', 'admin.pemerintahan')->name('pemerintahan');
+
 
 Route::view('/admin/produk-hukum', 'admin.produk-hukum')->name('produk-hukum');
 Route::view('/admin/transparansi', 'admin.transparansi')->name('transparansi');
@@ -154,6 +155,18 @@ Route::prefix('agenda')->group(function () {
     Route::delete('/{agenda}', [AgendaController::class, 'destroy'])->name('agenda.destroy'); // Hapus agenda
 });
 Route::get('/admin/agenda', [AgendaController::class, 'index'])->name('agenda');
+
+
+Route::prefix('documents')->group(function () {
+    Route::get('/', [DocumentController::class, 'index'])->name('documents.index'); // Menampilkan daftar dokumen
+    Route::get('/create', [DocumentController::class, 'create'])->name('documents.create'); // Form tambah dokumen
+    Route::post('/', [DocumentController::class, 'store'])->name('documents.store'); // Simpan dokumen baru
+    Route::get('/{document}', [DocumentController::class, 'show'])->name('documents.show'); // Menampilkan detail dokumen
+    Route::get('/{document}/edit', [DocumentController::class, 'edit'])->name('documents.edit'); // Form edit dokumen
+    Route::put('/{document}', [DocumentController::class, 'update'])->name('documents.update'); // Update dokumen
+    Route::delete('/{document}', [DocumentController::class, 'destroy'])->name('documents.destroy'); // Hapus dokumen
+});
+Route::get('/admin/pemerintahan', [DocumentController::class, 'pemerintahan'])->name('pemerintahan');
 
 
 Route::prefix('gallery')->group(function () {

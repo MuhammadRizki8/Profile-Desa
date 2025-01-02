@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Desa Tangsimekar</title>
@@ -67,331 +68,261 @@
         <h5 class="mb-4">Pemerintahan</h5>
         <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
-            <span>RPJM Desa</span>
-            <button class="btn btn-tambah" onclick="openAddModalRPJM()">
-              <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
-            </button>
+              <span>RPJM Desa</span>
+              <button class="btn btn-tambah" onclick="openAddModalDocument()">
+                  <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
+              </button>
           </div>
           <div class="table-responsive">
-            <table id="table-RPJM" class="table align-middle">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Judul</th>
-                  <th>Kategori</th>
-                  <th>Dokumen</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <tr>
-                  <td>1</td>
-                  <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                  <td>Peraturan Kepala Desa</td>
-                  <td>
-                    <a href="../assets/doc/rpjmdesa.pdf" target="_blank" class="btn btn-danger d-inline-flex align-items-center justify-content-center" style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
-                      <i class="fas fa-file-pdf" style="font-size: 24px; margin-right: 8px;"></i>
-                      rpjmdesa.pdf
-                    </a>
-                  </td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                  <td>Peraturan Kepala Desa</td>
-                  <td>
-                    <a href="../assets/doc/rpjmdesa.pdf" target="_blank" class="btn btn-danger d-inline-flex align-items-center justify-content-center" style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
-                      <i class="fas fa-file-pdf" style="font-size: 24px; margin-right: 8px;"></i>
-                      rpjmdesa.pdf
-                    </a>
-                  </td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                  <td>Peraturan Kepala Desa</td>
-                  <td>
-                    <a href="../assets/doc/rpjmdesa.pdf" target="_blank" class="btn btn-danger d-inline-flex align-items-center justify-content-center" style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
-                      <i class="fas fa-file-pdf" style="font-size: 24px; margin-right: 8px;"></i>
-                      rpjmdesa.pdf
-                    </a>
-                  </td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                  <td>Peraturan Kepala Desa</td>
-                  <td>
-                    <a href="../assets/doc/rpjmdesa.pdf" target="_blank" class="btn btn-danger d-inline-flex align-items-center justify-content-center" style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
-                      <i class="fas fa-file-pdf" style="font-size: 24px; margin-right: 8px;"></i>
-                      rpjmdesa.pdf
-                    </a>
-                  </td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                  <td>Peraturan Kepala Desa</td>
-                  <td>
-                    <a href="../assets/doc/rpjmdesa.pdf" target="_blank" class="btn btn-danger d-inline-flex align-items-center justify-content-center" style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
-                      <i class="fas fa-file-pdf" style="font-size: 24px; margin-right: 8px;"></i>
-                      rpjmdesa.pdf
-                    </a>
-                  </td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+              <table id="table-RPJM" class="table align-middle">
+                  <thead>
+                      <tr>
+                          <th>No</th>
+                          <th>Judul</th>
+                          <th>Tipe</th>
+                          <th>Kategori</th>
+                          <th>Dokumen</th>
+                          <th>Aksi</th>
+                      </tr>
+                  </thead>
+                  <tbody class="table-body">
+                      @foreach ($rpjmDocuments as $index => $document)
+                          <tr>
+                              <td>{{ $index + 1 }}</td>
+                              <td>{{ $document->title }}</td>
+                              <td>{{ $document->type }}</td>
+                              <td>{{ $document->category }}</td>
+                              <td>
+                                  <a href="{{ asset('assets/documents/' . $document->document) }}" target="_blank" 
+                                     class="btn btn-danger d-inline-flex align-items-center justify-content-center" 
+                                     style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
+                                      <i class="fas fa-file-alt" style="font-size: 24px; margin-right: 8px;"></i>
+                                      {{ $document->document }}
+                                  </a>
+                              </td>
+                              <td>
+                                  <button 
+                                      class="btn btn-light" 
+                                      onclick="openEditDocumentModal(this)" 
+                                      data-id="{{ $document->id }}" 
+                                      data-title="{{ $document->title }}" 
+                                      data-category="{{ $document->category }}" 
+                                      data-type="{{ $document->type }}" 
+                                      data-document="{{ $document->document }}"
+                                  >
+                                      Edit
+                                  </button>
+                                  <button class="btn btn-danger" onclick="deleteDocument({{ $document->id }})">Hapus</button>
+                              </td>
+                          </tr>
+                      @endforeach
+                  </tbody>
+              </table>
           </div>
-
-          <!-- Pagination -->
-          <ul id="pagination-table-RPJM" class="pagination">
-            <li><a href="#">&laquo; Previous</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">Next &raquo;</a></li>
-          </ul>
-
-        </div>
-        <div class="card">
+      </div>
+      
+      <!-- Tabel untuk APB -->
+      <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
-            <span>APB Desa</span>
-            <button class="btn btn-tambah" onclick="openAddModalRPJM()">
-              <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
-            </button>
+              <span>APB Desa</span>
+              <button class="btn btn-tambah" onclick="openAddModalDocument()">
+                  <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
+              </button>
           </div>
           <div class="table-responsive">
-            <table id="table-APBD" class="table align-middle">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Judul</th>
-                  <th>Kategori</th>
-                  <th>Dokumen</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <tr>
-                  <td>1</td>
-                  <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                  <td>Peraturan Kepala Desa</td>
-                  <td>
-                    <a href="../assets/doc/apbdesa.pdf" target="_blank" class="btn btn-danger d-inline-flex align-items-center justify-content-center" style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
-                      <i class="fas fa-file-pdf" style="font-size: 24px; margin-right: 8px;"></i>
-                      apbdesa.pdf
-                    </a>
-                  </td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                    <!-- Tautan ke dokumen PDF -->
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                  <td>Peraturan Kepala Desa</td>
-                  <td>
-                    <a href="../assets/doc/apbdesa.pdf" target="_blank" class="btn btn-danger d-inline-flex align-items-center justify-content-center" style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
-                      <i class="fas fa-file-pdf" style="font-size: 24px; margin-right: 8px;"></i>
-                      apbdesa.pdf
-                    </a>
-                  </td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                    <!-- Tautan ke dokumen PDF -->
-                  </td>
-                </tr>
-
-              </tbody>
-            </table>
+              <table id="table-APB" class="table align-middle">
+                  <thead>
+                      <tr>
+                          <th>No</th>
+                          <th>Judul</th>
+                          <th>Tipe</th>
+                          <th>Kategori</th>
+                          <th>Dokumen</th>
+                          <th>Aksi</th>
+                      </tr>
+                  </thead>
+                  <tbody class="table-body">
+                      @foreach ($apbDocuments as $index => $document)
+                          <tr>
+                              <td>{{ $index + 1 }}</td>
+                              <td>{{ $document->title }}</td>
+                              <td>{{ $document->type }}</td>
+                              <td>{{ $document->category }}</td>
+                              <td>
+                                  <a href="{{ asset('assets/documents/' . $document->document) }}" target="_blank" 
+                                     class="btn btn-danger d-inline-flex align-items-center justify-content-center" 
+                                     style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
+                                      <i class="fas fa-file-alt" style="font-size: 24px; margin-right: 8px;"></i>
+                                      {{ $document->document }}
+                                  </a>
+                              </td>
+                              <td>
+                                  <button 
+                                      class="btn btn-light" 
+                                      onclick="openEditDocumentModal(this)" 
+                                      data-id="{{ $document->id }}" 
+                                      data-title="{{ $document->title }}" 
+                                      data-category="{{ $document->category }}" 
+                                      data-type="{{ $document->type }}" 
+                                      data-document="{{ $document->document }}"
+                                  >
+                                      Edit
+                                  </button>
+                                  <button class="btn btn-danger" onclick="deleteDocument({{ $document->id }})">Hapus</button>
+                              </td>
+                          </tr>
+                      @endforeach
+                  </tbody>
+              </table>
           </div>
-
-          <!-- Pagination -->
-          <ul id="pagination-table-APBD" class="pagination">
-            <li><a href="#">&laquo; Previous</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">Next &raquo;</a></li>
-          </ul>
-
-        </div>
-        <div class="card">
+      </div>
+      
+      <!-- Tabel untuk Rencana Kerja & Anggaran -->
+      <div class="card">
           <div class="table-header d-flex justify-content-between align-items-center">
-            <span>Rencana Kerja & Anggaran</span>
-            <button class="btn btn-tambah" onclick="openAddModalRPJM()">
-              <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
-            </button>
+              <span>Rencana Kerja & Anggaran</span>
+              <button class="btn btn-tambah" onclick="openAddModalDocument()">
+                  <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
+              </button>
           </div>
           <div class="table-responsive">
-            <table id="table-RKA" class="table align-middle">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Judul</th>
-                  <th>Kategori</th>
-                  <th>Dokumen</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <tr>
-                  <td>1</td>
-                  <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                  <td>Peraturan Kepala Desa</td>
-                  <td>
-                    <a href="../assets/doc/rkpdesa.pdf" target="_blank" class="btn btn-danger d-inline-flex align-items-center justify-content-center" style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
-                      <i class="fas fa-file-pdf" style="font-size: 24px; margin-right: 8px;"></i>
-                      rkpdesa.pdf
-                    </a>
-                  </td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                  <td>Peraturan Kepala Desa</td>
-                  <td>
-                    <a href="../assets/doc/rkpdesa.pdf" target="_blank" class="btn btn-danger d-inline-flex align-items-center justify-content-center" style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
-                      <i class="fas fa-file-pdf" style="font-size: 24px; margin-right: 8px;"></i>
-                      rkpdesa.pdf
-                    </a>
-                  </td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                  <td>Peraturan Kepala Desa</td>
-                  <td>
-                    <a href="../assets/doc/rkpdesa.pdf" target="_blank" class="btn btn-danger d-inline-flex align-items-center justify-content-center" style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
-                      <i class="fas fa-file-pdf" style="font-size: 24px; margin-right: 8px;"></i>
-                      rkpdesa.pdf
-                    </a>
-                  </td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                  <td>Peraturan Kepala Desa</td>
-                  <td>
-                    <a href="../assets/doc/rkpdesa.pdf" target="_blank" class="btn btn-danger d-inline-flex align-items-center justify-content-center" style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
-                      <i class="fas fa-file-pdf" style="font-size: 24px; margin-right: 8px;"></i>
-                      rkpdesa.pdf
-                    </a>
-                  </td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+              <table id="table-Rencana-Kerja-Anggaran" class="table align-middle">
+                  <thead>
+                      <tr>
+                          <th>No</th>
+                          <th>Judul</th>
+                          <th>Tipe</th>
+                          <th>Kategori</th>
+                          <th>Dokumen</th>
+                          <th>Aksi</th>
+                      </tr>
+                  </thead>
+                  <tbody class="table-body">
+                      @foreach ($rencanaKerjaDocuments as $index => $document)
+                          <tr>
+                              <td>{{ $index + 1 }}</td>
+                              <td>{{ $document->title }}</td>
+                              <td>{{ $document->type }}</td>
+                              <td>{{ $document->category }}</td>
+                              <td>
+                                  <a href="{{ asset('assets/documents/' . $document->document) }}" target="_blank" 
+                                     class="btn btn-danger d-inline-flex align-items-center justify-content-center" 
+                                     style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
+                                      <i class="fas fa-file-alt" style="font-size: 24px; margin-right: 8px;"></i>
+                                      {{ $document->document }}
+                                  </a>
+                              </td>
+                              <td>
+                                  <button 
+                                      class="btn btn-light" 
+                                      onclick="openEditDocumentModal(this)" 
+                                      data-id="{{ $document->id }}" 
+                                      data-title="{{ $document->title }}" 
+                                      data-category="{{ $document->category }}" 
+                                      data-type="{{ $document->type }}" 
+                                      data-document="{{ $document->document }}"
+                                  >
+                                      Edit
+                                  </button>
+                                  <button class="btn btn-danger" onclick="deleteDocument({{ $document->id }})">Hapus</button>
+                              </td>
+                          </tr>
+                      @endforeach
+                  </tbody>
+              </table>
           </div>
-
-          <!-- Pagination -->
-          <ul id="pagination-table-RKA" class="pagination">
-            <li><a href="#">&laquo; Previous</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">Next &raquo;</a></li>
-          </ul>
-
-        </div>
+      </div>
+      
       </div>
     </div>
   </div>
 
-  <div class="modal fade" id="dataModalRPJM" tabindex="-1" aria-labelledby="dataModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="dataModalLabel">Edit Data</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
+<!-- Modal Tambah Dokumen -->
+<div class="modal fade" id="addDocumentModal" tabindex="-1" aria-labelledby="addDocumentModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addDocumentModalLabel">Tambah Dokumen</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="addDocumentForm">
         <div class="modal-body">
-          <form id="dataForm">
-            <div class="mb-3">
-              <label for="dataNo" class="form-label">No</label>
-              <input type="text" class="form-control" id="dataNo" readonly>
-            </div>
-            <div class="mb-3">
-              <label for="dataJudul" class="form-label">Judul</label>
-              <input type="text" class="form-control" id="dataJudul">
-            </div>
-            <div class="mb-3">
-              <label for="dataKategori" class="form-label">Kategori</label>
-              <input type="text" class="form-control" id="dataKategori">
-            </div>
-            <div class="mb-3">
-              <label for="dataDokumen" class="form-label">Dokumen</label>
-              <input type="file" class="form-control" id="dataDokumen" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt">
-            </div>
-
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-light" id="saveButton" onclick="saveData()">Simpan</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Modal Delete -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body confirmation">
-          <i class="fas fa-exclamation-triangle icon-warning"></i>
-          <p>Apakah Anda yakin ingin menghapus data ini?</p>
+          <div class="mb-3">
+            <label for="documentTitle" class="form-label">Judul Dokumen</label>
+            <input type="text" class="form-control" id="documentTitle" name="title" required>
+          </div>
+          <div class="mb-3">
+            <label for="documentCategory" class="form-label">Kategori</label>
+            <input type="text" class="form-control" id="documentCategory" name="category" required>
+          </div>
+          <div class="mb-3">
+            <label for="documentType" class="form-label">Tipe Dokumen</label>
+            <select class="form-control" id="documentType" name="type" required>
+              <option value="RPJM">RPJM</option>
+              <option value="APB">APB</option>
+              <option value="Rencana Kerja & Anggaran">Rencana Kerja & Anggaran</option>
+              <option value="Produk Hukum">Produk Hukum</option>
+              <option value="Transparansi Anggaran">Transparansi Anggaran</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="documentFile" class="form-label">Unggah Dokumen</label>
+            <input type="file" class="form-control" id="documentFile" name="document" accept=".pdf,.doc,.docx" required>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-          <button type="button" class="btn btn-danger">Hapus</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
+</div>
+
+<!-- Modal Edit Dokumen -->
+<div class="modal fade" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="editDocumentModalLabel">Edit Dokumen</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form id="editDocumentForm">
+              <div class="modal-body">
+                  <input type="hidden" id="documentId">
+                  <div class="mb-3">
+                      <label for="documentEditTitle" class="form-label">Judul Dokumen</label>
+                      <input type="text" class="form-control" id="documentEditTitle" name="title" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="documentEditCategory" class="form-label">Kategori</label>
+                      <input type="text" class="form-control" id="documentEditCategory" name="category" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="documentType" class="form-label">Tipe Dokumen</label>
+                      <select class="form-control" id="documentType" name="type" required>
+                          <option value="RPJM">RPJM</option>
+                          <option value="APB">APB</option>
+                          <option value="Rencana Kerja & Anggaran">Rencana Kerja & Anggaran</option>
+                          <option value="Produk Hukum">Produk Hukum</option>
+                          <option value="Transparansi Anggaran">Transparansi Anggaran</option>
+                      </select>
+                  </div>
+                  <div class="mb-3">
+                      <label for="documentFile" class="form-label">Unggah Dokumen Baru (Opsional)</label>
+                      <input type="file" class="form-control" id="documentFile" name="document" accept=".pdf,.doc,.docx">
+                      <div id="currentDocument" class="mt-2"></div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                  <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/Admin/script.js"></script>
