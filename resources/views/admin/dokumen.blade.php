@@ -40,7 +40,7 @@
               <li><a href="/admin/struktur" class="nav-link"><i class="fas fa-sitemap"></i>Struktur Desa</a></li>
             </ul>
           </div>
-          <a href="/admin/pemerintahan" class="nav-link active"><i class="fas fa-building"></i> Pemerintahan</a>
+          <a href="/admin/pemerintahan" class="nav-link active"><i class="fas fa-building"></i> Dokumen</a>
           <div class="nav-item">
             <a href="#" class="nav-link" onclick="toggleSubMenu(event, 'informasiPublikSubMenu')">
               <i class="fas fa-info-circle"></i> Informasi Publik
@@ -48,8 +48,9 @@
             </a>
             <ul class="sub-menu" id="informasiPublikSubMenu">
               <li><a href="/admin/agenda" class="nav-link"><i class="fas fa-calendar"></i>Agenda</a></li>
-              <li><a href="/admin/produk-hukum" class="nav-link"> <i class="fas fa-book"></i>Produk Hukum</a></li>
-              <li><a href="/admin/transparansi" class="nav-link"><i class="fas fa-file-invoice-dollar"></i>Transparansi Anggaran</a></li>
+              {{-- <li><a href="/admin/produk-hukum" class="nav-link"> <i class="fas fa-book"></i>Produk Hukum</a></li> --}}
+              {{-- <li><a href="/admin/transparansi" class="nav-link"><i class="fas fa-file-invoice-dollar"></i>Transparansi Anggaran</a></li> --}}
+
             </ul>
           </div>
           <a href="/admin/monografi" class="nav-link"><i class="fa fa-line-chart"></i> Monografi</a>
@@ -199,6 +200,116 @@
                   </thead>
                   <tbody class="table-body">
                       @foreach ($rencanaKerjaDocuments as $index => $document)
+                          <tr>
+                              <td>{{ $index + 1 }}</td>
+                              <td>{{ $document->title }}</td>
+                              <td>{{ $document->type }}</td>
+                              <td>{{ $document->category }}</td>
+                              <td>
+                                  <a href="{{ asset('assets/documents/' . $document->document) }}" target="_blank" 
+                                     class="btn btn-danger d-inline-flex align-items-center justify-content-center" 
+                                     style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
+                                      <i class="fas fa-file-alt" style="font-size: 24px; margin-right: 8px;"></i>
+                                      {{ $document->document }}
+                                  </a>
+                              </td>
+                              <td>
+                                  <button 
+                                      class="btn btn-light" 
+                                      onclick="openEditDocumentModal(this)" 
+                                      data-id="{{ $document->id }}" 
+                                      data-title="{{ $document->title }}" 
+                                      data-category="{{ $document->category }}" 
+                                      data-type="{{ $document->type }}" 
+                                      data-document="{{ $document->document }}"
+                                  >
+                                      Edit
+                                  </button>
+                                  <button class="btn btn-danger" onclick="deleteDocument({{ $document->id }})">Hapus</button>
+                              </td>
+                          </tr>
+                      @endforeach
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <!-- Tabel untuk Produk Hukum -->
+      <div class="card">
+          <div class="table-header d-flex justify-content-between align-items-center">
+              <span>Produk Hukum</span>
+              <button class="btn btn-tambah" onclick="openAddModalDocument()">
+                  <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
+              </button>
+          </div>
+          <div class="table-responsive">
+              <table id="table-Rencana-Kerja-Anggaran" class="table align-middle">
+                  <thead>
+                      <tr>
+                          <th>No</th>
+                          <th>Judul</th>
+                          <th>Tipe</th>
+                          <th>Kategori</th>
+                          <th>Dokumen</th>
+                          <th>Aksi</th>
+                      </tr>
+                  </thead>
+                  <tbody class="table-body">
+                      @foreach ($produkHukumDocuments as $index => $document)
+                          <tr>
+                              <td>{{ $index + 1 }}</td>
+                              <td>{{ $document->title }}</td>
+                              <td>{{ $document->type }}</td>
+                              <td>{{ $document->category }}</td>
+                              <td>
+                                  <a href="{{ asset('assets/documents/' . $document->document) }}" target="_blank" 
+                                     class="btn btn-danger d-inline-flex align-items-center justify-content-center" 
+                                     style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
+                                      <i class="fas fa-file-alt" style="font-size: 24px; margin-right: 8px;"></i>
+                                      {{ $document->document }}
+                                  </a>
+                              </td>
+                              <td>
+                                  <button 
+                                      class="btn btn-light" 
+                                      onclick="openEditDocumentModal(this)" 
+                                      data-id="{{ $document->id }}" 
+                                      data-title="{{ $document->title }}" 
+                                      data-category="{{ $document->category }}" 
+                                      data-type="{{ $document->type }}" 
+                                      data-document="{{ $document->document }}"
+                                  >
+                                      Edit
+                                  </button>
+                                  <button class="btn btn-danger" onclick="deleteDocument({{ $document->id }})">Hapus</button>
+                              </td>
+                          </tr>
+                      @endforeach
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <!-- Tabel untuk Transparansi Anggaran -->
+      <div class="card">
+          <div class="table-header d-flex justify-content-between align-items-center">
+              <span>Transparansi Anggaran</span>
+              <button class="btn btn-tambah" onclick="openAddModalDocument()">
+                  <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
+              </button>
+          </div>
+          <div class="table-responsive">
+              <table id="table-Rencana-Kerja-Anggaran" class="table align-middle">
+                  <thead>
+                      <tr>
+                          <th>No</th>
+                          <th>Judul</th>
+                          <th>Tipe</th>
+                          <th>Kategori</th>
+                          <th>Dokumen</th>
+                          <th>Aksi</th>
+                      </tr>
+                  </thead>
+                  <tbody class="table-body">
+                      @foreach ($transparansiAnggaranDocuments as $index => $document)
                           <tr>
                               <td>{{ $index + 1 }}</td>
                               <td>{{ $document->title }}</td>

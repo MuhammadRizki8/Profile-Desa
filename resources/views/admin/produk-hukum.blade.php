@@ -39,7 +39,7 @@
               <li><a href="/admin/struktur" class="nav-link"><i class="fas fa-sitemap"></i>Struktur Desa</a></li>
             </ul>
           </div>
-          <a href="/admin/pemerintahan" class="nav-link"><i class="fas fa-building"></i> Pemerintahan</a>
+          <a href="/admin/pemerintahan" class="nav-link"><i class="fas fa-building"></i> Dokumen</a>
           <div class="nav-item">
             <a href="#" class="nav-link active" onclick="toggleSubMenu(event, 'informasiPublikSubMenu')">
               <i class="fas fa-info-circle"></i> Informasi Publik
@@ -47,8 +47,9 @@
             </a>
             <ul class="sub-menu" id="informasiPublikSubMenu">
               <li><a href="/admin/agenda" class="nav-link"><i class="fas fa-calendar"></i>Agenda</a></li>
-              <li><a href="/admin/produk-hukum" class="nav-link active"> <i class="fas fa-book"></i>Produk Hukum</a></li>
-              <li><a href="/admin/transparansi" class="nav-link"><i class="fas fa-file-invoice-dollar"></i>Transparansi Anggaran</a></li>
+              {{-- <li><a href="/admin/produk-hukum" class="nav-link active"> <i class="fas fa-book"></i>Produk Hukum</a></li> --}}
+              {{-- <li><a href="/admin/transparansi" class="nav-link"><i class="fas fa-file-invoice-dollar"></i>Transparansi Anggaran</a></li> --}}
+
             </ul>
           </div>
           <a href="/admin/monografi" class="nav-link"><i class="fa fa-line-chart"></i> Monografi</a>
@@ -65,144 +66,154 @@
           <input type="text" class="form-control w-25" placeholder="Search..." id="searchInput">
         </div>
         <h5 class="mb-4">Produk Hukum</h5>
-        <div class="card">
-          <div class="table-header d-flex justify-content-between align-items-center">
-            <span>Tabel Produk Hukum</span>
-            <button class="btn btn-tambah" onclick="openAddModal()">
-              <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
+        <!-- Tabel untuk APB -->
+      <div class="card">
+        <div class="table-header d-flex justify-content-between align-items-center">
+            <span>Produk Hukum</span>
+            <button class="btn btn-tambah" onclick="openAddModalDocument()">
+                <i class="fas fa-plus" style="margin-right: 5px;"></i> Tambah Data
             </button>
-          </div>
-          <div class="table-responsive">
-            <table id="table-produk-hukum" class="table align-middle">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Judul</th>
-                  <th>Kategori</th>
-                  <th>Dokumen</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <tr>
-                  <td>1</td>
-                  <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                  <td>Peraturan Kepala Desa</td>
-                  <td>
-                    <a href="../assets/doc/rpjmdesa.pdf" target="_blank" class="btn btn-danger d-inline-flex align-items-center justify-content-center" style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
-                      <i class="fas fa-file-pdf" style="font-size: 24px; margin-right: 8px;"></i>
-                      produkhukum.pdf
-                    </a>
-                  </td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                  <td>Peraturan Kepala Desa</td>
-                  <td>
-                    <a href="../assets/doc/rpjmdesa.pdf" target="_blank" class="btn btn-danger d-inline-flex align-items-center justify-content-center" style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
-                      <i class="fas fa-file-pdf" style="font-size: 24px; margin-right: 8px;"></i>
-                      produkhukum.pdf
-                    </a>
-                  </td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                  <td>Peraturan Kepala SUku</td>
-                  <td>
-                    <a href="../assets/doc/rpjmdesa.pdf" target="_blank" class="btn btn-danger d-inline-flex align-items-center justify-content-center" style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
-                      <i class="fas fa-file-pdf" style="font-size: 24px; margin-right: 8px;"></i>
-                      produkhukum.pdf
-                    </a>
-                  </td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>FORMAT RPJM DESA SDGs-permendes21</td>
-                  <td>Peraturan Kepala Desa</td>
-                  <td>
-                    <a href="../assets/doc/rpjmdesa.pdf" target="_blank" class="btn btn-danger d-inline-flex align-items-center justify-content-center" style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
-                      <i class="fas fa-file-pdf" style="font-size: 24px; margin-right: 8px;"></i>
-                      produkhukum.pdf
-                    </a>
-                  </td>
-                  <td>
-                    <button class="btn btn-light" onclick="openEditModal(1)">Edit</button>
-                    <button class="btn btn-danger" onclick="openDeleteModal(1)">Hapus</button>
-                  </td>
-                </tr>
-
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Pagination -->
-          <ul id="pagination-table-produk-hukum" class="pagination">
-            <li><a href="#">&laquo; Previous</a></li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">Next &raquo;</a></li>
-          </ul>
-
         </div>
+        <div class="table-responsive">
+            <table id="table-APB" class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Judul</th>
+                        <th>Tipe</th>
+                        <th>Kategori</th>
+                        <th>Dokumen</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="table-body">
+                    @foreach ($produkHukumDocuments as $index => $document)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $document->title }}</td>
+                            <td>{{ $document->type }}</td>
+                            <td>{{ $document->category }}</td>
+                            <td>
+                                <a href="{{ asset('assets/documents/' . $document->document) }}" target="_blank" 
+                                   class="btn btn-danger d-inline-flex align-items-center justify-content-center" 
+                                   style="padding: 5px 15px; white-space: nowrap; font-size: 14px;">
+                                    <i class="fas fa-file-alt" style="font-size: 24px; margin-right: 8px;"></i>
+                                    {{ $document->document }}
+                                </a>
+                            </td>
+                            <td>
+                                <button 
+                                    class="btn btn-light" 
+                                    onclick="openEditDocumentModal(this)" 
+                                    data-id="{{ $document->id }}" 
+                                    data-title="{{ $document->title }}" 
+                                    data-category="{{ $document->category }}" 
+                                    data-type="{{ $document->type }}" 
+                                    data-document="{{ $document->document }}"
+                                >
+                                    Edit
+                                </button>
+                                <button class="btn btn-danger" onclick="deleteDocument({{ $document->id }})">Hapus</button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="dataModal" tabindex="-1" aria-labelledby="dataModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="dataModalLabel">Edit Data</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
+<!-- Modal Tambah Dokumen -->
+<div class="modal fade" id="addDocumentModal" tabindex="-1" aria-labelledby="addDocumentModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addDocumentModalLabel">Tambah Dokumen</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="addDocumentForm">
         <div class="modal-body">
-          <form id="dataForm">
-            <div class="mb-3">
-              <label for="dataNo" class="form-label">No</label>
-              <input type="text" class="form-control" id="dataNo" readonly>
-            </div>
-            <div class="mb-3">
-              <label for="dataJudul" class="form-label">Judul</label>
-              <input type="text" class="form-control" id="dataJudul">
-            </div>
-            <div class="mb-3">
-              <label for="dataKategori" class="form-label">Kategori</label>
-              <input type="text" class="form-control" id="dataKategori">
-            </div>
-            <div class="mb-3">
-              <label for="dataDokumen" class="form-label">Dokumen</label>
-              <input type="file" class="form-control" id="dataDokumen" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt">
-            </div>
-
-          </form>
+          <div class="mb-3">
+            <label for="documentTitle" class="form-label">Judul Dokumen</label>
+            <input type="text" class="form-control" id="documentTitle" name="title" required>
+          </div>
+          <div class="mb-3">
+            <label for="documentCategory" class="form-label">Kategori</label>
+            <input type="text" class="form-control" id="documentCategory" name="category" required>
+          </div>
+          <div class="mb-3">
+            <label for="documentType" class="form-label">Tipe Dokumen</label>
+            <select class="form-control" id="documentType" name="type" required>
+              <option value="RPJM">RPJM</option>
+              <option value="APB">APB</option>
+              <option value="Rencana Kerja & Anggaran">Rencana Kerja & Anggaran</option>
+              <option value="Produk Hukum">Produk Hukum</option>
+              <option value="Transparansi Anggaran">Transparansi Anggaran</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="documentFile" class="form-label">Unggah Dokumen</label>
+            <input type="file" class="form-control" id="documentFile" name="document" accept=".pdf,.doc,.docx" required>
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-light" id="saveButton" onclick="saveData()">Simpan</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
+</div>
+
+<!-- Modal Edit Dokumen -->
+<div class="modal fade" id="editDocumentModal" tabindex="-1" aria-labelledby="editDocumentModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="editDocumentModalLabel">Edit Dokumen</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form id="editDocumentForm">
+              <div class="modal-body">
+                  <input type="hidden" id="documentId">
+                  <div class="mb-3">
+                      <label for="documentEditTitle" class="form-label">Judul Dokumen</label>
+                      <input type="text" class="form-control" id="documentEditTitle" name="title" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="documentEditCategory" class="form-label">Kategori</label>
+                      <input type="text" class="form-control" id="documentEditCategory" name="category" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="documentType" class="form-label">Tipe Dokumen</label>
+                      <select class="form-control" id="documentType" name="type" required>
+                          <option value="RPJM">RPJM</option>
+                          <option value="APB">APB</option>
+                          <option value="Rencana Kerja & Anggaran">Rencana Kerja & Anggaran</option>
+                          <option value="Produk Hukum">Produk Hukum</option>
+                          <option value="Transparansi Anggaran">Transparansi Anggaran</option>
+                      </select>
+                  </div>
+                  <div class="mb-3">
+                      <label for="documentFile" class="form-label">Unggah Dokumen Baru (Opsional)</label>
+                      <input type="file" class="form-control" id="documentFile" name="document" accept=".pdf,.doc,.docx">
+                      <div id="currentDocument" class="mt-2"></div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                  <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/Admin/script.js"></script>
-  <script src="../assets/js/Admin/produk-hukum.js"></script>
+  <script src="../assets/js/Admin/pemerintahan.js"></script>
 
 </body>
 

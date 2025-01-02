@@ -91,7 +91,7 @@ Route::get('/admin/dashboard', [DashboardController::class, 'index'])
 
 
 
-Route::view('/admin/produk-hukum', 'admin.produk-hukum')->name('produk-hukum');
+
 Route::view('/admin/transparansi', 'admin.transparansi')->name('transparansi');
 
 
@@ -166,8 +166,8 @@ Route::prefix('documents')->group(function () {
     Route::put('/{document}', [DocumentController::class, 'update'])->name('documents.update'); // Update dokumen
     Route::delete('/{document}', [DocumentController::class, 'destroy'])->name('documents.destroy'); // Hapus dokumen
 });
-Route::get('/admin/pemerintahan', [DocumentController::class, 'pemerintahan'])->name('pemerintahan');
-
+Route::get('/admin/pemerintahan', [DocumentController::class, 'index'])->name('index');
+Route::get('/admin/produk-hukum', [DocumentController::class, 'produkHukum'])->name('produk-hukum');
 
 Route::prefix('gallery')->group(function () {
     Route::get('/', [GalleryController::class, 'index'])->name('gallery.index');

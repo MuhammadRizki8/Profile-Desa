@@ -11,20 +11,23 @@ class DocumentController extends Controller
 {
     // Menampilkan semua dokumen
     public function index()
-    {
-        $documents = Document::all();
-        return view('admin.documents.index', compact('documents'));
-    }
-    public function pemerintahan()
-    {
-        // Memfilter dokumen berdasarkan tipe
-        $rpjmDocuments = Document::where('type', 'RPJM')->get();  // Dokumen dengan tipe RPJM
-        $apbDocuments = Document::where('type', 'APB')->get();    // Dokumen dengan tipe APB
-        $rencanaKerjaDocuments = Document::where('type', 'Rencana Kerja & Anggaran')->get();  // Dokumen dengan tipe Rencana Kerja & Anggaran
+{
+    // Memfilter dokumen berdasarkan tipe
+    $rpjmDocuments = Document::where('type', 'RPJM')->get(); // Dokumen dengan tipe RPJM
+    $apbDocuments = Document::where('type', 'APB')->get(); // Dokumen dengan tipe APB
+    $rencanaKerjaDocuments = Document::where('type', 'Rencana Kerja & Anggaran')->get(); // Dokumen dengan tipe Rencana Kerja & Anggaran
+    $produkHukumDocuments = Document::where('type', 'Produk Hukum')->get(); // Dokumen dengan tipe Produk Hukum
+    $transparansiAnggaranDocuments = Document::where('type', 'Transparansi Anggaran')->get(); // Dokumen dengan tipe Transparansi Anggaran
 
-        // Mengirimkan ketiga variabel tersebut ke view
-        return view('admin.pemerintahan', compact('rpjmDocuments', 'apbDocuments', 'rencanaKerjaDocuments'));
-    }
+    // Mengirimkan semua variabel tersebut ke view
+    return view('admin.dokumen', compact(
+        'rpjmDocuments', 
+        'apbDocuments', 
+        'rencanaKerjaDocuments', 
+        'produkHukumDocuments', 
+        'transparansiAnggaranDocuments'
+    ));
+}
 
     
     // Menampilkan form untuk menambahkan dokumen baru

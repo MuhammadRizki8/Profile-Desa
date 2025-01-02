@@ -40,7 +40,7 @@
               <li><a href="/admin/struktur" class="nav-link"><i class="fas fa-sitemap"></i>Struktur Desa</a></li>
             </ul>
           </div>
-          <a href="/admin/pemerintahan" class="nav-link"><i class="fas fa-building"></i> Pemerintahan</a>
+          <a href="/admin/pemerintahan" class="nav-link"><i class="fas fa-building"></i> Dokumen</a>
           <div class="nav-item">
             <a href="#" class="nav-link" onclick="toggleSubMenu(event, 'informasiPublikSubMenu')">
               <i class="fas fa-info-circle"></i> Informasi Publik
@@ -48,8 +48,9 @@
             </a>
             <ul class="sub-menu" id="informasiPublikSubMenu">
               <li><a href="/admin/agenda" class="nav-link"><i class="fas fa-calendar"></i>Agenda</a></li>
-              <li><a href="/admin/produk-hukum" class="nav-link"> <i class="fas fa-book"></i>Produk Hukum</a></li>
-              <li><a href="/admin/transparansi" class="nav-link"><i class="fas fa-file-invoice-dollar"></i>Transparansi Anggaran</a></li>
+              {{-- <li><a href="/admin/produk-hukum" class="nav-link"> <i class="fas fa-book"></i>Produk Hukum</a></li> --}}
+              {{-- <li><a href="/admin/transparansi" class="nav-link"><i class="fas fa-file-invoice-dollar"></i>Transparansi Anggaran</a></li> --}}
+
             </ul>
           </div>
           <a href="/admin/monografi" class="nav-link active"><i class="fa fa-line-chart"></i> Monografi</a>
