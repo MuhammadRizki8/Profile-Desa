@@ -1,0 +1,60 @@
+body,
+html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.bg {
+    background-image: url("../images/hero.jpg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+.login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #0c9ac1;
+    padding: 40px;
+    border-radius: 10px;
+    width: 500px;
+
+    opacity: 0.95;
+}
+.login-container img {
+    width: 100px;
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.login-container h2 {
+    color: white;
+    margin-bottom: 30px;
+    text-align: center;
+}
+.form-control {
+    margin-bottom: 20px;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+.btn-login {
+    background-color: #6de9e9;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    width: 100%;
+    color: white;
+    font-size: 16px;
+}
+
+.btn-login:hover {
+    background-color: #000000;
+    color: #ffffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
