@@ -275,24 +275,40 @@ document
             );
     });
 // DELETE ===============================
-// Hapus Layanan Surat
-function deleteLayananSurat(id) {
+// Function to handle surat deletion
+function deleteSurat(id) {
     if (confirm("Apakah Anda yakin ingin menghapus layanan surat ini?")) {
+        // Get the CSRF token
+        const token = document.querySelector('meta[name="csrf-token"]').content;
+
         fetch(`/layanan-surat/${id}`, {
             method: "DELETE",
             headers: {
-                "X-CSRF-TOKEN": document.querySelector(
-                    'meta[name="csrf-token"]'
-                ).content,
+                "X-CSRF-TOKEN": token,
+                Accept: "application/json",
+                "Content-Type": "application/json",
             },
         })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.message) {
-                    alert(data.message);
-                    location.reload();
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then((errorData) => {
+                        throw new Error(
+                            errorData.message || "Gagal menghapus layanan surat"
+                        );
+                    });
                 }
+                return response.json();
             })
-            .catch((error) => console.error("Error:", error));
+            .then((data) => {
+                alert(data.message || "Layanan surat berhasil dihapus");
+                location.reload();
+            })
+            .catch((error) => {
+                alert(
+                    error.message ||
+                        "Terjadi kesalahan saat menghapus layanan surat"
+                );
+                console.error("Error:", error);
+            });
     }
 }

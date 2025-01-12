@@ -128,7 +128,7 @@
                                       Edit
                                   </button>
                           
-                                    <button class="btn btn-danger" onclick="deleteSurat({{ $item->id }})">Hapus</button>
+                                  <button class="btn btn-danger" onclick="deleteSurat({{ $item->id }})">Hapus</button>
                                 </td>
                             </tr>
                         @endforeach
