@@ -48,10 +48,12 @@
               <li><a href="/admin/agenda" class="nav-link"><i class="fas fa-calendar"></i>Agenda</a></li>
               {{-- <li><a href="/admin/produk-hukum" class="nav-link"> <i class="fas fa-book"></i>Produk Hukum</a></li> --}}
               {{-- {{-- <li><a href="/admin/transparansi" class="nav-link"><i class="fas fa-file-invoice-dollar"></i>Transparansi Anggaran</a></li> --}}
- --}}
             </ul>
           </div>
           <a href="/admin/monografi" class="nav-link"><i class="fa fa-line-chart"></i> Monografi</a>
+          <a href="/admin/permohonan-persuratan" class="nav-link">
+            <i class="fas fa-envelope"></i> Permohonan Persuratan
+          </a>
           <hr>
           <h6>Account Pages</h6>
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

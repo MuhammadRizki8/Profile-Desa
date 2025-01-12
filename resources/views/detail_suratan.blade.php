@@ -348,81 +348,69 @@
 
     <!-- Permohonan surat -->
     <section id="surat" class="lembaga section-title mb-5">
-    <div class="container mt-5">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h2 class="card-title">Detail Layanan</h2>
-                    <div class="card bg-light mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                Surat Keterangan Pindah Penduduk
-                            </h5>
-                            <p class="card-text">
-                                Permohonan Layanan Surat Keterangan Pindah
-                                Penduduk
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">Persyaratan</h5>
-                                    <p>
-                                        Berikut syarat-syarat yang perlu
-                                        dipersiapkan oleh pemohon:
-                                    </p>
-                                    <ol>
-                                        <li>Surat Pengantar RT/RW</li>
-                                        <li>Kartu Tanda Penduduk (KTP)</li>
-                                        <li>
-                                            Melengkapi dokumen (<a href="#"
-                                                >download di sini</a
-                                            >)
-                                        </li>
-                                        <li>Kartu Keluarga</li>
-                                        <li>Akta Kelahiran</li>
-                                        <li>Pas Foto 3x4</li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">Jam Pelayanan</h5>
-                                    <p>
-                                        Senin s.d. Jum’at<br />Mulai pukul 08.30
-                                        s.d. 15.30 WIB
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        Tata Cara Pengajuan:
-                                    </h5>
-                                    <p>
-                                        Silakan Anda lengkapi persyaratan yang
-                                        diperlukan, kemudian jika sudah silakan
-                                        Anda Upload/Unggah di halaman
-                                        “Permohonan Layanan Kependudukan” atau
-                                        <a href="https://tangsimekar.desa.id/layanan-mandiri/masuk">klik di sini</a>.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-end">
-                    <button class="btn btn-success" onclick="window.open('https://wa.me/+6281234567890', '_blank');">
-                        <i class="fab fa-whatsapp"></i> Pusat Bantuan
-                    </button>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+      <div class="container mt-5">
+          <div class="card mb-4">
+              <div class="card-body">
+                  <h2 class="card-title">Detail Layanan</h2>
+                  <div class="card bg-light mb-3">
+                      <div class="card-body">
+                          <h5 class="card-title">{{ $layanan->layanan }}</h5>
+                          <p class="card-text">{{ $layanan->detail }}</p>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-8">
+                          <div class="card mb-3">
+                              <div class="card-body">
+                                  <h5 class="card-title">Persyaratan</h5>
+                                  @php
+                                      $persyaratan = json_decode($layanan->persyaratan);
+                                  @endphp
+                                  @if (is_array($persyaratan) && count($persyaratan) > 0)
+                                      <p>Berikut syarat-syarat yang perlu dipersiapkan oleh pemohon:</p>
+                                      <ol>
+                                          @foreach ($persyaratan as $syarat)
+                                              <li>{{ $syarat }}</li>
+                                          @endforeach
+                                      </ol>
+                                  @else
+                                      <p>Tidak ada persyaratan yang perlu dipersiapkan untuk layanan ini.</p>
+                                  @endif
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-4">
+                          <div class="card mb-3">
+                              <div class="card-body">
+                                  <h5 class="card-title">Jam Pelayanan</h5>
+                                  <p>
+                                      {{ $layanan->hari_pelayanan ?? 'Tidak tersedia' }}<br />
+                                      Mulai pukul {{ $layanan->jam_pelayanan ?? 'Tidak tersedia' }}
+                                  </p>
+                              </div>
+                          </div>
+                          <div class="card mb-3">
+                              <div class="card-body">
+                                  <h5 class="card-title">
+                                      Tata Cara Pengajuan:
+                                  </h5>
+                                  <p>
+                                      {{ $layanan->tata_cara ?? 'Informasi tidak tersedia' }} atau
+                                      <a href="https://tangsimekar.desa.id/layanan-mandiri/masuk">klik di sini</a>.
+                                  </p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="text-end">
+                      <button class="btn btn-success" onclick="window.open('https://wa.me/+6281234567890', '_blank');">
+                          <i class="fab fa-whatsapp"></i> Pusat Bantuan
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
 
     
 

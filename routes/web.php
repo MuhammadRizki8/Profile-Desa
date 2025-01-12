@@ -15,6 +15,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PendidikanTerakhirController;
 use App\Http\Controllers\PopulationDataController;
 use App\Http\Controllers\VillageInstrumentController;
+use App\Http\Controllers\LayananPersuratanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -94,13 +95,27 @@ Route::get('/informasipelayanan', function () {
     return view('informasipelayanan');
 });
 
-Route::get('/permohonansuratan', function () {
-    return view('permohonansuratan');
+Route::get('/permohonansuratan', [LayananPersuratanController::class, 'permohonanSuratanIndex']);
+Route::get('/layanan', [LayananPersuratanController::class, 'index'])->name('layanan.index');
+// Detail layanan persuratan
+Route::get('/layanan/{id}', [LayananPersuratanController::class, 'show'])->name('layanan.show');
+// Tambah layanan persuratan (POST)
+Route::post('/layanan', [LayananPersuratanController::class, 'store'])->name('layanan.store');
+// Hapus layanan persuratan
+Route::delete('/layanan/{id}', [LayananPersuratanController::class, 'destroy'])->name('layanan.destroy');
+Route::get('/detail_suratan/{id}', [LayananPersuratanController::class, 'show'])->name('layanan.show');
+Route::get('/admin/permohonan-persuratan', [LayananPersuratanController::class, 'index'])->name('layanan.permohonan');
+Route::prefix('layanan-surat')->group(function () {
+    Route::get('/', [LayananPersuratanController::class, 'showAll'])->name('layanan-surat.showAll');  
+    Route::get('/create', [LayananPersuratanController::class, 'create'])->name('layanan-surat.create'); 
+    Route::post('/', [LayananPersuratanController::class, 'store'])->name('layanan-surat.store'); 
+    Route::get('/{layananSurat}', [LayananPersuratanController::class, 'show'])->name('layanan-surat.show');  
+    Route::get('/{layananSurat}/edit', [LayananPersuratanController::class, 'edit'])->name('layanan-surat.edit');
+    Route::put('/{layananSurat}', [LayananPersuratanController::class, 'update'])->name('layanan-surat.update');  
+    Route::delete('/{layananSurat}', [LayananPersuratanController::class, 'destroy'])->name('layanan-surat.destroy');
 });
 
-Route::get('/detail_suratan', function () {
-    return view('detail_suratan');
-});
+
 
 Route::get('/monografi', [MonografiController::class, 'show'])->name('monografi');
 

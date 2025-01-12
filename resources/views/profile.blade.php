@@ -407,33 +407,64 @@
     <section id="strukturdesa" class="meetings-page color">
         <div class="container-structure ">
             <div>
-              <h1 class="text-light text-center">STRUKTUR PEMERINTAHAN</h1>
-              <h2 class="text-light text-center">DESA TANGSIMEKAR</h2>
+                <h1 class="text-light text-center">STRUKTUR PEMERINTAHAN</h1>
+                <h2 class="text-light text-center">DESA TANGSIMEKAR</h2>
             </div>
             <div class="container">
-              <?php if (!$strukturDesa->isEmpty()): ?>
-                <?php foreach (array_chunk($strukturDesa->toArray(), 4) as $row): ?>
-                  <div class="row justify-content-center">
-                    <?php foreach ($row as $person): ?>
-                      <div class="col-md-3 profile text-center">
-                        <img 
-                          alt="<?= htmlspecialchars($person['name'] ?? 'Profile Image', ENT_QUOTES) ?>" 
-                          height="125" 
-                          src="assets/images/VillageInstrument_images/<?= htmlspecialchars($person['image'] ?? 'default.jpg', ENT_QUOTES) ?>" 
-                          width="125"  
-                        />
-                        <p><?= htmlspecialchars($person['position'] ?? 'Unknown Position', ENT_QUOTES) ?></p>
-                        <p><?= htmlspecialchars($person['name'] ?? 'Unknown Name', ENT_QUOTES) ?></p>
-                      </div>
+                <?php if (!$strukturDesa->isEmpty()): ?>
+                    <!-- Baris pertama: Kepala Desa dan Ketua BPD -->
+                    <div class="row justify-content-center">
+                        <?php 
+                            // Ambil hanya data Kepala Desa dan Ketua BPD
+                            $prioritized = $strukturDesa->filter(function ($item) {
+                                return in_array($item['position'], ['Kepala Desa', 'Ketua BPD']);
+                            });
+                        ?>
+                        <?php foreach ($prioritized as $person): ?>
+                            <div class="col-md-3 profile text-center">
+                                <img 
+                                    alt="<?= htmlspecialchars($person['name'] ?? 'Profile Image', ENT_QUOTES) ?>" 
+                                    height="125" 
+                                    src="assets/images/VillageInstrument_images/<?= htmlspecialchars($person['image'] ?? 'default.jpg', ENT_QUOTES) ?>" 
+                                    width="125"  
+                                />
+                                <p><?= htmlspecialchars($person['position'] ?? 'Unknown Position', ENT_QUOTES) ?></p>
+                                <p><?= htmlspecialchars($person['name'] ?? 'Unknown Name', ENT_QUOTES) ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+    
+                    <!-- Baris berikutnya: Data lainnya -->
+                    <?php 
+                        // Data lainnya, tanpa Kepala Desa dan Ketua BPD
+                        $others = $strukturDesa->filter(function ($item) {
+                            return !in_array($item['position'], ['Kepala Desa', 'Ketua BPD']);
+                        });
+                    ?>
+                    <?php foreach (array_chunk($others->toArray(), 4) as $row): ?>
+                        <div class="row justify-content-center">
+                            <?php foreach ($row as $person): ?>
+                                <div class="col-md-3 profile text-center">
+                                    <img 
+                                        alt="<?= htmlspecialchars($person['name'] ?? 'Profile Image', ENT_QUOTES) ?>" 
+                                        height="125" 
+                                        src="assets/images/VillageInstrument_images/<?= htmlspecialchars($person['image'] ?? 'default.jpg', ENT_QUOTES) ?>" 
+                                        width="125"  
+                                    />
+                                    <p><?= htmlspecialchars($person['position'] ?? 'Unknown Position', ENT_QUOTES) ?></p>
+                                    <p><?= htmlspecialchars($person['name'] ?? 'Unknown Name', ENT_QUOTES) ?></p>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
                     <?php endforeach; ?>
-                  </div>
-                <?php endforeach; ?>
-              <?php else: ?>
-                <p class="text-center">Data struktur desa tidak tersedia.</p>
-              <?php endif; ?>
+                <?php else: ?>
+                    <p class="text-center">Data struktur desa tidak tersedia.</p>
+                <?php endif; ?>
             </div>
-          </div>
+        </div>
     </section>
+  
+  
 
     <!-- demografi Section -->
     <section id="demografi" class="demo bg-secondary">

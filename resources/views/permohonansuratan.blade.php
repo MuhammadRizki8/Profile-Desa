@@ -373,68 +373,40 @@
                         </h6>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table
-                                class="table table-bordered"
-                                id="persurat"
-                                width="100%"
-                                cellspacing="0"
-                            >
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Layanan</th>
-                                        <th>Detail</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Surat Biodata Penduduk</td>
-                                        <td>
-                                            <button
-                                                class="btn btn-warning"
-                                                type="button"
-                                                onclick="location.href='/detail_suratan';"
-                                            >
-                                                Lihat
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>
-                                        Surat Keterangan Pindah Penduduk
-                                        </td>
-
-                                        <td>
-                                            <button
-                                                class="btn btn-warning"
-                                                type="button"
-                                                onclick="location.href='/detail_suratan';"
-                                            >
-                                                Lihat
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Surat Keterangan Jual Beli</td>
-
-                                        <td>
-                                            <button
-                                                class="btn btn-warning"
-                                                type="button"
-                                                onclick="location.href='/detail_suratan';"
-                                            >
-                                                Lihat
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                      <div class="table-responsive">
+                        <table
+                            class="table table-bordered"
+                            id="persurat"
+                            width="100%"
+                            cellspacing="0"
+                        >
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Layanan</th>
+                                    <th>Detail</th>
+                                </tr>
+                            </thead>
+                
+                            <tbody>
+                                @foreach ($layanan as $key => $item)
+                                <tr>
+                                    <th scope="row">{{ $key + 1 }}</th>
+                                    <td>{{ $item->layanan }}</td>
+                                    <td>
+                                        <button
+                                            class="btn btn-warning"
+                                            type="button"
+                                            onclick="location.href='/detail_suratan/{{ $item->id }}';"
+                                        >
+                                            Lihat
+                                        </button>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     </div>
                 </div>
             </div>

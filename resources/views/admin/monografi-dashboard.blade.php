@@ -54,6 +54,9 @@
             </ul>
           </div>
           <a href="/admin/monografi" class="nav-link active"><i class="fa fa-line-chart"></i> Monografi</a>
+          <a href="/admin/permohonan-persuratan" class="nav-link">
+            <i class="fas fa-envelope"></i> Permohonan Persuratan
+          </a>
           <hr>
           <h6>Account Pages</h6>
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

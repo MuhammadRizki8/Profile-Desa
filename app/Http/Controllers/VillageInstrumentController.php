@@ -165,8 +165,16 @@ class VillageInstrumentController extends Controller
     public function showStrukturDesa()
     {
         try {
-            // Ambil data struktur desa
-            $strukturDesa = VillageInstrument::where('category', 'Struktur Desa')->get();
+            // Ambil data Kepala Desa dan Ketua BDP terlebih dahulu
+            $prioritized = VillageInstrument::whereIn('position', ['Kepala Desa', 'Ketua BPD'])->get();
+
+            // Ambil data lainnya (selain Kepala Desa dan Ketua BPD)
+            $others = VillageInstrument::where('category', 'Struktur Desa')
+                ->whereNotIn('position', ['Kepala Desa', 'Ketua BPD'])
+                ->get();
+
+            // Gabungkan data yang diprioritaskan dengan data lainnya
+            $strukturDesa = $prioritized->merge($others);
 
             // Kirimkan data ke view
             return view('profile', compact('strukturDesa'));
@@ -175,6 +183,7 @@ class VillageInstrumentController extends Controller
             return response()->json(['message' => 'Terjadi kesalahan saat mengambil data Struktur Desa.', 'error' => $e->getMessage()], 500);
         }
     }
+
 
     public function showPerangkatDesa()
     {
