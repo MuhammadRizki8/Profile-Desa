@@ -150,7 +150,7 @@
         <h5 class="modal-title" id="addLayananModalLabel">Tambah Layanan Persuratan</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form id="addLayananForm">
+      <form id="addLayananSuratForm">
         <div class="modal-body">
           <div class="mb-3">
             <label for="layananName" class="form-label">Nama Layanan</label>
@@ -162,8 +162,16 @@
           </div>
           <div class="mb-3">
             <label for="layananPersyaratan" class="form-label">Persyaratan</label>
-            <textarea class="form-control" id="layananPersyaratan" name="persyaratan" rows="3"></textarea>
-          </div>
+            <div id="persyaratanTags" class="form-control p-2" style="min-height: 50px; border: 1px solid #ced4da; border-radius: 0.375rem;">
+              <input
+                type="text"
+                id="persyaratanInput"
+                placeholder="Ketik persyaratan dan tekan Enter"
+                class="border-0"
+                style="outline: none; width: 100%;"
+              />
+            </div>
+          </div>          
           <div class="mb-3">
             <label for="layananJamPelayanan" class="form-label">Jam Pelayanan</label>
             <input type="text" class="form-control" id="layananJamPelayanan" name="jam_pelayanan">
@@ -185,6 +193,7 @@
     </div>
   </div>
 </div>
+
 
 <!-- Modal Edit Layanan Persuratan -->
 <div class="modal fade" id="editLayananModal" tabindex="-1" aria-labelledby="editLayananModalLabel" aria-hidden="true">
