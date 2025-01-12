@@ -116,18 +116,18 @@
                                 <td>{{ $item->hari_pelayanan }}</td>
                                 <td>{{ $item->tata_cara }}</td>
                                 <td>
-                                    <button class="btn btn-light" 
-                                            onclick="openEditSuratModal(this)" 
-                                            data-id="{{ $item->id }}" 
-                                            data-layanan="{{ $item->layanan }}" 
-                                            data-detail="{{ $item->detail }}" 
-                                            data-persyaratan="{{ $item->persyaratan }}" 
-                                            data-jam_pelayanan="{{ $item->jam_pelayanan }}" 
-                                            data-hari_pelayanan="{{ $item->hari_pelayanan }}" 
-                                            data-tata_cara="{{ $item->tata_cara }}">
-                                        Edit
-                                    </button>
-    
+                                  <button class="btn btn-light" 
+                                          onclick="openEditSuratModal(this)" 
+                                          data-id="{{ $item->id }}" 
+                                          data-layanan="{{ $item->layanan }}" 
+                                          data-detail="{{ $item->detail }}" 
+                                          data-persyaratan="{{ $item->persyaratan }}" 
+                                          data-jam_pelayanan="{{ $item->jam_pelayanan }}" 
+                                          data-hari_pelayanan="{{ $item->hari_pelayanan }}" 
+                                          data-tata_cara="{{ $item->tata_cara }}">
+                                      Edit
+                                  </button>
+                          
                                     <button class="btn btn-danger" onclick="deleteSurat({{ $item->id }})">Hapus</button>
                                 </td>
                             </tr>
@@ -216,8 +216,16 @@
           </div>
           <div class="mb-3">
             <label for="editLayananPersyaratan" class="form-label">Persyaratan</label>
-            <textarea class="form-control" id="editLayananPersyaratan" name="persyaratan" rows="3"></textarea>
-          </div>
+            <div id="editPersyaratanTags" class="form-control p-2" style="min-height: 50px; border: 1px solid #ced4da; border-radius: 0.375rem;">
+              <input
+                type="text"
+                id="editPersyaratanInput"
+                placeholder="Ketik persyaratan dan tekan Enter"
+                class="border-0"
+                style="outline: none; width: 100%;"
+              />
+            </div>
+          </div>          
           <div class="mb-3">
             <label for="editLayananJamPelayanan" class="form-label">Jam Pelayanan</label>
             <input type="text" class="form-control" id="editLayananJamPelayanan" name="jam_pelayanan">

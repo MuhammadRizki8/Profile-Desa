@@ -98,4 +98,201 @@ document
         }
     });
 
-// ==============================================
+// EDIT DATA==============================================
+// Membuka Modal Edit Layanan Surat
+// Function to handle opening the edit modal
+function openEditSuratModal(button) {
+    const id = button.getAttribute("data-id");
+    const layanan = button.getAttribute("data-layanan");
+    const detail = button.getAttribute("data-detail");
+    const persyaratan = button.getAttribute("data-persyaratan");
+    const jamPelayanan = button.getAttribute("data-jam_pelayanan");
+    const hariPelayanan = button.getAttribute("data-hari_pelayanan");
+    const tataCara = button.getAttribute("data-tata_cara");
+
+    // Set the form values
+    document.getElementById("layananId").value = id;
+    document.getElementById("editLayananName").value = layanan;
+    document.getElementById("editLayananDetail").value = detail;
+    document.getElementById("editLayananJamPelayanan").value = jamPelayanan;
+    document.getElementById("editLayananHariPelayanan").value = hariPelayanan;
+    document.getElementById("editLayananTataCara").value = tataCara;
+
+    // Handle persyaratan tags
+    const editPersyaratanTags = document.getElementById("editPersyaratanTags");
+    editPersyaratanTags.innerHTML = `
+        <input
+            type="text"
+            id="editPersyaratanInput"
+            placeholder="Ketik persyaratan dan tekan Enter"
+            class="border-0"
+            style="outline: none; width: 100%;"
+        />
+    `;
+
+    // Parse and add existing persyaratan
+    if (persyaratan) {
+        try {
+            const persyaratanArray = JSON.parse(persyaratan);
+            persyaratanArray.forEach((item) => {
+                const tag = document.createElement("span");
+                tag.className = "badge bg-primary me-2";
+                tag.innerHTML = `${item} <button type="button" class="btn-close btn-close-white btn-sm ms-1" aria-label="Remove"></button>`;
+                editPersyaratanTags.insertBefore(
+                    tag,
+                    document.getElementById("editPersyaratanInput")
+                );
+
+                // Add click handler for removing tags
+                tag.querySelector("button").addEventListener(
+                    "click",
+                    function () {
+                        tag.remove();
+                    }
+                );
+            });
+        } catch (e) {
+            console.error("Error parsing persyaratan:", e);
+        }
+    }
+
+    // Add handler for new persyaratan input
+    const editPersyaratanInput = document.getElementById(
+        "editPersyaratanInput"
+    );
+    editPersyaratanInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" && this.value.trim() !== "") {
+            e.preventDefault();
+            const value = this.value.trim();
+
+            const tag = document.createElement("span");
+            tag.className = "badge bg-primary me-2";
+            tag.innerHTML = `${value} <button type="button" class="btn-close btn-close-white btn-sm ms-1" aria-label="Remove"></button>`;
+            editPersyaratanTags.insertBefore(tag, this);
+
+            tag.querySelector("button").addEventListener("click", function () {
+                tag.remove();
+            });
+
+            this.value = "";
+        }
+    });
+
+    // Show the modal
+    const editModal = new bootstrap.Modal(
+        document.getElementById("editLayananModal")
+    );
+    editModal.show();
+}
+
+// Handle form submission
+document
+    .getElementById("editLayananForm")
+    .addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        // Get all persyaratan tags
+        const persyaratanTags = Array.from(
+            document
+                .getElementById("editPersyaratanTags")
+                .getElementsByClassName("badge")
+        ).map((tag) => tag.textContent.trim());
+
+        const formData = new FormData(this);
+        formData.set("persyaratan", JSON.stringify(persyaratanTags));
+        const id = document.getElementById("layananId").value;
+
+        fetch(`/layanan-surat/${id}`, {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+                "X-HTTP-Method-Override": "PUT",
+            },
+            body: formData,
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then((errorData) => {
+                        throw new Error(
+                            errorData.message ||
+                                "Failed to update layanan surat"
+                        );
+                    });
+                }
+                return response.json();
+            })
+            .then((data) => {
+                alert(data.message || "Layanan surat berhasil diperbarui");
+                location.reload();
+            })
+            .catch((error) => {
+                alert(
+                    error.message ||
+                        "Terjadi kesalahan saat memperbarui layanan surat"
+                );
+                console.error("Error:", error);
+            });
+    });
+// Submit Form Edit Layanan Surat
+document
+    .getElementById("editLayananSuratForm")
+    .addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const id = document.getElementById("layananSuratId").value;
+        const formData = new FormData(this);
+
+        fetch(`/layanan-surat/${id}`, {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+                "X-HTTP-Method-Override": "PUT",
+            },
+            body: formData,
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then((errorData) => {
+                        throw new Error(
+                            errorData.errors
+                                ? JSON.stringify(errorData.errors)
+                                : errorData.message
+                        );
+                    });
+                }
+                return response.json();
+            })
+            .then((data) => {
+                alert(data.message);
+                location.reload();
+            })
+            .catch((error) =>
+                console.error("Error updating layanan surat:", error)
+            );
+    });
+// DELETE ===============================
+// Hapus Layanan Surat
+function deleteLayananSurat(id) {
+    if (confirm("Apakah Anda yakin ingin menghapus layanan surat ini?")) {
+        fetch(`/layanan-surat/${id}`, {
+            method: "DELETE",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.message) {
+                    alert(data.message);
+                    location.reload();
+                }
+            })
+            .catch((error) => console.error("Error:", error));
+    }
+}
